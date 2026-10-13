@@ -1,573 +1,91 @@
-# Yards Brewing Variety-Pack Automation
+# Yards Brewing Variety-Pack Inspection
 
-CS488 - Capstone Project  
-**Team 1**
+**CS488 Capstone — Team 1, Penn State Abington**
 
-## Overview
+Industry partner: **Yards Brewing Company**
 
-This project focuses on improving the variety-pack packaging process used by Yards Brewing Company.
+Documentation snapshot: **October 13, 2026**
 
-Yards currently produces and packages individual beer SKUs separately. When a variety pack needs to be created, those products are later brought to a separate variety-pack station where employees manually combine the correct number of cans from different product lanes, place them back into reused 12-pack cartons, and reseal the boxes.
+Team 1 is developing a camera-based quality check for Yards' variety-pack station. The system is intended to verify the selected can varieties and quantities before employees manually load the cartons, reducing incorrect mixes and counting errors.
 
-The current process works, but it requires significant manual handling and depends heavily on employees remembering and selecting the correct number of cans from each lane. This creates opportunities for:
+The current documented scope comes from the [October 13 technical and functional requirements](docs/requirements/New%20Technical%20Requirements%20%26%20Functional%20Requirements.docx) and [software/defect design](docs/design/Software%20and%20Defect%20Requirements.docx). Earlier work explored automatic dispensing and carton loading. Those concepts remain available in the [design archive](archive/old-design/README.md) and dated meeting records.
 
-- Incorrect variety-pack combinations
-- Miscounted cans
-- Product damage during manual handling
-- Rework
-- Customer quality complaints
-- Additional manual verification
+## Current inspection design
 
-Our goal is to design and prototype a configurable automation system that reduces these errors while integrating with as much of Yards' existing equipment as possible.
+Yards produces individual beer SKUs separately, then combines them at the variety-pack station. Employees place each SKU in its lane, select the required cans, load reused cartons, and seal the packs. The common configuration discussed in the project is **three varieties with four cans each**, totaling twelve cans. Required colors and quantities should be configurable for other recipes.
 
----
+The proposed inspection system uses:
 
-## Problem Statement
+- An **ELP global-shutter camera** with controlled lighting to view the cans near the packing area.
+- A **Raspberry Pi running Python/OpenCV** to identify colors, check quantities and lane consistency, and determine PASS or FAIL.
+- A proposed **touchscreen HMI** for inspection status and operator interaction.
+- A **stack light** showing green for PASS and red with an audible alarm for FAIL.
+- **Operator correction and manual carton packing** after inspection.
 
-> **How can we automate or reduce the manual labor involved in assembling variety packs containing multiple can types while still supporting different variety-pack configurations?**
-
-As the project progressed through research, site visits, and meetings with Yards employees and plant management, the problem became more specifically focused on **accuracy, repeatability, and quality control**.
-
-The current design therefore targets two major portions of the process:
-
-1. Automatically separating and counting the correct number of cans from each product lane.
-2. Reliably transferring the completed group of cans into the reused variety-pack carton.
-
----
-
-## Current Yards Variety-Pack Process
-
-The existing process is primarily manual.
-
-1. Individual beer SKUs are produced and packaged separately.
-2. Products needed for a variety pack are brought to the variety-pack station.
-3. Employees open the original cartons.
-4. Cans are placed onto separate conveyor lanes according to SKU.
-5. Employees manually select the required number of cans from each lane.
-6. The selected cans are manually placed into a reused 12-pack carton.
-7. The carton is resealed.
-8. Finished cases are repalletized.
-
-For the current Yards canned variety pack, the primary configuration consists of:
-
-```text
-Lane 1: 4 cans
-Lane 2: 4 cans
-Lane 3: 4 cans
-
-Total: 12 cans
+```mermaid
+flowchart TD
+    A[Can lanes and staging area] --> B[ELP camera with controlled lighting]
+    B --> C[Raspberry Pi: Python and OpenCV]
+    R[Configurable color and quantity recipe] --> C
+    C --> D[Touchscreen status interface]
+    C --> E[Stack light: green PASS or red FAIL and alarm]
+    E --> F[Operator corrects issues and manually packs cartons]
 ```
 
-Other configurations may also be required for different products or contract packaging, so the proposed system is being designed with configurability in mind.
+This is a design proposal. Camera placement, lighting, color thresholds, ambiguous-image handling, and performance still require validation. The [October design presentation](presentations/Module%202%20Progress%20Report%20Team%201.pptx) includes hardware and mounting concepts alongside unfinished slides.
 
----
+## Start here
 
-## Proposed Solution
+1. Read the [current requirements](docs/requirements/README.md) and [inspection design](docs/design/README.md).
+2. Review [Yards meeting and visit records](docs/meetings/yards/README.md) for observations and partner feedback.
+3. Use the [research collection](docs/research/README.md) for background and the development of earlier concepts.
+4. Browse [photos/audio](media/README.md), [video links](media/videos/README.md), and [progress presentations](presentations/README.md) for supporting evidence.
 
-Our current concept is a **modular retrofit** of the existing variety-pack station rather than a complete replacement of the line.
+## Repository guide
 
-The proposed process is:
-
-```text
-Existing Product Lanes
-        ↓
-Double-Gate / Escapement System
-        ↓
-Correct Number of Cans Released
-        ↓
-Can Grouping / Alignment
-        ↓
-Camera-Based Quality Verification
-        ↓
-PASS / FAIL Decision
-        ↓
-Dead Plate / Loading Area
-        ↓
-Pneumatic or Mechanical Pusher
-        ↓
-Reused 12-Pack Carton
-```
-
-The system is currently being divided into several main subsystems.
-
----
-
-## 1. Double-Gate Escapement System
-
-Each active product lane will use a two-stage gate or escapement system.
-
-The purpose of the escapements is to:
-
-- Control the flow of cans
-- Separate cans from the accumulated product
-- Release the required quantity from each lane
-- Prevent additional cans from entering the current batch
-- Allow different variety-pack recipes to be selected
-
-Yards currently uses similar double-gate escapement mechanisms elsewhere in the brewery, which gives us an existing industrial design that we can study and adapt rather than creating the mechanism completely from scratch.
-
-The exact gate geometry and actuation method are still being developed.
-
----
-
-## 2. Recipe-Controlled Dispensing
-
-The system should not be limited to one variety-pack configuration.
-
-Instead, the controller will store different recipes.
-
-Example:
-
-```text
-Recipe A
-Lane 1 = 4
-Lane 2 = 4
-Lane 3 = 4
-```
-
-A future configuration could instead use:
-
-```text
-Recipe B
-Lane 1 = 6
-Lane 2 = 6
-Lane 3 = 0
-```
-
-The operator would select the required recipe, and the control system would determine how many cans need to be released from each lane.
-
----
-
-## 3. Camera-Based Quality Verification
-
-One of the most important issues identified by Yards is that an incorrect variety combination may not be discovered until a customer opens the finished package.
-
-To address this, we plan to use a camera as an **independent quality-control layer**.
-
-The mechanical system will be responsible for dispensing the expected number of cans. The camera will then inspect the completed group before it is loaded into the carton.
-
-The vision system will verify that the visible can colors/SKUs match the selected recipe.
-
-Example:
-
-```text
-Expected:
-Red   = 4
-Blue  = 4
-Green = 4
-
-Detected:
-Red   = 4
-Blue  = 4
-Green = 4
-
-Result: PASS
-```
-
-If the detected combination does not match the selected recipe:
-
-```text
-Expected:
-Red   = 4
-Blue  = 4
-Green = 4
-
-Detected:
-Red   = 5
-Blue  = 3
-Green = 4
-
-Result: FAIL
-```
-
-The loading mechanism would remain disabled and the operator would be alerted.
-
-Possible fail-safe responses include:
-
-- Warning light
-- Audible alarm
-- Pusher lockout
-- Conveyor shutdown
-- Lane-specific error indication
-
----
-
-## 4. OpenCV Vision Processing
-
-The initial vision system will use **OpenCV** rather than immediately relying on a machine-learning model.
-
-The first goal is relatively simple:
-
-> Determine whether the correct number of each expected can color is present.
-
-The initial image-processing pipeline is expected to look like:
-
-```text
-Camera Image
-    ↓
-Region of Interest
-    ↓
-BGR → HSV Conversion
-    ↓
-Color Thresholding
-    ↓
-Mask Cleanup
-    ↓
-Object Detection
-    ↓
-Color Counts
-    ↓
-Compare With Recipe
-    ↓
-PASS / FAIL
-```
-
-Potential OpenCV functions include:
-
-| Function | Purpose |
+| Section | What belongs here |
 |---|---|
-| `cv2.VideoCapture()` | Connect to the camera and retrieve images |
-| `cv2.cvtColor()` | Convert the image from BGR to HSV |
-| `cv2.inRange()` | Isolate pixels belonging to a selected color |
-| `cv2.erode()` | Remove small areas of image noise |
-| `cv2.dilate()` | Expand/reconnect detected regions |
-| `cv2.morphologyEx()` | Perform mask cleanup operations |
-| `cv2.findContours()` | Identify separate detected objects |
-| `cv2.contourArea()` | Measure object size and remove false detections |
-| `cv2.boundingRect()` | Determine the location and approximate size of detected objects |
-
-Machine learning may be investigated later if traditional computer vision is not reliable enough.
-
----
-
-## 5. Can Alignment and Funnel System
-
-After the correct cans are released, they need to remain organized while moving toward the carton-loading area.
-
-The current concept uses thin stainless-steel guide plates to:
-
-- Corral the cans
-- Prevent excessive spreading
-- Align the cans with the carton opening
-- Reduce the chance of cans catching on cardboard edges
-- Support different pack configurations
-
-Yards personnel suggested using thin stainless-steel plates similar to components already used elsewhere in the plant.
-
-The guide/funnel section is also expected to be one of the primary adjustable portions of the machine.
-
----
-
-## 6. Carton Loading
-
-The reused cartons are loaded horizontally from the side.
-
-The current design direction uses a:
-
-**Dead plate + side-discharge pusher**
-
-rather than relying only on gravity or conveyor force.
-
-The general process would be:
-
-```text
-Correct 12-Can Group
-        ↓
-Dead Plate / Staging Area
-        ↓
-Carton Positioned
-        ↓
-Pusher Activated
-        ↓
-Cans Move Horizontally Into Carton
-        ↓
-Loaded Carton Removed
-```
-
-A pneumatic cylinder is currently one of the strongest candidates for the final pusher mechanism.
-
-The biggest mechanical challenge is making sure the cans enter the reused carton without:
-
-- Tipping
-- Spreading apart
-- Catching on the carton
-- Denting
-- Jamming
-
----
-
-## System Architecture
-
-The current high-level architecture is:
-
-```text
-                    ┌────────────────────┐
-                    │   Recipe Selection │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │ Controller / Logic │
-                    └─────────┬──────────┘
-                              │
-             ┌────────────────┼────────────────┐
-             │                │                │
-             ▼                ▼                ▼
-          Lane 1           Lane 2           Lane 3
-        Escapement       Escapement       Escapement
-             │                │                │
-             └────────────────┼────────────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │ Correct Can Group  │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │ Camera + OpenCV QC │
-                    └─────────┬──────────┘
-                              │
-                         PASS / FAIL
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │   Loading Pusher   │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │   Reused Carton    │
-                    └────────────────────┘
-```
-
----
-
-## Project Priorities
-
-The project is being developed in stages.
-
-### Phase 1 – Requirements and Domain Research
-
-- Understand Yards' existing canning and packaging process
-- Study the current variety-pack workflow
-- Research how other breweries automate variety packaging
-- Identify Yards' main pain points
-- Develop requirements through site visits and employee interviews
-
-### Phase 2 – Mechanical Dispensing
-
-- Study Yards' existing escapement systems
-- Prototype one-lane can separation
-- Develop gate control
-- Expand to three active lanes
-- Implement recipe-controlled dispensing
-
-### Phase 3 – Vision System
-
-- Set up camera and controlled lighting
-- Capture Yards can images
-- Develop OpenCV color detection
-- Count individual can varieties
-- Implement PASS/FAIL recipe validation
-
-### Phase 4 – Can Grouping and Loading
-
-- Develop stainless guide/funnel system
-- Test can grouping
-- Develop dead-plate loading area
-- Build pneumatic/mechanical pusher
-- Test horizontal loading into reused cartons
-
-### Phase 5 – System Integration
-
-- Connect gate logic
-- Connect sensors
-- Connect camera validation
-- Implement fail-safe behavior
-- Integrate pusher
-- Measure system reliability and cycle time
-
----
-
-## Success Metrics
-
-The project is not being evaluated only on speed.
-
-The main objective is to improve **quality and repeatability** while maintaining useful production performance.
-
-Important metrics include:
-
-### Variety-Pack Accuracy
-
-```text
-Correctly Configured Packs
--------------------------- × 100
-Total Packs Produced
-```
-
-### Count Accuracy
-
-The system should not silently allow an incorrect number of cans from any lane.
-
-### Vision Accuracy
-
-The camera should correctly distinguish valid and invalid can combinations.
-
-### Can Damage
-
-The automated system should not create unacceptable:
-
-- Dents
-- Scratches
-- Drops
-- Collisions
-
-### Cycle Time
-
-The system should maintain a production rate that remains useful compared with the current manual process.
-
-### Fault Detection
-
-The system should detect and report conditions such as:
-
-- Incorrect variety combination
-- Missing can
-- Extra can
-- Jammed can
-- Fallen can
-- Camera validation failure
-
----
-
-## Current Project Status
-
-The project is currently in the **prototype design and early implementation phase**.
-
-Completed work includes:
-
-- Domain research into Yards' canning and variety-pack process
-- Competitive research into automated variety-pack systems
-- Requirements gathering
-- Initial Yards site visit
-- Detailed process documentation
-- Identification of the primary quality problem
-- Multiple mechanical concept iterations
-- Review of the proposed design with Yards plant personnel
-- Validation of the double-gate escapement concept
-- Initial camera and OpenCV research
-- Identification of a dead-plate / side-discharge loading concept
-
-Current work includes:
-
-- Observing Yards' existing escapement mechanisms
-- Finalizing mechanical dimensions
-- Selecting sensors and control hardware
-- Developing the camera validation prototype
-- Designing the can-loading mechanism
-- Obtaining available hardware from Yards
-- Building and testing subsystem prototypes
-
----
-
-## Current Design Constraints
-
-The solution must account for:
-
-- Limited capstone timeline
-- Limited project budget
-- Existing Yards equipment
-- Reused cartons
-- Multiple variety-pack recipes
-- Easy-to-dent aluminum cans
-- Variable staffing
-- Intermittent variety-pack production
-- Existing conveyor geometry
-- Need for simple maintenance and repair
-
-For these reasons, the project prioritizes a **modular retrofit** rather than a completely new automated production line.
-
----
-
-## Technologies
-
-Current or expected technologies include:
-
-### Software
-
-- Python
-- OpenCV
-- Git / GitHub
-
-### Controls
-
-- Arduino / microcontroller
-- Raspberry Pi
-- Sensors
-- Gate/escapement control
-- Alarm / fail-safe logic
-
-### Vision
-
-- Global-shutter USB camera
-- Controlled lighting
-- OpenCV image processing
-
-### Mechanical
-
-- Double-gate escapements
-- Stainless-steel guide plates
-- Bearings and brackets
-- Pneumatic cylinders
-- Dead plate
-- Mechanical pusher
-- Existing Yards conveyor
-
----
-
-## Repository Structure
-
-The repository structure will evolve as the prototype develops.
-
-```text
-yards-variety-pack-automation/
-│
-├── README.md
-│
-├── docs/
-│   ├── domain-research/
-│   ├── meeting-notes/
-│   ├── requirements/
-│   ├── diagrams/
-│   └── testing/
-│
-├── vision/
-│   ├── camera/
-│   ├── color-detection/
-│   ├── calibration/
-│   └── tests/
-│
-├── controls/
-│   ├── gate-control/
-│   ├── sensors/
-│   ├── recipes/
-│   └── failsafe/
-│
-├── mechanical/
-│   ├── escapement/
-│   ├── guides/
-│   └── pusher/
-│
-└── prototypes/
-    ├── prototype-1/
-    └── prototype-2/
-```
-
----
+| [docs/requirements](docs/requirements/README.md) | Current inspection requirements and earlier discovery questions |
+| [docs/design](docs/design/README.md) | Software/defect design, draft bill of materials, and timing/performance draft |
+| [docs/research](docs/research/README.md) | Domain research, two distinct portfolios, and early reference transcripts |
+| [docs/meetings/yards](docs/meetings/yards/README.md) | Partner meeting preparation, findings, and visit transcripts grouped by date |
+| [docs/meetings/scrum](docs/meetings/scrum/README.md) | Team progress, plans, blockers, and retrospectives |
+| [docs/team](docs/team/README.md) | Team contract and meeting availability |
+| [docs/templates](docs/templates/README.md) | Reusable blank scrum-log blueprint |
+| [presentations](presentations/README.md) | September and October progress decks plus presentation feedback |
+| [vision](vision/README.md) | Earlier Windows/YOLO setup reference and links to the current vision design |
+| [media](media/README.md) | Original discovery/visit photos and September 4 audio |
+| [media/videos](media/videos/README.md) | Individual OneDrive links to the eight October visit videos |
+| [archive/old-design](archive/old-design/README.md) | Earlier mechanical/PLC/gating/pusher concepts and their requirements |
+| [docs/import](docs/import/README.md) | Complete OneDrive inventory, source-to-repository mapping, and file hashes |
+
+## Status and open work
+
+The imported materials document research, partner discussions, prototype exploration, and design planning. Scrum logs describe a toy-conveyor/servo prototype, but the OneDrive folder contains no standalone implementation source or test-result package to import.
+
+| Artifact | Status in this snapshot |
+|---|---|
+| Current requirements | Documented inspection and alert behavior; requires implementation and validation |
+| Software/defect design | Draft with open comments about confidence and unidentifiable cans |
+| Bill of materials | Draft estimates; several links, vendor details, and a cost remain incomplete |
+| Timing/performance design | Title-only draft; no measured timing or throughput results |
+| October progress presentation | Partial draft with placeholders and unfinished sections |
+| Scrum log 7 | Weekly form with roles filled in; member updates still blank |
+| Development/testing and deployment folders | Empty in the OneDrive snapshot |
+
+The earlier design combined double-gate escapements, sensors/PLC control, guides, camera validation, and a carton-loading pusher. Its documents remain useful project history, while the October 13 requirements define the narrower inspection/alert baseline used here. Older portfolios and scrum logs should be read in their original time context.
+
+## Files and access
+
+The recursive OneDrive inventory contains **59 files**. This repository includes **51 files**: **46 unchanged originals** and **5 copies with contact information removed from content or review metadata**, as requested for this public repository. Original filenames are preserved within the organized folders.
+
+The **8 original videos remain in OneDrive** with individual links in the [video index](media/videos/README.md). Those links require the existing Penn State/OneDrive permissions. The [import record](docs/import/README.md) and [machine-readable manifest](docs/import/file-manifest.json) account for every source file, including the video links and two empty source folders.
+
+Open Word and PowerPoint files in compatible applications. The photos retain their original HEIC/JPEG formats; HEIC files may need a compatible viewer. This documentation import does not include a runnable vision application, model weights, or a software installation procedure.
+
+For future work, add implementation files to the appropriate subsystem, keep current requirements separate from superseded designs, and update the relevant section README when adding or replacing an artifact. Keep virtual environments, caches, credentials, and temporary renders out of Git.
 
 ## Team
-
-**Penn State Abington – IT/CMPSC Capstone Team 1**
 
 - Jonathan Alavez Reyes
 - Faahil Ali
@@ -575,22 +93,4 @@ yards-variety-pack-automation/
 - Margaret Decker
 - Sabrina Abdukadirova
 
-Industry Partner:
-
-**Yards Brewing Company**
-
----
-
-## Important Note
-
-This repository represents an active capstone engineering project.
-
-Mechanical dimensions, hardware selections, software architecture, control logic, and final system design may change as the team:
-
-- performs additional plant observations,
-- receives additional Yards documentation,
-- builds prototypes,
-- tests the system,
-- and validates assumptions with real equipment.
-
-The goal of the repository is to preserve that engineering process while maintaining a clear source of truth for the current design.
+Penn State Abington IT/CMPSC Capstone Team 1, in collaboration with Yards Brewing Company.

@@ -1,0 +1,760 @@
+The first thing
+is the glue pot, it's all hot though,
+and these are glue gun modules here and
+using these rails to ride those flaps
+up to put them in position so you're firing
+up a little low flap and then it becomes
+the next station. We're going to ride
+those flaps down and then these guys are
+going to close to tamper. And that's basically shooting glue
+on a solenoid. A solenoid tells
+the air actually that it'll move out
+and fire the glue. And a sensor. Sensor. Where at? Oh. Right here. That one. You guys can feel free to stand up and take a look. You can see the sensor
+on top looking down. That's telling
+a box, telling a disc, box
+here, fireproof, fireproof, there's
+a box there. Right, I got that. It only goes when
+it sees a box. Sure, sure.
+Right? So it would slow it down
+for you guys. But I want to make sure
+it's still efficient enough for what you
+guys need, you know what I mean? Yeah.
+And I don't want to make it bigger it's
+more worth. So I don't know if we're able
+to do more research. I wouldn't worry
+about that. I wouldn't worry
+about what you're working on, but
+yeah, for sure. I would just be
+sort of amusing. And saying if you guys
+are going into engineering, do those
+things keep in mind, right? And you go,
+well how do we get into that box?
+What's the next step? Right, right.
+It's single part processing and
+manufacturing. How do we keep things moving
+one at a time? Because creating
+whippers creates problems that just
+loads up in the gaps. You don't want
+giant piles of 100% goods. Right,
+I understand. But if it happens,
+it's a constant problem in this
+industry, right? In all manufacturing.
+It's not working. It's hard to solve
+the problems. yeah because I think
+the idea that we have it's like make it not
+slow down like the process that you have
+right now like it might not be as the same speed
+but I think we also it will give you guys
+a way to tell when something is not in
+the right configuration so some I think we're
+talking with neo that's some like one of the
+issues that tends to happen at times where
+like uh a worker may take the wrong
+configuration of camping by accident have an error
+you don't know what box it is so we're hoping
+to kind of just help reduce that error and
+you know fix it out that takes away from
+that but we want to keep it still efficient
+yeah we want to ensure that Sure.
+100%. I think the idea of a vision system
+is looking for the label and to identify
+the label and make sure they're in the
+right label is great. We had, for a while
+ago, we did a system between Japanese principles
+of manufacturing. It's like Kaizan
+or Pipe, basically. Always trying striving
+for better, right? Always trying everything
+in its right place. Things like that.
+and we get a whole effect around that
+line a lot of that. The reason we have
+everything lained out that way, we were able
+to think back and put this beer in this lane
+and then the swirls marked and have that
+particular beer. Those things certainly help
+with that as well. Whatever it's worth. Beer markings. That's a big issue. Right. We're a
+beer marking. Let me go up next
+here. Right, right. The bottles that
+they're doing right now it's a far bigger
+issue with that not getting the proper
+configuration because that's entirely manual
+they're not unloading them to a lane where
+you can see them all right they're looking
+into a box a floor and they're trying
+to fix them back and forth that is the
+difficulty yeah okay yeah I think like
+looking at this it's like really helpful because
+we had at the sign in mind like I think
+we showed that during the zoom call and
+then like looking at this is definitely
+more you know industry level like yeah you guys
+like have the actual gates in there uh
+whereas we're using like yeah we're using
+like tiny sensors that are like just toy
+sensors pretty much I mean if this was more
+important to you guys seeing too we could
+follow back up with it I think by friday
+we should be running again right now we're
+having an internal problem in the plan we're
+out of uh co2 there's a industry issue and
+we've been unable to get up delivery
+unfortunately and co2 is like the air up here a
+brewery breeze you know like without it I can't
+do anything right um so basically it's
+fantastic but by friday I'm hoping to have the
+tanks full and we're canning again and then
+this thing will be running all day eventually
+thousands of pages I think it would
+be nice to see that in place as well
+um because you guys usually produce I
+think it's a monday and wednesday or
+monday through thursday okay so every
+single day I'm sorry thursdays and friday
+I'm sorry mondays are different okay they're
+tuesdays through fridays every single
+day usually yeah okay I mean winter's gonna
+get a little slower so you know we're
+gonna have we may have some downtime on
+fridays obviously we're down to different reasons
+today Right. Yeah. Try it out and run
+through it. Gotcha. Okay. That's cool. Yeah. I know that
+the box is behind it. Not exactly the same
+one, too, in fact. It's not, it's just
+the variety box, but it's the same
+size of all that. So when it's
+opening in there between those lugs,
+it'll tuck that bottom flap,
+pull that one up. The gates will
+hold that out. You know what I mean?
+It's a straight foot. Yeah. And then the
+back, they have this. pushing from that side
+on this side that is going to knock the
+flaps in this guy it's going to knock that
+flap in so we're just basically going to be
+like this on this side with our rail open and
+that backstop's going to stop the cans it's
+going to know it's full because it's got
+a sensor here uh I saw the pan at the end of
+the push you know I can move forward I got
+a full case right and then move to the next
+one would that be a proximity sensor then
+or just irregular because I think we're
+having an issue with this regular sensor it
+doesn't detect proximity so just detects a
+thing and then it sends a signal that I detected
+something or like how well it does take
+how far so I think it's it's better to have
+like a proximity sensor because especially
+when the cans are moving like we were thinking
+the lanes are coming down and sensors on
+the side but they're all back-to-back right
+so one can back back -to-back where where do
+you where at uh like at the variety yeah
+yeah right so they wouldn't be like a
+space like a gap between each can idea so essentially
+a sensor wouldn't be able to detect
+okay one full campus another campus right that
+would be like a three beam like exactly
+I'm looking through that it get interrupted
+that might go out to bounce it back at itself
+that sort of thing do you think a through
+beam would work with that back to back
+setting probably not because like you said
+we don't really create gaps exactly they're
+what we would call 100 accumulation right
+right when you're creating gaps it's 50
+percent that's why we're thinking to have like
+a little gate system beforehand kind of
+like how you're letting one go one to go at
+a time stop it it's just I mean or they
+just have little gates like open close open
+close let each one go right after
+there's a sensor, counts one,
+counts one, counts one, once he gets
+to the floor, stops, then pushes
+them through, and we'll explain
+more when we get over there, please
+show you, okay, I mean, one of the
+ideas, too, I don't know, if you get up there,
+you can sort of see, you can't see it's
+action, obviously, but that dead plate over
+there, where the cans are being pushed through,
+they, you see these little slots in the
+black plastic piece, I mean, if you
+want to get up and look down at it,
+right over there, You got it up? Anyway, it's got a mechanism
+underneath. It's got a main system
+which is open up. And it's holding them in lanes with that thing. So, when that gate
+opens, those lanes are up, and then
+it's filled with cans, keep them all
+straight in their lane, and it just
+will push them. But I don't see
+what it means to be. Positioning is different. It's all like
+that. And it's just keeping
+them correctly in this lane. you look
+at it you can see the pans are moving in this
+direction and we're going to be so we're
+filling the case like this right so we're
+three wide and we're going to put four
+lanes in right so we stage it up and that
+configuration over there with 12 and it's in
+that block but it's so the bugs will go between
+these two plates yes all this is all this
+is is a guide setting for that box for
+a 12 ounce guide so the box fits
+underneath those rails it's going to be
+between them lugs and underneath
+here right yeah okay so the boxes will
+come from like side way you see this whole
+arms right here it rotates up pulls the
+box brings that box over and that's call it a
+free break it's just create a little bit
+of suction and we take that back because it
+could be sticking and we just want to ****
+and pop it so we know it's open then it's
+going to swing back down it's going to drop the
+deposit between the lugs right then it's
+going to move get itself ready to ride it
+to ride that flap rail right moving the next
+section load move to the next section
+start riding its flaps down move to the next
+section where it's going to take the blue shot
+and move to the next one we're going to
+tamp it and then we're got it and glue goes
+on both of the sides yes you can see the
+other gun over there kind of cruddy looking and
+covered in glue yeah interesting yeah it's
+uh you guys ready to go dude awesome so
+they're good over there but it's basically
+twin machines this one we use for trays but
+you can also do 24 packs in case that's why
+they look so we'll then put 6 packs into 12
+packs they dry down and then we're gonna
+take them over here very similar setup and then
+just stage them up and then slide them
+into a tray seal the tray pick it out gotcha
+so this one only does 24 you said either 24
+packs or trays we only use it for trays
+gotcha and it can do 24 So, do you guys have
+a trace for otherwise? Well, every case
+of cans, every single case
+goes on a can. Okay. That's
+right. Not true. Realistically... Well,
+I'm sorry, that's not true. 15 packs
+don't go on a trace. So, we do a 24
+-pack terrain, like that's not easy. No. Right. So, either we do
+a loose, or do 6 packs, or do 12
+packs, or do 6-4 packs, any of those
+options to go. I remember you
+guys talked about doing trace for
+this instead, but we wouldn't have
+on the scenes a box, right? No, no. So
+that was a... I wasn't sure where this
+project was going, that came up originally and
+we talked about it. Joseph's been talking
+about robotics too and using robotic
+arms, and they make versions of machines like
+this that use robotic arms that pretty
+much do all of it in one small footprint.
+right that's what if we're trying to do
+something like that potentially what we do
+if you wanted to use robotic to open and
+make a box and load it in a system we could
+then be able to use the trays exactly then
+we would load loose into a tray and then
+load loose onto the purveyor right right
+now we put it in the boxes of light blue
+yeah come back over we should see what
+they do over here We're going to get guys'
+names or names? It's John. John and Fahil.
+John and Fahil. Nice to meet you guys. Jamal and I'm sorry.
+What's your name? Ben. Ben. I'm sorry. Ben. These guys are at
+the Penn State class. You know,
+they'll watch us about the pension
+automatically. So, it's time to
+get out of your way. They're in
+Abington. They're not up at the
+main campus. We still got the Dixie Lines. Don't worry. Yeah. They're in Abington. yeah if you were trying
+to make it like work with the system you
+already had that's why we wanted to kind
+of use the you know the boxes already open
+it was that way right so with the light
+staff is sort of what they'll do and then they
+accumulate the width and when we had it
+set up before you'd have somebody gluing
+at the same time right try to keep moving
+uh in time same pace with everybody yeah
+and I think you you mentioned a little
+bit earlier like Like, if this became so
+efficient that it would just accumulate a
+backlog for someone else to keep gluing them,
+would you consider that to, like, then not
+be, like, a good thing to happen? Like, this
+becomes very efficient and then you have,
+like, boxes and boxes and boxes coming
+out, but then there's a backlog for people
+to come out? Yeah, I mean, I have some
+concern over that, but I guess we have to figure
+out how to operate uh in the red
+in the right in the right
+cadence right well what you
+guys talking about would be an
+addition off to the edge end of this
+thing right right yeah something like
+at the end of it then like right Right at
+the end, stop it, let them in, yeah,
+so you probably have to cut this back and
+we'd have to do it up here because you
+need the conveyor. Or maybe do an extension. Because we need the
+conveyor to push the cans and then
+it could be like at an end zone and
+then that pusher will just stay
+here. How are you planning to put the
+cans in the box? So, the way we're
+thinking is, at the end of this, right, we're
+thinking about having a little funnel that
+comes in, right, and in that funnel, at the
+end of it, we're going to have four prongs
+for each edge of the box, right, we take this
+box and slide it into the prongs, like the
+prongs would be inwards, right, and with that
+funnel, that funnel would hopefully be
+able to fit inside the box, not inside, but
+before the box, right, and then we have
+a push-up, like, kind of like a
+gate system, like kind of pulls it
+in, into the box. so much that you guys
+have on that machine like alright you can
+stop if you're using something else to
+push not just the conveyor power yeah
+gotcha yeah I think if we used the conveyor
+belt it would tip over I don't think it would
+be able to do that it would also be
+dependent on the back pressure you know as
+well yeah if they're on a light on the back
+pressure it won't push because ideally we also
+wanted like we also thought in mind like
+at the beginning like the cans go to an
+area and then you know how you have in that
+machine like they get pushed by the side onto
+the box we had that idea as well okay but
+then I think the way I think the way the cans
+will flow out wouldn't allow us to put them
+in because they go three right they go
+like three fit on the side and then we need
+12 so that we need yeah right three by
+four three on the open side four on the first
+side right so essentially we'll have four
+cans one two three four and then this one
+this side one is three so it wouldn't it
+wouldn't fit whereas if we put it in front
+then it's three lanes then that would fit
+a little better right yeah it wouldn't work
+with three you could make it work if we
+had a four it would work for a four flavor
+variety pack if we use all lanes then
+you can side push it otherwise you couldn't
+and unfortunately we even have two flavor
+one we do for our company yeah I would
+be another thing like when you guys do two
+flavor then we just need to adjust the
+funnel the funnel that is we need to be
+able to have a lane that can collapse and
+come over so I just have two at point or
+just one right and be able to adjust them
+prongs to hit yeah so the boxes get put on trays and
+that's how they slide down well we package
+them this way so this one's all this
+one there's nothing but one brand in this
+one right here that one looks like it's
+probably trashed off the IPA and we package
+them up there on that like I'm saying real
+white glue so we can pop it without a
+ton of fiber tear and then re-glue without
+looking like ****. It wouldn't be in our
+space yeah because another like we wanted
+to focus on like quality and insurance
+right so we were thinking at the end when we
+had the right company configuration of
+cams like 12 cams we can have a camera
+as well looking from top top making sure
+that how how will it recognize the can how
+it would know what can it is will that
+be like programmable and changeable so if
+we change colors of the label or we change
+the products in there would we be able to
+reset the different the different you
+know what I'm saying because we do right
+now we could do three different
+variety packs and they might all be
+different colors sometimes cans might
+be the same color right the label
+you know then what So, I think that's
+the trick you probably have to retrain
+the program, not the whole program,
+just tell it this is the can, this
+is the can, this is the can, this is the
+can, because it had to learn, I guess,
+the can is what. Right, yeah. So, yeah, because
+I know, like, from the last visit, we
+knew that, like, the same type of can
+gets loaded into the same lane, so, like,
+you would load, like, IPA on the
+other lane and then the other ones on
+the specific lanes. so we thought we could
+just train on that but you're saying like
+you have different like other different
+types well I'm saying they finish these
+varieties and then they switch to the two
+pack one the two packs pretty different
+colors they're because both those cans have a
+lot of weight in them you know I'm not sure
+where you're going to train if they hit
+on a um a relatively busy pattern you know
+not all of them would be like predominantly
+solid those these three are that doesn't
+mean every can we do right right if you do a
+different variety pack right I mean just
+take a look at some of these cans like what
+are you training on blue white then if another
+can has the same pattern like that one
+say we're doing a variety pack of this guy's
+yeah you know you have to see that you know
+and then how do you see the bottom of the
+can where there's 100 accumulation right in
+there especially if you're trying to do it with
+one camera you know Do we do something with
+the QR codes maybe? They're kind
+of low too, but you can see there's
+no real QR on them. Yeah. You
+can see that. There's no guarantee
+that it's going to be facing the
+camera. And that too. We could ideally, perhaps like, because the idea for
+importing on top is if it's not going to be
+able to see the whole can, how about we
+put it on the side looking at it. probably
+and then like have it with that gate that
+we're talking about like scuff it at that
+point so that we can actually see the whole
+design I mean how wide the lens can you can
+these things be you know some of them
+didn't have a multi-view one so you can have
+like two different cameras and it's like
+one program together what's the plan with
+this would it be a camera for each lane or one
+camera that's got that's what that's
+looking to see a pattern I think it might be
+ideally one camera looking across all lanes
+and it can detect one two three lanes and then
+if you can obviously do different lanes
+too and take the sides away you can come
+in on the sides you know you can look at
+that you know what I mean look at the sides
+do something different at front so you can
+see in the front look there's an easy to
+manipulate hmi interface where they can go in
+and say okay lane one needs to see this color
+lane two needs to see this color lane three
+is blank lane two is this one like if you
+know if you have all the options of spectrum in
+there that you could pick you know potentially
+yeah I don't know how crazy that is
+but where somebody's detecting color you know
+what I mean but you know all the colors yeah
+yeah yeah basic colors yeah yeah because like
+if we have the sensor that could detect that
+color it could talk to the hmi and say I
+expect this sensor to see this color this
+one this one that color program it all
+that way we're just waiting for the
+operator to go in and say I'm
+doing this variety So those sensors
+that you were using for that machine, does
+that, did that come with the machine
+or is it something? We didn't build that. It's a company called
+M-Pack, M-Pack, Switchback, they're
+in Cleveland. Like I said, I would
+definitely go online too and look at
+videos of that stuff. Climax, Switchback, GTI, companies like that. You'll see cool stuff
+in action that way. Do you guys have a bug? We're probably going
+to need to get some censors, that's
+what we're thinking. Do you guys have
+any questions? I don't know what
+he's got in inventory. We'll ask, did you come today? Well, they had this
+kind of kind of jumped up in
+nowhere. No worries, I see. We've got to
+help with the budget. What's the place
+like Granger, Uline, a company
+like that? The issue is if
+you only live from Amazon, because
+of the school, you have to get
+taxes. Yeah, you get everything from them,
+so I imagine you can find it. Sensors
+are like the one thing I've been a
+little bit off about. have a supplier
+for sensors and maybe that would
+be better well each one of these talents
+is 100 they're 10 blocks 10 high uh and
+so 300 come out when I make three thousand
+there's going to be It looks like it wasn't running
+at some point, but it's constantly
+running, right? Well, when they stop
+there, everything stops and they stick
+a lot at the end. I think it's
+stuck right there. Yeah. It's not the best rail conveyor rail
+setup, for sure. ideally we would have
+something like thin stainless or something
+you know like you saw the lanes in that
+machine would probably be way better option
+but this is a **** of a lot cheaper than
+buying all that stainless yeah of course yeah
+yeah but this would work out with our like
+heats and the first one sense it you know
+what I mean that part is good it's just kind
+of figuring out this last part with the
+camera well I'm thinking like the so with the
+pusher idea as well is that something that
+we could like modify this version so that
+we could actually put like the prong system
+in there and then the pusher that puts
+them in there I think that's the idea right
+we want to modify it we want to modify it we
+just wanted to make sure that you and you'll
+be okay with it. The wrong thing still
+works when we're done. It'll work even better. That's the goal. So I have like a I made like a mini
+prototype of it. Basically just one
+lane, one conveyor belt that's like a toy
+conveyor belt and then just like cans going
+on top of it. It just shows like gates
+opening and closing and then letting you know
+cans go through so just kind of test
+the idea so it's like a sensor sensor can
+open closes and then sensor away right
+just to test it on one lane how it would look
+the the idea that we have for the gates is
+that there's like a servo on the side
+that actuates and then it's something attached
+to it that really closes it but then
+with the what we saw on that machine I don't
+know if that would be like a better way
+to then construct them because ideally
+we just need something big enough to just be
+in between the cans so that it just stops
+the flow right right it's not well the
+other thing I'd say to keep in mind with
+that is we're all in safety something like
+that on uh you know rod ends the way the
+way the way it moves like you want to make
+sure it's something like this is going to
+be relatively open to people whose hands
+are going to be near it too right So you
+want to make sure if I saw them they can
+catch somebody's hand. It's another
+consideration, right? Over the point. I think the biggest
+challenge is you're going to block
+them, you're going to gate them, and
+then what's doing the push? How do
+you make that work? Well, that's what
+I'm thinking. It's kind of just like
+having a little gate, pulls them inward
+into the box. I have to see it. I'm not sure I understand. I mean, like, I don't want
+to get in my way, but like, you know,
+when there's a pour, right, this
+gate comes down, and then it just drags
+them into the box. So what, it's coming
+down right from the side, like, I'm not,
+like, doing this move? We can do it from the
+side, or we can just have it above and just
+come down. Okay, like a guillotine, which
+is going to cut off? No, I mean, that's
+what the point of the double gate system
+is they're letting them through, and
+right at that gate, comes in, pulls them in. That was my
+goal, so you can separate already
+from the 12. so hopefully it wouldn't
+come in like you know you know damage
+your pants obviously but then from there
+pull them into the box rather than
+being pushed is there something in well I
+guess I'm struggling to understand how you
+pull something into a box that's closed
+on the other side well it's open so
+it's closed here open up here right on
+the other side like just like that yeah
+it's open like this arm would be like just
+coming in down here let's say the four
+cans are right here from the front right
+arm would be here pulls them into the
+box it pulls them into the box and they'd
+be in here that way okay there's nothing
+with pulling them in I think so but
+it's still to me it's still so
+you're still pushing maybe it's a push I
+don't know I was just like whatever I think
+like one idea that I had at the beginning as
+well is like just using the conveyor belt for
+it to push them into the box if you're
+gating off the back then you're not going to have
+the back pressure to do it right exactly
+four three of three cans want to convey
+or I'm going to drive themselves with that box
+yeah so you're saying like the backflow will
+be what we push that pressure is what keeps
+everything accumulated down yeah three gates
+you have to have that back pressure to push
+through a gate then stop right so now you're
+making the separation between this is how
+many cans I need in this cell to load this
+box and then and then and then do you push
+from there gotcha so those like let's say those
+four can to next lane it wouldn't be enough
+pressure to go into the into the box but
+with the conveyor belt itself not if you close
+gates behind it no not if you're closing
+an escape memory gate because then I don't
+think that today I don't think those four cans
+are just going to run on that conveyor without
+all the cans behind pushing it forward
+you understand I mean you can see it happen
+now like if he if he started if he started
+letting one of the lanes go down the
+wedge they'll start to stick there's no less
+pressure and they just stop riding down
+the lanes and if he gets down to the last
+case they'll probably be staggered three
+you know all the way up to here because
+they're not pulling down and they're gonna
+manually pull it down oh yeah but I do think
+open gates conveyor pushes through closed
+gates that works I don't think you're
+going to push into a box though you're not
+not not unless you're not going to have a
+gate box to stop the back pressure and if
+you don't stop the back pressure with the
+gate how do we take the box away and
+it's up can't stop everywhere okay well
+yeah like the idea would be like you have that
+two gated system um so I initially the barn
+in the back is open until we detect like
+four in one lane then it will close keep
+those four contained right and then then
+the wrong one would open so the conveyor
+belt can still push those away so you're
+saying in that it might be it might they may
+not get pushed through anything here maybe
+I'm wrong but I don't I just I'd have
+a hard time thinking if they would push
+unless you got a lot of pressure right which
+you wouldn't have because we're cutting if
+you're cutting the gate holes that's all yeah
+I think you can get through that gate
+and set yourself and then close with that
+back pressure but then how do you push those
+well then I don't think the conveyor is gonna
+do it but again we can try yeah I'm not
+trying to stymie you guys no no we appreciate
+it yeah it's like because I mean
+definitely you have more experience with like how
+it would work in real you know in a real
+scenario we're just kind of like brainstorming
+how it might work they're not
+packing the way What happens
+when we get that two? How do we
+do that two? What do you mean
+by two? We do a two -pronged line, so
+we've got to do six and six. How do
+we configure those conveggers to
+funnel six and six together to make
+a 12-pronged push? You know what I'm saying? When you're doing
+four-wide, and like you said, our machine
+will side-push it, so if we have
+a four-flavor, how do we get that
+down into three to make sure the back
+row is still right? you know well I think maybe then we have to get rather than closing
+off the funnel just get interchangeable
+funnels maybe you might have to
+maybe yeah maybe said that way maybe
+one for three you one for four I want
+to do one for two I don't know how
+annoying that would be if you change over
+every machine on that line gets changed
+over on uh three times a day okay so
+there you need to change it over So
+the rest of them seem to be good, and then
+what we've had is the fun with it can
+be interchangeable. Yeah, you'd probably
+have to have three of them. For two
+packs, one for two flavors, one for three
+and one for four. And that would probably
+work out that way. Yeah. And then how do
+they... Yeah, and then you've got to put a
+thought into how that... How does that... How
+does that... How do you connect it? How
+does it connect it? How do you get
+straight... that have like patches or
+something that you just bring them in here
+maybe I guess and then I don't know how
+you fill out the third lane though
+but you know that's for you
+guys to figure out I can't wait to
+see I appreciate it yeah through I think
+the pusher idea would be the most
+suitable after we have the 12. we'll just
+go ahead and push them yeah I mean if
+you need pushing is better than pulling
+then we can do that whatever works I
+don't care I I think I think I was I'm with
+mark like that feels like pushing I'm not
+really like pushing no no we can do it
+we can do it that way I would just say
+pulling makes I don't know they put the
+work in whatever it is because I feel
+like pushing might get I think that's something
+that will require some help from like
+neo with like yeah yeah And trying to
+engineer it as well. You say he has experience with the signing
+machines? Oh, well, he was
+a maintenance manager before he
+was a plant manager. Makes sense. That's his deal, huh? I saw the walk
+-arounds, too, to do the side load
+of the story, if you think
+about that one. A lot that makes sense about it, in my head. Like, if it was a two -flavor, he would be safe. I'd set up so I think I think
+yeah that will because my thought
+also was like maybe there is space
+left on the box at the end Oh wait,
+no, I know how So I do the two outside
+ways with the same To That's we did it in
+different fashion But it would work
+for the two-pack. Hey, the two
+-pack dogs can just get you side
+by side, too. Same time. Same time. I mean, same time as
+the configuration. All the cans are all
+plumped, so it's all that thing pretty
+much doesn't matter. I would say they
+always roll these and they'll
+probably still get more on, but for
+now, that's I guess the next thing
+is also like how we like when could
+we just start coming down here and
+testing things out. I mean as soon
+as you guys got something you
+know I'm sure we'll find a time
+to get you in. We're not running
+this all the time. A lot of
+time will be open. Usually over here it's
+just that CO2 issue. We actually plan
+to do this anyway though today. I just
+didn't need it, but I'm just surprised
+I didn't have it, but I'm able to have
+you out of that. So probably we got to figure out how
+it's going. The engineering
+part is going to be the part
+of it. It is. Isn't there an
+engineering part? Isn't there an engineering
+part? Bring him in. What was those
+kids for the game campers? That's the
+issue. I don't know. Does Abington have it? No. They leave. We don't have
+that program. Too bad. We can figure
+it out. I'm sure we can work something
+out. I mean the top size is like
+engineering somewhat, it's in the
+engineering department.

@@ -1,0 +1,20 @@
+# Local Python environments and caches
+.venv/
+venv/
+yolo-env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+
+# Local download and document review files
+.onedrive-import/
+.playwright-mcp/
+tmp/
+~$*
+.DS_Store
+Thumbs.db

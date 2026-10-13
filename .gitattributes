@@ -1,0 +1,11 @@
+# Normalize repository documentation, while preserving imported source bytes.
+*.md text eol=lf
+*.json text eol=lf
+*.docx binary
+*.pptx binary
+*.jpeg binary
+*.jpg binary
+*.heic binary
+*.HEIC binary
+*.m4a binary
+*.txt -text
