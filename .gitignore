@@ -11,9 +11,7 @@ __pycache__/
 .env.*
 !.env.example
 
-# Local download and document review files
-.onedrive-import/
-.playwright-mcp/
+# Temporary files
 tmp/
 ~$*
 .DS_Store

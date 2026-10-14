@@ -1,7 +1,7 @@
 # Team document templates
 
-The blank scrum blueprint is a reusable form, separated from the project's meeting records.
+We use this blank scrum form to keep our weekly updates consistent. Our completed and ongoing logs are in the scrum meeting folder.
 
-| File | Contents and status |
+| File | What it covers |
 |---|---|
-| [ScrumLog_Blueprint.docx](ScrumLog_Blueprint.docx) | Reusable blank scrum-log template, separated from completed meeting records. |
+| [ScrumLog_Blueprint.docx](ScrumLog_Blueprint.docx) | The blank form we use to record individual updates, blockers, and retrospectives. |

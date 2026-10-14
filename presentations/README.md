@@ -1,11 +1,11 @@
 # Progress presentations and feedback
 
-The September deck records discovery and the earlier automation proposal. The October 13 deck reflects the narrower inspection direction and includes hardware/mounting concept graphics, but it still contains placeholder text, template images, and unfinished sections. Preserve each deck as a dated project record. Feedback notes belong to presentation preparation rather than the requirements baseline.
+We use our progress presentations to explain what we have learned and how our proposed solution is developing. The September presentation covers our discovery work and initial automation ideas. The October presentation focuses on the inspection design, and we are still completing several of its sections.
 
-| File | Contents and status |
+The feedback notes help us improve our slides and prepare our speaking parts.
+
+| File | What it covers |
 |---|---|
-| [9_20 Team 1 Progress Presentation Report.pptx](9_20%20Team%201%20Progress%20Presentation%20Report.pptx) | September progress presentation, dated September 22 in the slides; discovery, process research, and earlier mechanical concepts. |
-| [Module 2 Progress Report Team 1.pptx](Module%202%20Progress%20Report%20Team%201.pptx) | October 13 design/planning presentation draft with inspection hardware/mounting visuals and multiple unfinished or placeholder slides. |
-| [Team 1 Presentation Notes & Feedback.docx](feedback/Team%201%20Presentation%20Notes%20%26%20Feedback.docx) | Instructor/presentation feedback on slide identification, visuals, delivery, and project follow-up. |
-
-Email addresses in review metadata were removed from the public copies. Slide/document content, comment text, and embedded media were preserved.
+| [9_20 Team 1 Progress Presentation Report.pptx](9_20%20Team%201%20Progress%20Presentation%20Report.pptx) | Our September progress presentation, dated September 22 in the slides, covering research, the packaging process, and our initial concepts. |
+| [Module 2 Progress Report Team 1.pptx](Module%202%20Progress%20Report%20Team%201.pptx) | Our October 13 design and planning presentation. We are still completing several sections. |
+| [Team 1 Presentation Notes & Feedback.docx](feedback/Team%201%20Presentation%20Notes%20%26%20Feedback.docx) | Feedback and reminders we use to improve our slides, visuals, and presentation delivery. |

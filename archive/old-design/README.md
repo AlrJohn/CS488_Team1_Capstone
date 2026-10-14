@@ -1,15 +1,17 @@
 # Earlier design concepts
 
-These nine files came from OneDrive's `Module2_Design and Planning/Old Design` folder. They preserve the broader dispensing/loading concept: lane escapements, sensors/PLC, guides, a pusher, and conveyor interlocks, alongside overlapping inspection ideas. Some were edited as recently as October 13; their original archive grouping is preserved. Use the [current requirements](../../docs/requirements/README.md) and [inspection design](../../docs/design/README.md) for the latest documented baseline.
+Our first designs explored automating can separation and carton loading with gates, sensors, guides, and a pusher. These sketches and requirements show how we planned for that larger mechanical system.
 
-| File | Contents and status |
+We have since narrowed our current work to inspection and operator alerts before manual packing. We keep the earlier designs here so we can refer back to the reasoning and ideas behind them. Our [current requirements](../../docs/requirements/README.md) and [inspection design](../../docs/design/README.md) describe the approach we are developing now.
+
+| File | What it covers |
 |---|---|
-| [Defect Requirements.docx](Defect%20Requirements.docx) | Earlier color/count and wrong-lane rejection rules, retained in the original Old Design grouping. |
-| [Functional,Technical Rs.jpeg](Functional%2CTechnical%20Rs.jpeg) | Whiteboard photograph of the earlier counting/gating, camera validation, box-loading, and alarm requirements. |
-| [Module 2 Objectives.docx](Module%202%20Objectives.docx) | Earlier design deliverable/task list and questions about hardware, indicators, and partner availability. |
-| [Needed Components.jpeg](Needed%20Components.jpeg) | Whiteboard photograph of the earlier mechanical/controls component list. |
-| [Process Workflow Conveyer+Detection System.docx](Process%20Workflow%20Conveyer%2BDetection%20System.docx) | Sparse earlier workflow draft containing process start, gluing, and storage labels. |
-| [Solution Diagram.jpeg](Solution%20Diagram.jpeg) | Whiteboard layout of the earlier lane/gate, camera, funnel, and box-loading concept. |
-| [System Design Diagram.docx](System%20Design%20Diagram.docx) | Earlier automated can-dispensing and carton-loading narrative with six embedded concept illustrations. |
-| [Team 1 Project Design & Strategic Planning Phase.docx](Team%201%20Project%20Design%20%26%20Strategic%20Planning%20Phase.docx) | Earlier consolidated design/planning draft combining automated gates/pusher concepts and vision requirements. |
-| [Technical and Functional Requirements.docx](Technical%20and%20Functional%20Requirements.docx) | Earlier PLC, double-gate, sensor, box-present, pusher, and conveyor-stop requirements. |
+| [Defect Requirements.docx](Defect%20Requirements.docx) | Our earlier rules for identifying the wrong quantity, color, or lane placement. |
+| [Functional,Technical Rs.jpeg](Functional%2CTechnical%20Rs.jpeg) | Our whiteboard notes on counting, gates, camera checks, carton loading, and alarms. |
+| [Module 2 Objectives.docx](Module%202%20Objectives.docx) | Our earlier design task list and questions about hardware, indicators, and visits to Yards. |
+| [Needed Components.jpeg](Needed%20Components.jpeg) | Our whiteboard list of mechanical and controls components for the earlier design. |
+| [Process Workflow Conveyer+Detection System.docx](Process%20Workflow%20Conveyer%2BDetection%20System.docx) | An early workflow outline with labels for the process start, gluing, and storage. |
+| [Solution Diagram.jpeg](Solution%20Diagram.jpeg) | Our whiteboard sketch showing the lanes, gates, camera, funnel, and carton-loading area. |
+| [System Design Diagram.docx](System%20Design%20Diagram.docx) | Our earlier can-dispensing and carton-loading concept, with illustrations of the gates, guides, and pusher. |
+| [Team 1 Project Design & Strategic Planning Phase.docx](Team%201%20Project%20Design%20%26%20Strategic%20Planning%20Phase.docx) | Our earlier combined design document for the mechanical system and camera inspection. |
+| [Technical and Functional Requirements.docx](Technical%20and%20Functional%20Requirements.docx) | Our earlier PLC, gate, sensor, box-position, pusher, and conveyor-stop requirements. |

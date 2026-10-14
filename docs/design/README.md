@@ -1,11 +1,11 @@
-# Current inspection design
+# Inspection design
 
-These October 13 files describe the camera/OpenCV processing, stack-light response, and draft materials list for inspection before manual packing. Treat listed costs as source-document estimates. The timing/performance document contains only a title. Image-confidence handling remains an open question in the software document comments.
+Our design uses a camera and OpenCV to check the cans before workers pack them. The result will control a stack light and alarm, giving the operator a clear indication of whether the arrangement is correct.
 
-| File | Contents and status |
+We are still confirming the components and costs, deciding how to handle unclear images, and working out the timing and performance tests.
+
+| File | What it covers |
 |---|---|
-| [Bill of Materials.docx](Bill%20of%20Materials.docx) | Draft component list with quantities and estimated costs; several vendor links and the stack-light cost remain incomplete. |
-| [Software and Defect Requirements.docx](Software%20and%20Defect%20Requirements.docx) | Current camera/image-processing and operator-warning design before manual packing. Includes open review comments on ambiguous images and confidence thresholds. |
-| [Timing + Performance Design.docx](Timing%20%2B%20Performance%20Design.docx) | Title-only draft. Timing budgets, throughput targets, and performance evidence have not been filled in. |
-
-Email addresses in review metadata were removed from the public copies. Slide/document content, comment text, and embedded media were preserved.
+| [Bill of Materials.docx](Bill%20of%20Materials.docx) | Our draft component list, quantities, and cost estimates. We still need to confirm several prices and vendors. |
+| [Software and Defect Requirements.docx](Software%20and%20Defect%20Requirements.docx) | Our image-processing approach, pass/fail conditions, and operator alerts, with open questions about unclear images. |
+| [Timing + Performance Design.docx](Timing%20%2B%20Performance%20Design.docx) | Our timing and performance document. We still need to fill in the calculations and test results. |

@@ -1,4 +1,4 @@
-# Normalize repository documentation, while preserving imported source bytes.
+# Keep documentation line endings consistent and Office/media files binary.
 *.md text eol=lf
 *.json text eol=lf
 *.docx binary
