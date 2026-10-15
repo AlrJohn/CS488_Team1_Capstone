@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Can inspection - three-can bench test",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/vision/run.py",
+      "args": ["--source", "0", "--recipe", "1,1,1", "--record-session"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Can inspection - USB camera (4 of each)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/vision/run.py",
+      "args": ["--source", "0", "--recipe", "4,4,4", "--record-session"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Can inspection - demo without a camera",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/vision/run.py",
+      "args": ["--demo"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

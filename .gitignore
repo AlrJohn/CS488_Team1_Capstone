@@ -16,3 +16,8 @@ tmp/
 ~$*
 .DS_Store
 Thumbs.db
+
+# Local camera calibration and test recordings
+vision/configs/local.json
+vision/runs/
+.vscode/settings.json
