@@ -1,0 +1,91 @@
+{
+  "sha256": "25e318efbd48132d9252c32dd8d83a5891fbe306350968ca3203aa6b2f40d309",
+  "architecture": "hailo8",
+  "compiler_version": "3.34.0",
+  "documented_hailort_version": "4.24.0",
+  "source_onnx_sha256": "a5360f7bf46a327219334ec5bea477627cda6141a54120860abd91bb714bf36f",
+  "source_checkpoint_sha256": "e8e9d1c10d840c9a5d87bc9a2cdb64d4bafa4f167d5ab87e3cbe490670db4acb",
+  "calibration_sha256": "e30bc49e68c74edcbb719f0b56ed5c5f8a62778b646513613eeef864ae8aa0b6",
+  "input": {
+    "layout": "NHWC",
+    "range": [
+      0,
+      255
+    ],
+    "order": "RGB",
+    "shape": [
+      1,
+      320,
+      640,
+      3
+    ]
+  },
+  "outputs": {
+    "box_s8": [
+      1,
+      64,
+      40,
+      80
+    ],
+    "score_s8": [
+      1,
+      1,
+      40,
+      80
+    ],
+    "coeff_s8": [
+      1,
+      32,
+      40,
+      80
+    ],
+    "box_s16": [
+      1,
+      64,
+      20,
+      40
+    ],
+    "score_s16": [
+      1,
+      1,
+      20,
+      40
+    ],
+    "coeff_s16": [
+      1,
+      32,
+      20,
+      40
+    ],
+    "box_s32": [
+      1,
+      64,
+      10,
+      20
+    ],
+    "score_s32": [
+      1,
+      1,
+      10,
+      20
+    ],
+    "coeff_s32": [
+      1,
+      32,
+      10,
+      20
+    ],
+    "proto": [
+      1,
+      32,
+      80,
+      160
+    ]
+  },
+  "output_layout": "NHWC",
+  "nms": "host",
+  "mask_decode": "host",
+  "hardware_validated": false,
+  "status": "Executed on Pi 5 / Hailo-8; one full-pack pair-picking trial passed; known quantized identity failure remains",
+  "hardware_inference_executed": true
+}

@@ -1,0 +1,62 @@
+{
+  "recipe": {
+    "red": 4,
+    "green": 4,
+    "blue": 4
+  },
+  "colors": {
+    "red": {
+      "hue": 7,
+      "tolerance": 11,
+      "saturation_min": 110,
+      "value_min": 55
+    },
+    "green": {
+      "hue": 43,
+      "tolerance": 12,
+      "saturation_min": 75,
+      "value_min": 55
+    },
+    "blue": {
+      "hue": 108,
+      "tolerance": 14,
+      "saturation_min": 65,
+      "value_min": 55
+    }
+  },
+  "rotate_180": false,
+  "roi": [
+    0.12,
+    0.13,
+    0.87,
+    0.29
+  ],
+  "boundary_start": [
+    0.12,
+    0.265
+  ],
+  "boundary_end": [
+    0.99,
+    0.265
+  ],
+  "packing_point": [
+    0.5,
+    0.2
+  ],
+  "hysteresis": 0.008,
+  "transfer_band": [
+    0.11,
+    0.115
+  ],
+  "min_area": 0.00045,
+  "max_area": 0.018,
+  "min_fill": 0.25,
+  "morphology_size": 3,
+  "min_hits": 3,
+  "side_frames": 3,
+  "max_missed": 15,
+  "max_crossing_gap": 2,
+  "match_distance": 0.13,
+  "ambiguity_margin": 0.012,
+  "settle_seconds": 0.8
+}

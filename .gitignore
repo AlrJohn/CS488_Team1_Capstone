@@ -1,5 +1,6 @@
 # Local Python environments and caches
 .venv/
+.venv*/
 venv/
 yolo-env/
 __pycache__/
@@ -21,3 +22,53 @@ Thumbs.db
 vision/configs/local.json
 vision/runs/
 .vscode/settings.json
+
+# Camera footage, trial output and local machine setup stay private.
+vision/Yards_Packaging_Video/
+vision/configs/local/
+vision/**/configs/local.json
+vision/**/configs/local/
+vision/**/runs/
+vision/**/results/
+vision/**/sessions/
+vision/**/source_frames/
+vision/**/annotated_frames/
+vision/**/preview/
+vision/**/source-versions/
+vision/**/*.mp4
+vision/**/*.avi
+vision/**/*.mov
+vision/**/*.mkv
+vision/**/*.log
+
+# Training data, build intermediates, downloaded experiments and environments.
+vision/**/datasets/
+vision/**/training/
+vision/**/export/
+vision/**/checkpoints/
+vision/.cache/
+vision/build/
+vision/**/*.npy
+vision/**/*.npz
+vision/**/*.onnx
+vision/**/*.har
+vision/**/*.whl
+vision/**/*.deb
+vision/**/*.zip
+vision/**/*.tar.gz
+vision/**/*.pt
+vision/**/*.hef
+!vision/models/can-camera-v1.pt
+!vision/models/can-camera-v1.hef
+.cache/
+.ruff_cache/
+.mypy_cache/
+
+# Browser automation and access credentials are never project source.
+.playwright-mcp/
+.onedrive-import/
+known_hosts
+id_ed25519*
+*.pem
+*.key
+*.pfx

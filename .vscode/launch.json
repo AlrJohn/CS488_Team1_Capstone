@@ -2,29 +2,53 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Can inspection - three-can bench test",
+      "name": "Current Windows — 12-pack counter",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/vision/run.py",
-      "args": ["--source", "0", "--recipe", "1,1,1", "--record-session"],
+      "program": "${workspaceFolder}/vision/windows/run.py",
+      "args": [
+        "--source",
+        "0"
+      ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },
     {
-      "name": "Can inspection - USB camera (4 of each)",
+      "name": "Current Windows — CPU counter",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/vision/run.py",
-      "args": ["--source", "0", "--recipe", "4,4,4", "--record-session"],
+      "program": "${workspaceFolder}/vision/windows/run.py",
+      "args": [
+        "--source",
+        "0",
+        "--device",
+        "cpu"
+      ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },
     {
-      "name": "Can inspection - demo without a camera",
+      "name": "Pi only — Hailo-8 counter",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/vision/run.py",
-      "args": ["--demo"],
+      "program": "${workspaceFolder}/vision/pi/run.py",
+      "args": [
+        "--backend",
+        "hailo",
+        "--source",
+        "0"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Legacy — color-only demo",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/vision/legacy/color_baseline/run.py",
+      "args": [
+        "--demo"
+      ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     }

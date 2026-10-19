@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "count_policy": "roi-instance-memory-left-defect-v4",
+  "normalized_xywh": [
+    0.10625,
+    0.001388888888888889,
+    0.72890625,
+    0.6777777777777778
+  ],
+  "rotate_180": true,
+  "defect_exit_x": 0.14255091103965703,
+  "note": "Example from the controlled camera setup. Calibrate the ROI and defect exit for your mounting."
+}

@@ -14,43 +14,42 @@ Yards produces individual beer varieties separately, then brings them together a
 
 We initially explored automating can dispensing and carton loading with gates, sensors, guides, and a pusher. Through our research and visits to Yards, we developed those ideas further and tested a simplified gate mechanism on a toy conveyor. We have since narrowed our current scope to camera verification and operator alerts before manual packing. Our [earlier designs](archive/old-design/README.md) show how we arrived at this direction.
 
-We are testing whether we can count cans as workers pick them from the lanes and carry them toward a box outside the camera's view. We are also keeping staged inspection as an alternative, where workers place the selected cans in a visible area before packing. The live approach avoids adding that staging step, but it depends on keeping each can visible during the transfer.
+We use a trained can-instance segmentation model, OpenCV color analysis and a cumulative count for one carton. We assume that confirmed cans in the active camera area go into the carton, and subtract a counted can only when we observe it crossing the separate left defect line. Carton placement itself is not verified.
 
-Our planned station uses an ELP global-shutter camera and controlled lighting near the packing area. We plan to run Python and OpenCV on a Raspberry Pi to compare the detected colors and quantities with the recipe and check that each lane contains the expected variety. Our initial prototype runs on a Windows computer with a USB camera; lane-specific checks and the station hardware connections are still ahead of us.
+Our camera prototype runs on a Windows laptop and on a Raspberry Pi 5 with a Hailo-8 AI HAT+ 26 TOPS. We use a global-shutter USB camera and a controlled pickup view. The Windows program runs the model through PyTorch; the Pi runs a compiled Hailo model and performs the remaining image analysis in Python/OpenCV. Lane-specific product checks and the station hardware connections remain future work.
 
 We plan to show a green stack light when the inspection passes, and a red light with an alarm when the operator needs to correct an incorrect mix. A touchscreen HMI will display the inspection status and provide operator controls. The prototype currently displays its counts and status on the computer screen.
 
 ```mermaid
 flowchart TD
-    A[Can lanes and staging area] --> B[ELP camera with controlled lighting]
-    B --> C[Raspberry Pi: Python and OpenCV]
-    R[Configurable color and quantity recipe] --> C
-    C --> D[Touchscreen status interface]
-    C --> E[Stack light: green PASS or red FAIL and alarm]
-    E --> F[Operator corrects issues and manually packs cartons]
+    A[Can pickup area] --> B[Global-shutter camera and controlled lighting]
+    B --> C[Can masks, color, tracking and carton count]
+    R[Configurable recipe] --> C
+    C --> D[Current preview and review status]
+    C -. planned .-> E[Touchscreen and stack light / alarm]
 ```
 
 Our [technical and functional requirements](docs/requirements/New%20Technical%20Requirements%20%26%20Functional%20Requirements.docx) explain the expected behavior, and our [software and defect requirements](docs/design/Software%20and%20Defect%20Requirements.docx) describe how we plan to process the images and identify an incorrect pack.
 
-## Camera prototype
+## Camera software
 
-We now have an initial [Python/OpenCV program](vision/README.md) to test live pick and return counting across a visible boundary, along with inspection of a staged group of cans. The first bench test uses one red, one green, and one blue can. The normal recipe is four of each.
+The [software overview](vision/README.md) separates the current [Windows counter](vision/windows/README.md), [Raspberry Pi runtime](vision/pi/README.md) and [earlier color-only prototype](vision/legacy/color_baseline/README.md). A fresh checkout includes the two selected model files, example configuration and setup instructions. Our private recordings and experiment folders stay local.
 
-The [run instructions](vision/README.md) cover VS Code, camera calibration, and recording trials. Our [approach notes](vision/docs/approach.md) explain the camera placement we need, and our [test plan](vision/docs/testing.md) covers hands, lighting, returns, and grouped picks. We still need those real-can trials to establish how reliably the program works.
+The [development history](vision/docs/development-history.md) records the progression from HSV regions to can masks, fine-tuning, temporal counting and Hailo deployment. The [architecture guide](vision/docs/architecture.md) identifies the code for each stage. Our [test plan](vision/docs/testing.md) and [validation notes](vision/docs/validation.md) distinguish controlled results from the production checks still needed.
 
 ## Where we are now
 
-We have completed our initial research, visited Yards to observe the process, and developed several prototype and design concepts. We are now working through the details needed to test the inspection system with the actual cans and lighting conditions.
+We have completed initial research and site visits, trained and adapted a small can model, and run the current counter on the laptop and Pi. One controlled Pi trial counted a complete twelve-pack correctly as six pairs. An earlier trial exposed an extra admission and color/identity uncertainty, so one successful pack does not establish production reliability.
 
 Our next steps are to:
 
-- Confirm the camera position and lighting so the cans are consistently visible.
-- Test color detection and counting against different variety-pack recipes.
-- Decide how the system should respond when an image is unclear or a can cannot be identified.
-- Connect the inspection result to the stack light and operator interface.
-- Complete the bill of materials and measure the system's timing and reliability.
+- Repeat complete packs with singles, pairs and four-can groups at the observed production pickup speed.
+- Check camera placement, lighting and defect removal across operators and label poses.
+- Measure throughput without diagnostic image saving and investigate identity/color failures that recur.
+- Connect inspection results to the stack light and operator interface.
+- Complete the bill of materials and evaluate the installed station at Yards.
 
-We are still filling in the timing and performance design and completing parts of our [October design presentation](presentations/Module%202%20Progress%20Report%20Team%201.pptx).
+Our [timing notes](vision/docs/validation.md) identify the hardware and recording mode for each measurement. The design documents and [October presentation](presentations/Module%202%20Progress%20Report%20Team%201.pptx) remain part of the project record.
 
 ## Project files
 
@@ -64,7 +63,7 @@ We are still filling in the timing and performance design and completing parts o
 | [docs/team](docs/team/README.md) | Our team contract and meeting availability |
 | [docs/templates](docs/templates/README.md) | The blank template we use for scrum logs |
 | [presentations](presentations/README.md) | Our progress presentations and presentation feedback |
-| [vision](vision/README.md) | Python/OpenCV prototype, calibration, tests, and earlier camera setup notes |
+| [vision](vision/README.md) | Current Windows/Pi counters, shared implementation, selected models, setup, tests and development history |
 | [media](media/README.md) | Photos and audio from our research and visits to Yards |
 | [media/videos](media/videos/README.md) | Links to the videos from our October 7 visit |
 | [archive/old-design](archive/old-design/README.md) | Our earlier mechanical and controls designs |

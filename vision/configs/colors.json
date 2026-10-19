@@ -1,0 +1,23 @@
+{
+  "colors": {
+    "red": {
+      "hue": 176,
+      "tolerance": 7,
+      "saturation_min": 180,
+      "value_min": 25
+    },
+    "green": {
+      "hue": 72,
+      "tolerance": 24,
+      "saturation_min": 111,
+      "value_min": 25
+    },
+    "blue": {
+      "hue": 116,
+      "tolerance": 14,
+      "saturation_min": 150,
+      "value_min": 38
+    }
+  },
+  "rotate_180": true
+}

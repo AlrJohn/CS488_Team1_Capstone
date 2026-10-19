@@ -1,0 +1,23 @@
+{
+  "sha256": "f18f9ba44cd525a130f4d499ec937d8373ef80b3a257ab54c6407533b2b9c234",
+  "bytes": 7057463,
+  "base_sha256": "629911e977f6a57110bd15b1ce7566a85fcec6e6a0faf2c6bcc01f9e8499db47",
+  "raw_best_sha256": "0696b9985f1018f5be84a7165a314a44d1e4b28812a12208156964a05387fc3c",
+  "selected_epoch_zero_based": null,
+  "parameters": 3390771,
+  "classes": {
+    "0": "can"
+  },
+  "task": "segment",
+  "dataset_lock_sha256": "6097529b2cd7124ff7f74e7fb5d9c3d9fcdd21488c5b327440e9a2a26e32001c",
+  "test_used": false,
+  "model": "can-camera-v1.pt",
+  "architecture": "YOLOv8n-seg",
+  "status": "Camera-adapted candidate; controlled trials only",
+  "source_checkpoint_sha256": "e8e9d1c10d840c9a5d87bc9a2cdb64d4bafa4f167d5ab87e3cbe490670db4acb",
+  "publication_metadata": {
+    "local_training_paths_removed": 6,
+    "tensor_entries_unchanged": 421,
+    "method": "Equal-length replacement of local metadata strings; all tensor archive entries preserved byte-for-byte"
+  }
+}

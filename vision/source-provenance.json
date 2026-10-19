@@ -1,0 +1,50 @@
+{
+  "baseline": "camera-v1 / ROI counter V4",
+  "publication_changes": [
+    "Portable repository-relative paths",
+    "One shared copy of the five counting/color/identity modules",
+    "Separate Windows and Raspberry Pi entry points",
+    "Machine-specific trial material excluded"
+  ],
+  "shared_modules": [
+    {
+      "path": "common/color_analysis.py",
+      "sha256": "f1f88569fd7151865cec21507f63c2e129bc8dda7c924b0147f2d4a14bb59b3f",
+      "origin": "Frozen PC camera-v1 / counter V4, also deployed in Pi pilot",
+      "algorithm_changed_during_publication": false
+    },
+    {
+      "path": "common/instance_quality.py",
+      "sha256": "18953c41b5a2427b96dd9960fd241dd161e86c66c05e232610ac79923d68866b",
+      "origin": "Frozen PC camera-v1 / counter V4, also deployed in Pi pilot",
+      "algorithm_changed_during_publication": false
+    },
+    {
+      "path": "common/instance_memory.py",
+      "sha256": "6cbd7132ce06c81100059d29c8f09bd90c12753f9a8406e4145015be8ee112f6",
+      "origin": "Frozen PC camera-v1 / counter V4, also deployed in Pi pilot",
+      "algorithm_changed_during_publication": false
+    },
+    {
+      "path": "common/pack_crossing.py",
+      "sha256": "4f2aa85f057eb336dbe7c405f666b733a202ca6f2a4272847e21e2cff78cbbe7",
+      "origin": "Frozen PC camera-v1 / counter V4, also deployed in Pi pilot",
+      "algorithm_changed_during_publication": false
+    },
+    {
+      "path": "common/pack_ledger.py",
+      "sha256": "135e9ed8dbdc2d825975413264e3724d2840caf254de74981aed3410094a3c21",
+      "origin": "Frozen PC camera-v1 / counter V4, also deployed in Pi pilot",
+      "algorithm_changed_during_publication": false
+    }
+  ],
+  "pc_publication_artifact": {
+    "sha256": "f18f9ba44cd525a130f4d499ec937d8373ef80b3a257ab54c6407533b2b9c234",
+    "source_checkpoint_sha256": "e8e9d1c10d840c9a5d87bc9a2cdb64d4bafa4f167d5ab87e3cbe490670db4acb",
+    "publication_metadata": {
+      "local_training_paths_removed": 6,
+      "tensor_entries_unchanged": 421,
+      "method": "Equal-length replacement of local metadata strings; all tensor archive entries preserved byte-for-byte"
+    }
+  }
+}

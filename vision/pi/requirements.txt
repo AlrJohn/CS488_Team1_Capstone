@@ -1,0 +1,4 @@
+# Python 3.12 ARM64; install matching HailoRT 4.24.0 binding separately.
+numpy==1.26.4
+opencv-python==4.11.0.86
+lap==0.5.12

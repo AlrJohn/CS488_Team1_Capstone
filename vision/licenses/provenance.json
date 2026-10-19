@@ -1,0 +1,44 @@
+{
+  "version": "ultralytics 8.4.177",
+  "files": [
+    {
+      "path": "trackers/byte_tracker.py",
+      "source_sha256": "1ecbf425bab3fa047106efd77aab4ff5a67b7ad47417cf1e4422fec022e47b09",
+      "release_sha256": "1ecbf425bab3fa047106efd77aab4ff5a67b7ad47417cf1e4422fec022e47b09",
+      "published_sha256": "1ecbf425bab3fa047106efd77aab4ff5a67b7ad47417cf1e4422fec022e47b09"
+    },
+    {
+      "path": "trackers/basetrack.py",
+      "source_sha256": "9ef094b9a54ff2f52c9118b5bd1a2f84ba331aa557277f54186de11728c2f7e8",
+      "release_sha256": "9ef094b9a54ff2f52c9118b5bd1a2f84ba331aa557277f54186de11728c2f7e8",
+      "published_sha256": "9ef094b9a54ff2f52c9118b5bd1a2f84ba331aa557277f54186de11728c2f7e8"
+    },
+    {
+      "path": "trackers/utils/kalman_filter.py",
+      "source_sha256": "162c612980d35c34de2acbcc44983f9a253c8da9496577f21c283e6778d00409",
+      "release_sha256": "162c612980d35c34de2acbcc44983f9a253c8da9496577f21c283e6778d00409",
+      "published_sha256": "162c612980d35c34de2acbcc44983f9a253c8da9496577f21c283e6778d00409"
+    },
+    {
+      "path": "trackers/utils/stracks.py",
+      "source_sha256": "9534294af850c3a6755c3a5a1ba9b2b068c5b79a11166c8547652944e2632f58",
+      "release_sha256": "9534294af850c3a6755c3a5a1ba9b2b068c5b79a11166c8547652944e2632f58",
+      "published_sha256": "9534294af850c3a6755c3a5a1ba9b2b068c5b79a11166c8547652944e2632f58"
+    },
+    {
+      "path": "trackers/utils/matching.py",
+      "source_sha256": "318bf81030558863a4ec6effea3c9d063a297f299367e379a58b89c24e3f421f",
+      "release_sha256": "8cb77c8c215d51a89aff145fe8eec2b6670b065b69630115d18f55c7f2c70d8c",
+      "published_sha256": "8cb77c8c215d51a89aff145fe8eec2b6670b065b69630115d18f55c7f2c70d8c"
+    }
+  ],
+  "modifications": [
+    "Imports point at local NumPy helpers.",
+    "Package auto-install removed; lap must be installed explicitly.",
+    "Axis-aligned NumPy geometry only; rotated-box requests fail."
+  ],
+  "tracking_math": "BYTETracker, Kalman, track-state and pool-update implementations retained; exact replay parity is checked separately.",
+  "publication_modifications": [
+    "Dependency imports now resolve through vision/common; algorithm bodies retained."
+  ]
+}

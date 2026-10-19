@@ -1,0 +1,24 @@
+# Development history
+
+We began with a color-only camera prototype, then changed the detector because grouped picks were not separable as connected color regions. The current system uses a learned mask for each can and keeps color classification and carton bookkeeping in Python. This sequence explains the source folders without publishing the private runs that produced them.
+
+| Stage | What we worked on | What changed / what remains available |
+| --- | --- | --- |
+| Initial process research | Mechanical dispensing/loading concepts and observations of the manual variety station | Earlier mechanical work remains in [archive/old-design](../../archive/old-design/README.md). Our software scope narrowed to camera inspection. |
+| Color-only prototype, committed October 14 | HSV thresholds, contours, staged counts, visible pick/return crossings and camera calibration | [Legacy source and manual](../legacy/color_baseline/README.md), including synthetic tests and the presentation recorder. This is not the current learned detector. |
+| Recorded-footage review and research, October 15 | Tested the connected-region method on the Yards clip; researched individual-can detection | Touching cans merged, label printing split regions, and hands/background produced candidates. See the [historical clip review](../legacy/color_baseline/docs/recorded-clip-test.md) and [dated research note](history/instance-detection-20261015.md). |
+| Model exploration | Prompted YOLOE trials and can-specific checkpoint comparisons on development footage | These experiments motivated a compact one-class can segmenter. Candidate downloads and temporary comparison runners remain private; they are not deployment requirements. The research shortlist is historical and does not identify the final model. |
+| Initial can fine-tuning | Adapted a nano segmentation model to the Yards footage and evaluated held-out image groups | We separated object detection from color classification: the learned class is `can`; OpenCV assigns red/green/blue within each mask. The earlier fine-tuned checkpoint is superseded by camera-v1. |
+| Camera adaptation | Further training with the fixed-camera setup, negatives and difficult can poses | The camera-adaptation split contained 43 training images and 30 validation images. This produced the shipped [camera-v1 checkpoint](../models/README.md). Private annotations and footage are not included. |
+| Temporal and pack counting, established by October 17 | Three-of-five observations, mask deduplication, cumulative per-box totals and short instance memory | We first tested visible boundary crossings, then changed the pack rule to assume confirmed ROI cans are packed and subtract only observed left defects. The current rule is V4; it supports variable grab sizes without assuming a fixed number per grab. |
+| Hailo conversion, October 18 | Froze the PC candidate, exported raw segmentation heads to ONNX, calibrated INT8 and compiled for Hailo-8 | The initial shipped build used 43 training-only calibration images. Full-precision comparisons preserved the baseline. Quantization changed some detections and one known sequence's count; that issue remains documented. |
+| Pi hardware trials, October 19 | Installed the matched runtime, checked actual HAT inference, corrected camera capture mode and tested live picking | Four selected images matched INT8 emulation. The first live trial had an extra admission/review. A later six-pair trial matched 4 red, 4 green and 4 blue. See [validation and timing](validation.md). |
+| Repository organization, October 19 | Promoted current source from private experiment folders, shared the core modules and added portable setup instructions | Use [windows/run.py](../windows/run.py) or [pi/run.py](../pi/run.py). Raw runs, training data and environments remain ignored. The original private releases are preserved. |
+
+## Names and versions
+
+`camera-v1` identifies the trained checkpoint. `V4` identifies the current ROI/defect counting policy. `YOLOv8n-seg` identifies the neural-network architecture. These names describe different parts of the system; they are not interchangeable release numbers.
+
+Some private folders used `v1` or `v2` for local experiments. They also contained copied snapshots and analysis scripts tied to particular recordings. We retain their history through this timeline, the earlier runnable baseline, model/source hashes and selected design notes. Publishing every such folder would mix generated evidence with reusable code and would not provide a clean installation.
+
+Future changes should use Git commits and a short description of the changed behavior, validation and model identity. Keep raw trial evidence separately, then publish only the aggregate findings needed to explain a decision. A regression comparison against recordings already used in development is not a new unbiased accuracy estimate.

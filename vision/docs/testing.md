@@ -1,51 +1,37 @@
-# Camera test plan
+# Test plan
 
-We start with the three sample cans and a `1,1,1` recipe. We keep the camera fixed, calibrate the labels, and record each trial. After that works, we need twelve physical cans to validate the `4,4,4` recipe and normal packing motions.
+We test recognition, color, identity and pack events separately because a final total of twelve can hide a missed can and a duplicate that cancel each other out. Keep physical quantities or independently reviewed footage as ground truth.
 
-Before each trial, write down the expected pick/return sequence. Afterward, compare that sequence with `events.csv`, the recording, and a manual count. Keep the session's `settings.json` with the footage so we can repeat the same processing settings. Use a new recording filename each time.
+## Software checks
 
-## Basic counting
+From the repository root, with either current environment installed:
 
-| Trial | Expected behavior |
-|---|---|
-| Leave three cans still on the lane side for ten seconds | No picks and no READY result. |
-| Pick red, then green, then blue across the boundary | One event per can; READY after the final count settles. |
-| Hold a can near the line and move it slightly back and forth | No repeated events from movement inside the neutral band. |
-| Pick a can, then return it while it remains visible | One pick and one return; net zero for that can. |
-| Pick a can, let it leave the image, then bring it back through the exit strip | Return subtracts from that color's current total. |
-| Bring in a return when that color's count is zero | Count stays zero and the program requests review. |
-| Stop with one color missing | No READY result. |
-| Pick more than the recipe requires | TOO MANY CANS, or REVIEW NEEDED if tracking became ambiguous. |
-| Complete a carton, clear the exit area, and press Space | The next batch starts at zero. |
+```bash
+python vision/tools/verify_models.py
+python -m unittest discover -s vision/tests -v
+```
 
-## Visibility and lighting
+These tests cover mask-limited color sampling, touching versus duplicate masks, observed-frame confirmation, ID reconnection, one admission per identity, ordinary disappearance, left defects and over-target totals. The [legacy prototype](../legacy/color_baseline/README.md) has a separate 47-test suite; its crossing rules are not the current pack policy.
 
-| Condition | What we check |
-|---|---|
-| Move an empty hand across the line | No pick. Repeat with sleeves and gloves used at the station. |
-| Partly cover a label while picking | Does the same can remain tracked, and is there exactly one event? |
-| Fully cover a can during the transfer | Record misses and false events even if no warning appears. This case may require a different view. |
-| Move two separated cans together | Compare individual tracks and counts with the actual two cans. |
-| Move two touching cans of the same color | Check for merged regions and undercounting. A warning is not guaranteed if they were already merged when first seen. |
-| Rotate each can | Check whether artwork splits the label into multiple candidates or changes its detected color. |
-| Add glare, shadows, and brighter/dimmer light | Check each color separately and note when calibration needs to change. |
-| Put colored clothing or another colored object near the area | Check for false candidates and false picks. Tighten the inspection area where practical. |
-| Repeat slow, normal, and fast picks | Check whether each side stays visible long enough to establish the crossing. |
-| Pause during a batch and move a can | Resuming requires manual review. |
-| Interrupt camera capture | The program stops counting and does not retain an approval. |
+## Controlled camera sequence
 
-For staged mode, repeat the lighting and label-rotation trials with all cans separated in the inspection area. Move a hand through the area and confirm that the program waits for the image to settle before accepting the visible mix.
+1. Check complete label visibility across the intended movement, ROI, defect line and orientation. Start with an empty count area and carton.
+2. Pick singles, pairs and four-can groups. Vary the color order. For every group, compare the count increment with the actual number, not just the final total.
+3. Complete repeated 4/4/4 packs at normal speed. Include brief hand coverage, touching cans, label rotation, glare and different operators.
+4. After admitting a known can, move it visibly from right to left across the defect line. Confirm one subtraction of the correct color. An uncounted can first appearing on the defect side must not subtract someone else's can.
+5. Test an ordinary return through another edge: under the current assumption it stays counted. Test lost crossing evidence and verify that the program requests review rather than inventing a removal.
+6. Clear the area before a new box. Windows N saves/prepares and requires P again; Pi N immediately resets the active counter. Confirm no previous-box identities or counts carry over.
 
-## Results to record
+Do not hide errors by capping quantities at four, forcing a color or assuming every grab contains four cans. A REVIEW result requires an independent count check. Acknowledging it does not repair the ledger.
 
-Record the trial name, camera position, lighting, recipe, expected events, observed events, manual final count, review messages, and session path. Count missed picks, extra picks, missed returns, extra returns, and any incorrect READY result. Also record how often review is needed and how long a result takes after the final movement.
+## Recording and metrics
 
-Calculate event precision as correct logged events divided by all logged events, and event recall as correctly logged events divided by all actual events. Report picks and returns separately and match both direction and color when deciding whether an event is correct. Keep results separated by lighting, speed, and occlusion condition so an easy trial does not hide a difficult one.
+Keep raw/annotated footage and per-frame logs under ignored `vision/runs/`. On the Pi, use `--save-source --save-preview` for an error investigation. For operating-throughput measurements, omit image-saving flags and measure that mode separately.
 
-We need to agree on acceptable error rates, delay, and review frequency with Yards before relying on this for production. Passing synthetic tests or a short camera trial does not establish those rates.
+Record the model hash, settings, camera view and requested versus delivered frame rate. Report exact group count, color errors/unknowns, missed/duplicate admissions, defects, review frequency, processed FPS and latency distribution. In particular, distinguish Hailo inference from the complete processing and recording loop. Host timing is not a measurement of sensor-to-display delay.
 
-## Initial three-can trial, October 14, 2026
+## Training and evaluation separation
 
-Our first recording showed why a stationary color check is not enough. Some cans left the bottom of the image during pickup, hands covered waiting inventory, and parts of the hand appeared in the red mask. We also saw one blue label produce multiple regions as it rotated near the image edge.
+Keep entire pickup cycles or recordings in one split. Adjacent frames from the same motion must not be divided randomly between training and test. Reserve untouched recordings before selecting training frames. Hailo calibration uses training images only. Reviewed failure recordings can become regression material, but no longer count as fresh independent evaluation once they guide a change.
 
-The second attempt contained visible blue, red, and green picks followed by a red return. The original processing reached the correct final counts of red 0, green 1, and blue 1, but required review. We tightened red calibration and added a transfer band so tracking focuses on the crossing. Replaying that same segment then produced the four expected events without review warnings. This recording was used for tuning; we still need a fresh trial to validate the changes independently. Fully hidden transfers remain outside what this camera view can establish.
+The raw dataset and split manifests remain private. Public documentation records the method and aggregate findings. Publishing a new performance figure should identify the hardware, recording mode, grab size and whether that footage was already used for development.

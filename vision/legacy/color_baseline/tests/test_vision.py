@@ -17,7 +17,8 @@ from yards_vision.counting import BatchCounter
 from yards_vision.demo import DEMO_FRAMES, demo_frame
 from yards_vision.detection import color_mask, detect
 from yards_vision.pipeline import Pipeline
-from yards_vision.app import main, open_source, orient_frame, recorded_rotation
+from yards_vision.app import Desktop, main, open_source, orient_frame, recorded_rotation
+from yards_vision.presentation import PresentationRecorder, encoder_executable
 
 PIXELS = {"red": (0, 0, 220), "green": (0, 190, 0), "blue": (220, 0, 0)}
 
@@ -323,6 +324,88 @@ class CameraOpeningTests(unittest.TestCase):
 
 
 class RecordingTests(unittest.TestCase):
+    def test_presentation_preserves_elapsed_time_and_holds_earlier_views(self):
+        process = Mock()
+        process.returncode = 0
+        process.stderr.read.return_value = b""
+        with TemporaryDirectory() as directory, patch("yards_vision.presentation.subprocess.Popen", return_value=process):
+            recorder = PresentationRecorder(Path(directory) / "clip.mp4", "ffmpeg", fps=10)
+            for value, timestamp in [(10, 7.0), (20, 7.04), (30, 7.2), (40, 7.5)]:
+                recorder.add(np.full((2, 2, 3), value, np.uint8), timestamp)
+            recorder.close()
+            values = [call.args[0][0] for call in process.stdin.write.call_args_list]
+            self.assertEqual(values, [10, 20, 30, 30, 30, 40])
+            self.assertEqual(recorder.frames, 6)
+            process.stdin.close.assert_called_once()
+            recorder.close()  # Closing twice must not append another frame.
+            self.assertEqual(process.stdin.write.call_count, 6)
+
+    def test_presentation_does_not_start_during_paused_camera_setup(self):
+        capture = Mock()
+        capture.get.return_value = 30
+        capture.read.return_value = (True, scene(("red", .2, .5)))
+        with TemporaryDirectory() as directory:
+            with (
+                patch("yards_vision.app.VISION", Path(directory)),
+                patch("yards_vision.app.encoder_executable", return_value="ffmpeg"),
+                patch("yards_vision.app.open_source", return_value=(capture, True)),
+                patch("yards_vision.app.cv2.namedWindow"),
+                patch("yards_vision.app.cv2.setMouseCallback"),
+                patch("yards_vision.app.cv2.imshow"),
+                patch("yards_vision.app.cv2.waitKey", return_value=ord("q")),
+                patch("yards_vision.app.cv2.destroyAllWindows"),
+                patch("yards_vision.presentation.subprocess.Popen") as encoder,
+                redirect_stdout(io.StringIO()),
+            ):
+                self.assertEqual(main(["--record-presentation"]), 0)
+            encoder.assert_not_called()
+            self.assertFalse(list(Path(directory).glob("runs/*/presentation.mp4")))
+        capture.release.assert_called_once()
+
+    def test_snapshot_contains_the_displayed_counts_as_well_as_the_raw_frame(self):
+        with TemporaryDirectory() as directory:
+            pipeline = Pipeline(bench())
+            frame = scene(("red", .2, .5))
+            result = pipeline.process(frame, 1.0, 0)
+            desktop = Desktop(pipeline.settings, pipeline, Path(directory), Path(directory) / "settings.json", paused=False, visible=False)
+            output = desktop.draw(frame, result, 1.0, 30)
+            desktop.key(ord("s"), frame, result, 1.0)
+            slide = cv2.imread(str(Path(directory) / "slide-1.000.png"))
+            np.testing.assert_array_equal(slide, output)
+            self.assertEqual(slide.shape[1], frame.shape[1] + 340)
+            self.assertTrue((Path(directory) / "frame-1.000.jpg").is_file())
+
+    def test_presentation_exports_a_playable_video_with_the_final_demo_result(self):
+        try:
+            encoder_executable()
+        except RuntimeError:
+            self.skipTest("Optional presentation encoder is not installed")
+        with TemporaryDirectory() as directory:
+            with patch("yards_vision.app.VISION", Path(directory)), redirect_stdout(io.StringIO()):
+                self.assertEqual(main(["--demo", "--headless", "--record-presentation"]), 0)
+            import json
+            session = next(Path(directory).glob("runs/*"))
+            summary = json.loads((session / "summary.json").read_text())
+            self.assertEqual(summary["counts"], dict.fromkeys(COLORS, 1))
+            self.assertEqual(summary["status"], "READY")
+            self.assertEqual(summary["presentation_frames"], DEMO_FRAMES)
+            capture = cv2.VideoCapture(summary["presentation_video"])
+            try:
+                self.assertEqual(round(capture.get(cv2.CAP_PROP_FPS)), 30)
+                count, last = 0, None
+                while True:
+                    ok, frame = capture.read()
+                    if not ok:
+                        break
+                    last, count = frame, count + 1
+                self.assertEqual(count, DEMO_FRAMES)
+                self.assertEqual(last.shape, (480, 980, 3))
+                panel = last[:50, 640:]
+                green_text = (panel[:, :, 1].astype(int) - panel[:, :, 0] > 60) & (panel[:, :, 1].astype(int) - panel[:, :, 2] > 60)
+                self.assertGreater(np.count_nonzero(green_text), 30)
+            finally:
+                capture.release()
+
     def test_upside_down_correction_is_recorded_and_replayed_once(self):
         with TemporaryDirectory() as directory:
             with patch("yards_vision.app.VISION", Path(directory)), redirect_stdout(io.StringIO()):

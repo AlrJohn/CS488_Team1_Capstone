@@ -1,0 +1,69 @@
+{
+  "expected_recipe": {
+    "red": 4,
+    "green": 4,
+    "blue": 4
+  },
+  "tracker": {
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": false
+  },
+  "roi_group_clear": {
+    "minimum_empty_images": 3,
+    "minimum_empty_seconds": 0.35,
+    "effect": "retire lost instances after the active count area clears; visible context tracks remain connected"
+  },
+  "tracking_context": {
+    "padding_fraction": 0.2,
+    "confidence": 0.5,
+    "instance_memory_seconds": 0.65,
+    "instance_memory_frames": 10
+  },
+  "transfer_policy": {
+    "side_frames": 2,
+    "max_crossing_gap_images": 2,
+    "color_wait_images": 5,
+    "version": 4,
+    "admission": "confirmed physical instance observed in the active ROI; up to 0.40 seconds of context qualification after leaving it",
+    "requires_packaging_boundary": false,
+    "repeat_id": "short motion memory reconnects changed tracker IDs to one physical instance",
+    "defect_side_entry": "exclude tracks first seen left of the defect line from admission",
+    "removal": "right-to-left across the separately calibrated defect exit only",
+    "uncounted_defect": "exclude without subtracting a different can",
+    "color_confirmation": "actual three-of-five observations",
+    "missing_crossing": "review; never infer from disappearance"
+  },
+  "duplicate_mask_handling": {
+    "enabled": true,
+    "stage": "before tracking",
+    "minimum_containment": 0.95,
+    "minimum_area_ratio": 0.6
+  },
+  "rotate_180": true,
+  "schema": "yards-pi-baseline-v1",
+  "model_sha256": "e8e9d1c10d840c9a5d87bc9a2cdb64d4bafa4f167d5ab87e3cbe490670db4acb",
+  "inference": {
+    "height": 320,
+    "width": 640,
+    "conf": 0.5,
+    "iou": 0.7,
+    "max_det": 100,
+    "classes": 1,
+    "reg_max": 16,
+    "mask_channels": 32,
+    "strides": [
+      8,
+      16,
+      32
+    ]
+  },
+  "source_dimensions": [
+    1280,
+    720
+  ],
+  "placement_verified": false
+}

@@ -17,6 +17,7 @@ from .config import COLORS, Settings, parse_recipe
 from .demo import DEMO_FRAMES, demo_frame
 from .detection import BGR, color_mask, detect
 from .pipeline import Pipeline
+from .presentation import PresentationRecorder, encoder_executable
 
 VISION = Path(__file__).resolve().parents[1]
 WINDOW = "Yards - Can Inspection Test Bench"
@@ -127,11 +128,13 @@ def _line_in_roi(image, settings, offset=0.0, color=(255, 255, 255), thickness=2
 
 
 class Desktop:
-    def __init__(self, settings, pipeline, run_dir, save_config, paused, recording=None):
+    def __init__(self, settings, pipeline, run_dir, save_config, paused, recording=None, visible=True):
         self.settings, self.pipeline = settings, pipeline
         self.run_dir, self.save_config = run_dir, save_config
         self.paused = paused
         self.recording = recording
+        self.visible = visible
+        self.output = None
         self.calibrating = False
         self.selected = "red"
         self.show_masks = False
@@ -143,8 +146,9 @@ class Desktop:
         self.confirm_action = None
         self.confirm_time = 0.0
         self.timestamp = 0.0
-        cv2.namedWindow(WINDOW, cv2.WINDOW_AUTOSIZE)
-        cv2.setMouseCallback(WINDOW, self.mouse)
+        if self.visible:
+            cv2.namedWindow(WINDOW, cv2.WINDOW_AUTOSIZE)
+            cv2.setMouseCallback(WINDOW, self.mouse)
 
     def _zero_batch(self):
         if any(self.pipeline.counter.counts.values()) or self.pipeline.counter.reviews:
@@ -296,7 +300,9 @@ class Desktop:
         output = np.full((panel.shape[0], width + panel.shape[1], 3), 24, np.uint8)
         output[:height, :width] = view
         output[:, width:] = panel
-        cv2.imshow(WINDOW, output)
+        self.output = output
+        if self.visible:
+            cv2.imshow(WINDOW, output)
         if self.show_masks:
             colored = np.zeros_like(frame)
             for name, mask in result["masks"].items():
@@ -369,7 +375,10 @@ class Desktop:
             path = self.run_dir / f"frame-{timestamp:.3f}.jpg"
             if not cv2.imwrite(str(path), frame):
                 raise OSError(f"Could not save {path}")
-            self.message = f"Saved {path.name}"
+            slide = self.run_dir / f"slide-{timestamp:.3f}.png"
+            if self.output is not None and not cv2.imwrite(str(slide), self.output):
+                raise OSError(f"Could not save {slide}")
+            self.message = f"Saved frame and slide at {timestamp:.3f}s"
         elif not self.calibrating and key == ord("n") and self._confirm("reset", timestamp):
             self.pipeline.reset(timestamp)
             self.paused = True
@@ -408,6 +417,7 @@ def parser():
     recording = cli.add_mutually_exclusive_group()
     recording.add_argument("--record", type=Path, help="Save unannotated frames in the displayed orientation to a new MJPG .avi path")
     recording.add_argument("--record-session", action="store_true", help="Save camera.avi inside this run's unique session folder")
+    cli.add_argument("--record-presentation", action="store_true", help="Save an annotated H.264 presentation.mp4 from the first active counting frame until quit")
     cli.add_argument("--list-cameras", action="store_true")
     cli.add_argument("--camera-limit", type=int, default=4)
     return cli
@@ -425,9 +435,11 @@ def main(argv=None):
         return list_cameras(args.backend, args.camera_limit)
     capture, writer, desktop, log, csv_writer = None, None, None, None, None
     frame_log, frame_csv = None, None
+    presentation = None
     pipeline = None
     cursor = 0
     try:
+        presentation_encoder = encoder_executable() if args.record_presentation else None
         config_path = args.config or (args.save_config if args.save_config.exists() and not args.demo else None)
         settings = Settings.load(config_path)
         if args.rotate_180 is not None:
@@ -445,6 +457,9 @@ def main(argv=None):
         run_dir = VISION / "runs" / datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         run_dir.mkdir(parents=True)
         record_path = args.record or (run_dir / "camera.avi" if args.record_session else None)
+        presentation_path = run_dir / "presentation.mp4" if args.record_presentation else None
+        if presentation_path:
+            presentation = PresentationRecorder(presentation_path, presentation_encoder)
         settings.save(run_dir / "settings.json")
         events_path = args.events or run_dir / "events.csv"
         events_path.parent.mkdir(parents=True, exist_ok=True)
@@ -452,7 +467,7 @@ def main(argv=None):
         fields = ["frame_index", "time_seconds", "batch", "event", "color", "delta", "track_id", *COLORS, "message"]
         csv_writer = csv.DictWriter(log, fieldnames=fields)
         csv_writer.writeheader()
-        if record_path:
+        if record_path or presentation_path:
             frame_log = (run_dir / "frame_times.csv").open("w", newline="", encoding="utf-8")
             frame_csv = csv.DictWriter(frame_log, fieldnames=["frame_index", "time_seconds", "batch", "counting_active", "status"])
             frame_csv.writeheader()
@@ -467,11 +482,14 @@ def main(argv=None):
             measured_fps = capture.get(cv2.CAP_PROP_FPS)
             if math.isfinite(measured_fps) and 1 <= measured_fps <= 240:
                 fps = measured_fps
-        if not args.headless:
-            desktop = Desktop(settings, pipeline, run_dir, args.save_config, paused=camera, recording=record_path)
+        if not args.headless or presentation_path:
+            desktop = Desktop(settings, pipeline, run_dir, args.save_config, paused=camera and not args.headless,
+                              recording=record_path or presentation_path, visible=not args.headless)
         print(f"Mode: {args.mode}; recipe: {settings.recipe}; event log: {events_path}", flush=True)
         if record_path:
             print(f"Recording: {record_path}", flush=True)
+        if presentation_path:
+            print(f"Presentation video: {presentation_path} (starts when counting starts; Q finishes)", flush=True)
         if camera and desktop:
             print("Counting starts PAUSED. Set O/B/C, then press P. The box can remain outside the image.", flush=True)
         start = time.monotonic()
@@ -525,9 +543,12 @@ def main(argv=None):
                 frame_log.flush()
             running = True
             if desktop:
-                desktop.draw(frame, result, timestamp, display_fps)
-                delay = 1 if camera else max(1, round(1000 / fps))
-                running = desktop.key(cv2.waitKey(delay) & 0xFF, frame, result, timestamp)
+                output = desktop.draw(frame, result, timestamp, display_fps)
+                if presentation and (active or presentation.previous is not None):
+                    presentation.add(output, timestamp)
+                if desktop.visible:
+                    delay = 1 if camera else max(1, round(1000 / fps))
+                    running = desktop.key(cv2.waitKey(delay) & 0xFF, frame, result, timestamp)
                 pipeline = desktop.pipeline
             for event in pipeline.counter.events[cursor:]:
                 csv_writer.writerow({"frame_index": frame_index, **event})
@@ -538,11 +559,16 @@ def main(argv=None):
                 break
         if frame_index == 0:
             raise RuntimeError("No frames were read from the source.")
+        if presentation:
+            presentation.close()
         summary = {"frames": frame_index, "mode": args.mode, "counts": pipeline.counter.counts,
                    "recipe": pipeline.counter.recipe, "status": "PAUSED" if desktop and desktop.paused else pipeline.counter.status(timestamp, result["pending"]),
                    "review_reasons": sorted(pipeline.counter.reviews), "events_csv": str(events_path),
                    "recording": str(record_path) if record_path else None,
-                   "frame_times_csv": str(run_dir / "frame_times.csv") if record_path else None}
+                    "frame_times_csv": str(run_dir / "frame_times.csv") if record_path or presentation_path else None,
+                    "presentation_video": str(presentation_path) if presentation and presentation.frames else None,
+                    "presentation_frames": presentation.frames if presentation else 0,
+                    "presentation_fps": presentation.fps if presentation else None}
         elapsed = time.monotonic() - start
         summary.update(elapsed_seconds=round(elapsed, 3), processed_fps=round(frame_index / max(elapsed, .001), 2))
         (run_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
@@ -560,9 +586,14 @@ def main(argv=None):
             capture.release()
         if writer is not None:
             writer.release()
+        if presentation is not None:
+            try:
+                presentation.close()
+            except (OSError, RuntimeError) as exc:
+                print(f"Could not finish presentation recording: {exc}", file=sys.stderr)
         if log is not None:
             log.close()
         if frame_log is not None:
             frame_log.close()
-        if desktop:
+        if desktop and desktop.visible:
             cv2.destroyAllWindows()
