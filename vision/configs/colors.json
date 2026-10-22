@@ -2,8 +2,8 @@
   "colors": {
     "red": {
       "hue": 176,
-      "tolerance": 7,
-      "saturation_min": 180,
+      "tolerance": 10,
+      "saturation_min": 150,
       "value_min": 25
     },
     "green": {
