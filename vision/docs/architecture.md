@@ -9,7 +9,7 @@ flowchart TD
     C --> D[Individual boxes and masks]
     D --> E[HSV label pixels and unknown results]
     E --> F[Duplicate filtering and physical-instance memory]
-    F --> G[Three-of-five observed color confirmation]
+    F --> G[Two-of-five observed color confirmation]
     G --> H[ROI admission or observed left defect]
     H --> I[Per-box ledger, preview and saved evidence]
 ```
@@ -44,7 +44,7 @@ HSV classification samples the mask interior to reduce rim/finger/background con
 
 The duplicate filter collapses nearly identical same-color masks within one image: at least 95% containment and a 0.60 minimum area ratio. It does not deduplicate a can across different images.
 
-ByteTrack suggests raw tracker identities. Our physical-instance memory performs one-to-one association using motion, overlap, color and those hints. It reconnects short losses within 0.65 seconds and ten processed frames. It requires three matching known-color observations in the last five processed frame indices; motion predictions and missing frames do not add hits. Lower processed FPS makes that evidence arrive farther apart.
+ByteTrack suggests raw tracker identities. Our physical-instance memory performs one-to-one association using motion, overlap, color and those hints. It reconnects short losses within 0.65 seconds and ten processed frames. It requires two matching known-color observations with a unique leading known color in the last five processed frame indices; motion predictions and missing frames do not add hits. Lower processed FPS makes that evidence arrive farther apart.
 
 The active area is to the right of the left defect line. A confirmed instance actually seen there counts once. A 0.40-second grace period permits confirmation to finish in context after leaving the ROI. No packaging boundary crossing is required. We assume placement into the carton. Only continuously observed movement to the left defect side subtracts a counted can. A first appearance on the defect side is excluded; an ordinary disappearance or return elsewhere does not subtract.
 
@@ -61,7 +61,7 @@ The ledger stores cumulative counts, unique event IDs, reviews and a box number.
 | HSV ranges | Color JSON, selectable with `--color-config` |
 | Pi confidence / NMS thresholds | Runtime JSON `inference.conf` / `inference.iou` |
 | Windows confidence / NMS thresholds | `windows/run.py` inference configuration |
-| Three-of-five observations | `common/instance_memory.py`, `InstanceMemory.update()` |
+| Two-of-five observations | `common/instance_memory.py`, `InstanceMemory.update()` |
 | Identity reconnect limits | `InstanceMemory.__init__()` defaults |
 | Context grace, defect behavior and settling | `common/pack_crossing.py` |
 

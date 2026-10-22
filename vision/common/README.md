@@ -6,7 +6,7 @@ Both current programs import these modules. The five color/identity/counting fil
 | --- | --- |
 | `color_analysis.py` | HSV votes within each individual can mask, including interior sampling and unknown results |
 | `instance_quality.py` | Remove nearly identical same-color mask predictions within an image |
-| `instance_memory.py` | Reconnect physical instances across raw tracker-ID changes; confirm actual three-of-five observations |
+| `instance_memory.py` | Reconnect physical instances across raw tracker-ID changes; confirm actual two-of-five observations |
 | `observer.py` | ByteTrack observations, ROI membership and clearing of lost group identities |
 | `pack_crossing.py` | One ROI admission per instance, context grace, observed left-defect exits and uncertainty reviews |
 | `pack_ledger.py` | Persistent per-box quantities, event deduplication, undo, review and reset |

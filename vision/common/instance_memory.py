@@ -118,9 +118,12 @@ class InstanceMemory:
         confirmed={}
         for identity,track in self.instances.items():
             recent=[r for r in track.history if r['index']>=index-4]
-            if len(recent)<3 or track.retired:continue
-            votes=Counter(r['color'] for r in recent);known=[(votes[c],c) for c in COLORS if votes[c]>=3]
-            color=max(known)[1] if known else 'unknown'
+            if len(recent)<2 or track.retired:continue
+            votes=Counter(r['color'] for r in recent);known=[(votes[c],c) for c in COLORS if votes[c]>=2]
+            # Two matching observations can qualify immediately. Conflicting
+            # colors tied in the five-frame window must remain unknown.
+            winners=[c for count,c in known if count==max(n for n,_ in known)]
+            color=winners[0] if len(winners)==1 else 'unknown'
             confirmed[identity]=dict(observations=len(recent),color=color,votes=dict(votes))
         return result,confirmed
 

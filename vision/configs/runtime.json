@@ -34,7 +34,7 @@
     "defect_side_entry": "exclude tracks first seen left of the defect line from admission",
     "removal": "right-to-left across the separately calibrated defect exit only",
     "uncounted_defect": "exclude without subtracting a different can",
-    "color_confirmation": "actual three-of-five observations",
+    "color_confirmation": "actual two-of-five observations",
     "missing_crossing": "review; never infer from disappearance"
   },
   "duplicate_mask_handling": {

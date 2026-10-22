@@ -154,7 +154,7 @@ class RoiCounter:
             else:
                 track.defect.candidate_side=0;track.defect.side_hits=0
             if track.blocked or track.removed:continue
-            # Admission needs actual current ROI evidence and existing 3-of-5
+            # Admission needs actual current ROI evidence and existing 2-of-5
             # identity/color confirmation, with no packaging line or direction.
             recently_inside=track.roi_seen_at is not None and now-track.roi_seen_at<=.40
             if not track.counted and not track.defect.pending and side==-1 and qualified in COLORS and recently_inside:

@@ -75,7 +75,7 @@ def annotate(frame, roi, masks, observed, confirmed, state, recipe, fps, elapsed
     performance = (f'{fps:.1f} processed fps | model {elapsed_ms:.1f} ms'
                    if fps is not None and elapsed_ms is not None else 'cached replay; timing not measured')
     lines = [f"FINE-TUNED CAN MODEL | {state} | target R/G/B: {expected}",
-             f"Observed now: {len(observed)} | 3-of-5 IDs R/G/B: {actual} | unknown: {totals['unknown']}",
+             f"Observed now: {len(observed)} | 2-of-5 IDs R/G/B: {actual} | unknown: {totals['unknown']}",
              f"Pattern seen this trial: {'YES' if seen else 'NO'} | frame {frame_index} | {performance}",
              "P: start trial   N: finish/reset   O: select area (setup)   S: snapshot   Q: quit"]
     if trial_info is not None:

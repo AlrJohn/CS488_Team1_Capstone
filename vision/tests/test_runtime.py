@@ -43,10 +43,27 @@ class RuntimeTests(unittest.TestCase):
             observations = [] if index in (2,4) else [dict(track_id=1,color='red',xyxy_roi=[30,20,50,70],confidence=.9)]
             _, confirmed = memory.update(observations,index/30,index)
             last = confirmed
-            if index < 5:
+            if index < 3:
                 self.assertFalse(any(v['color']=='red' for v in confirmed.values()))
         self.assertEqual(last[1]['color'],'red')
         self.assertEqual(last[1]['observations'],3)
+
+    def test_conflicting_color_tie_stays_unknown(self):
+        memory = InstanceMemory()
+        for index,color in enumerate(['red','blue','red','blue'],1):
+            _, confirmed = memory.update([dict(track_id=1,color=color,xyxy_roi=[30,20,50,70],confidence=.9)],index/30,index)
+            if index==2:
+                self.assertEqual(confirmed[1]['color'],'unknown')
+            if index==3:
+                self.assertEqual(confirmed[1]['color'],'red')
+        self.assertEqual(confirmed[1]['color'],'unknown')
+
+    def test_unknown_color_and_expired_hits_do_not_confirm(self):
+        memory = InstanceMemory()
+        for index in range(1,7):
+            color = 'red' if index in (1,6) else 'unknown'
+            _, confirmed = memory.update([dict(track_id=1,color=color,xyxy_roi=[30,20,50,70],confidence=.9)],index/30,index)
+            self.assertFalse(any(v['color']=='red' for v in confirmed.values()))
 
     def test_changed_raw_tracker_id_reconnects_one_instance(self):
         memory = InstanceMemory()
@@ -82,14 +99,15 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(sum(ledger.counts.values()),0)
         self.assertEqual(ledger.events[0]['kind'],'defect_excluded')
 
-    def test_three_of_five_confirmation_and_pair_admission_together(self):
+    def test_two_observation_confirmation_and_pair_admission_together(self):
         observer = RoiObserver(json.loads((VISION/'configs/runtime.json').read_text())['tracker'])
         ledger = PackLedger()
         counter = RoiCounter((100,100),ledger,reject_boundary=left_defect_boundary(.15))
-        for index in range(1,6):
+        for index in range(1,3):
             data = np.array([[30,20,45,70,.9,0],[60,20,75,70,.9,0]],np.float32)
             observed,confirmed = observer.update(Boxes(data,(100,100)),['blue','blue'],index/30)
             counter.update(observed,confirmed,index,index/30)
+            self.assertEqual(ledger.counts['blue'],0 if index==1 else 2)
         self.assertEqual(ledger.counts['blue'],2)
 
     def test_over_target_is_visible_and_new_box_clears_counts(self):
