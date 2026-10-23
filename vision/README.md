@@ -19,7 +19,7 @@ The Windows and Pi programs share the same color, duplicate-mask, physical-insta
 | Path | What it contains |
 | --- | --- |
 | `windows/` | Current Windows entry point, PyTorch adapter, dependency pins and setup instructions |
-| `pi/` | Pi entry point and Hailo/ONNX output adapter and pipeline |
+| `pi/` | Pi entry point, camera delivery probe, Hailo/ONNX adapter, optional LEDs and update workflow |
 | `common/` | Shared HSV analysis, mask deduplication, tracking memory, ledger, defect rules and recording helpers |
 | `configs/` | Published example colors, ROI, recipe and training parameters; save machine-specific copies under `configs/local/` |
 | `models/` | The camera-v1 `.pt`, Hailo-8 `.hef`, identity metadata and checksums |
@@ -45,6 +45,8 @@ python -m unittest discover -s vision/tests -v
 ```
 
 The synthetic tests check software behavior. They do not measure accuracy on moving cans. The [earlier prototype](legacy/color_baseline/README.md) has its own independent tests and artificial demo.
+
+For PC-to-GitHub-to-Pi updates, follow the [Pi migration and update procedure](pi/UPDATING.md). Campus changes made only on the Pi must be preserved and compared before the first pull. All current source runs from this checkout; private experiment folders are not runtime dependencies.
 
 ## Local material
 

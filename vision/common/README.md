@@ -1,10 +1,11 @@
 # Shared runtime modules
 
-Both current programs import these modules. The five color/identity/counting files were promoted without algorithm changes from the frozen camera-v1 / V4 counter. `source-provenance.json` records their hashes. The original private experiment and Pi deployment remain intact.
+Both current programs import these modules. The original color/identity/counting implementation came from the camera-v1 / V4 counter. Current updates include two-of-five confirmation, cropped color processing and a side-color fallback for white labels. The [architecture guide](../docs/architecture.md) describes the active rules. The original private experiment and Pi deployment remain intact.
 
 | File | Role |
 | --- | --- |
-| `color_analysis.py` | HSV votes within each individual can mask, including interior sampling and unknown results |
+| `color_analysis.py` | HSV votes within each can mask, with interior sampling, white-label side fallback and unknown results |
+| `color_calibration.py` | Labeled pixel collection, HSV fitting, fresh verification totals and new local profiles for Pi setup |
 | `instance_quality.py` | Remove nearly identical same-color mask predictions within an image |
 | `instance_memory.py` | Reconnect physical instances across raw tracker-ID changes; confirm actual two-of-five observations |
 | `observer.py` | ByteTrack observations, ROI membership and clearing of lost group identities |
@@ -12,7 +13,7 @@ Both current programs import these modules. The five color/identity/counting fil
 | `pack_ledger.py` | Persistent per-box quantities, event deduplication, undo, review and reset |
 | `geometry.py` | NumPy box adapter, letterbox transformation and normalized ROI restoration |
 | `camera.py` | Camera backend selection, blank-image checks and rotation helpers for Windows |
-| `settings.py` | Current HSV settings validation and recipe parsing |
+| `settings.py` | HSV, ordinary-check and side-fallback settings validation, plus recipe parsing |
 | `recording.py` | Bounded background image writer and timed trial-video finalization for Windows |
 | `video.py` | FFmpeg lookup |
 | `torch_support.py` | Restricted checkpoint loading and raw-head export; not needed for live Hailo inference |

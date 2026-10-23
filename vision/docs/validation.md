@@ -46,3 +46,33 @@ The Pi trial with both image formats had a 152.95 ms median complete loop and a 
 Camera-only MJPEG capture delivered 14.99 FPS in the probe. The default uncompressed YUYV mode delivered about 5 FPS; explicit MJPEG corrected that capture bottleneck. The requested/reported camera setting was 30 FPS. Actual delivery and analyzed throughput are separate measurements.
 
 These are different motions and recording workloads, not an isolated comparison of PNG cost. Sensor exposure, existing driver queue age and physical display delay were not measured. Sustained four-can load and live operation without image saving remain unmeasured. Do not present Hailo inference time, emulator speed or requested camera FPS as complete system performance.
+
+## Repository runtime update on October 22
+
+The PC checkout was brought forward to GitHub commits `fe4edee` and `2ae8232`, retaining two-of-five color confirmation and the wider red range. The previously local GPIO implementation is included with the current source. Additional campus Python/configuration edits exist only on the Pi and have not been compared because it was unreachable at its last known address.
+
+Color processing now crops each mask before erosion and HSV conversion, and votes only on selected pixels. On this Windows CPU, a synthetic 1280×720 image with four 100×270 masks measured median color-stage time of 72.1 ms before and 5.3 ms after, across 60 alternating comparisons after warmup. Labels and all pixel diagnostics matched. This is about 13.6 times faster for that stage and workload; it is not a Pi measurement, model benchmark or end-to-end speed claim.
+
+The Pi preview has a separate 10 FPS drawing limit, while analysis remains active on every read image. Explicit preview image saving still keeps every analyzed frame. The new camera-only probe measures delivery without inference, GUI, GPIO or image saving. The source path and actual loaded settings are recorded in run metadata. These changes still require live camera/Hailo throughput tests on the Pi.
+
+All 36 software tests passed in the PC development environment and in a separate Windows environment using the Pi dependency versions: NumPy 1.26.4, OpenCV 4.11.0.86 and lap 0.5.12. They also passed from a copy containing only public source and selected model files, without private experiment folders. The model identity checks passed. These checks cover simulated delivery, color equivalence, counting, GPIO decisions and preview saving; they do not execute the ARM driver, physical pins or Hailo hardware.
+
+## White-label side fallback on October 22
+
+The campus report identified a separate color failure: white front printing can leave narrow colored strips near the mask edges. A new fallback checks the left and right body bands after an insufficient interior result. This intentionally changes some unknown decisions into known colors. The earlier cropped-calculation equivalence check remains applicable with the fallback disabled; it is not an assertion that every decision is unchanged when the new fallback is enabled.
+
+Synthetic cases recovered red, green and blue from narrow strips on both sides and recovered a color from one side with the opposite side white. Conflicting sides, small colored patches, color outside the mask, low saturation and rim-only color remained unknown. A Pi pipeline test confirmed that recovered colors still require two observed frames before admission. All 48 software tests passed in both Windows environments described above, and model identity checks passed. No trained weights or HEF were changed.
+
+A separate 60-iteration alternating benchmark used four 100×270 masks in a 1280×720 synthetic image with NumPy 1.26.4 and OpenCV 4.11.0.86. Solid-label color processing measured 4.8 ms before and 4.7 ms after this fallback addition. White labels with narrow side strips measured 4.7 ms before, returning four unknowns, and 10.1 ms after, returning the four intended colors. This is a Windows CPU color-stage comparison without model inference, camera capture, drawing or saving. It shows the extra work when fallback is needed; the earlier approximately 5 ms crop benchmark is not a promise for every color case.
+
+Actual label artwork, hands, tilted cans, campus lighting and Pi throughput remain untested for this fallback. The current left/right bands assume an approximately upright can. The campus-only calibration and Python changes still need retrieval before the Pi is updated.
+
+The ordinary color evidence limits were subsequently made configurable under `interior_sampling` in the same color JSON. Published values remain 25 pixels, 0.1 coverage and 0.6 dominance, with compatibility defaults for older profiles. All 54 software tests passed in both Windows environments, including separate acceptance checks for each JSON limit, invalid-value checks and a Pi pipeline count check. This moves configuration into the profile without changing the shipped thresholds or trained model.
+
+## Live Pi color setup on October 22
+
+The Pi runner now has `--calibrate` for collecting labeled can pixels, fitting session HSV ranges and verifying fresh examples before normal counting. It reuses the open camera/model and creates a new ignored profile rather than overwriting station settings. The ordinary/side evidence limits and counting rules are retained, and old profiles receive explicit effective color limits in the saved file. Calibration does not feed observations into the carton ledger. Save & Test starts the normal counter in setup; P is required to count.
+
+All 70 software tests passed in both Windows environments described above, and the selected model identity checks passed. New checks include supervised pixel selection, red wrap, distinct color ranges, unchanged evidence limits, failed verification observations, exclusive profile creation, a simulated mouse/keyboard setup sequence, setup cancellation and the counter's actual use of the selected profile. The collection, verification and ready screens were rendered and visually inspected. These checks use simulated cameras/models and do not execute a Pi camera, HailoRT or a physical touchscreen. The live Pi trial and campus-only source/configuration comparison remain pending.
+
+The setup's default 30 collection views and 24 fresh verification observations per color are session checks. They do not establish production accuracy, normal-speed four-can counting or a new Pi throughput result. The model-free camera delivery measurement runs while the backend is loaded but idle; its metadata distinguishes that from inference being executed.

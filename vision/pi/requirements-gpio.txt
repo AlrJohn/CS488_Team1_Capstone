@@ -1,0 +1,3 @@
+# Optional Pi 5 LED control, installed in the same environment as HailoRT.
+# Official libgpiod v2 bindings; includes prebuilt CPython 3.12 ARM64 wheel.
+gpiod==2.5.0; sys_platform == "linux"

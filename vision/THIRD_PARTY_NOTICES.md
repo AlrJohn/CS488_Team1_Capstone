@@ -5,3 +5,5 @@ The current software uses Ultralytics YOLO and includes a portable copy of its B
 The shipped one-class segmentation checkpoints use an Ultralytics architecture. Consult the [upstream licensing information](https://www.ultralytics.com/license) before redistributing or integrating those components. This notice does not assign a new license to the team's research documents, photographs or presentation files.
 
 Other runtime dependencies retain their own licenses: PyTorch/torchvision, NumPy, OpenCV, lap and imageio-ffmpeg. FFmpeg is provided through imageio-ffmpeg or a system installation for Windows recordings. The Pi uses HailoRT and its matching OS driver/firmware; official installers and Hailo Dataflow Compiler are not included in this repository.
+
+Optional Pi breadboard LEDs use the official [libgpiod Python binding](https://pypi.org/project/gpiod/) under LGPL-2.1-or-later.

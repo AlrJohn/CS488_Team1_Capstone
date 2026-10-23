@@ -45,6 +45,8 @@ Select `.venv-windows` as the VS Code Python interpreter. The Run and Debug conf
 
 The application saves your geometry to ignored `vision/configs/local/windows-view.json`. The public `configs/view.json` is only an example. To adjust HSV, copy `configs/colors.json` under `configs/local/`, edit its ranges and pass `--color-config` with that path. The ranges must not overlap. Color uncertainty should stay `unknown` rather than being forced to the desired recipe.
 
+The same color JSON controls the ordinary check under `interior_sampling` (`min_pixels`, `min_coverage`, `min_dominance`) and the white-label fallback under `side_sampling`. The fallback checks left/right body bands inside each can mask after insufficient ordinary evidence. See the [shared color rules](../docs/architecture.md) and [setting definitions](../pi/README.md#configure-another-mounting). Setting `side_sampling.enabled` to `false` leaves only the configured ordinary check. Missing settings use the compatibility defaults. Restart after editing the JSON.
+
 ## Controls and files
 
 | Key | Action |

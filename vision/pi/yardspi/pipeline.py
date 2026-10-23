@@ -1,10 +1,11 @@
-"""Frozen V4 color, deduplication, observation and counting stages."""
+"""Can-color sampling and shared V4 tracking and counting stages."""
 import json
 from pathlib import Path
 from types import SimpleNamespace
 import time
 from common.geometry import Boxes,restore_view
 from common.color_analysis import sample_colors
+from common.settings import InteriorSampling, SideSampling
 from common.instance_quality import deduplicate
 from common.instance_memory import context_area,clipped_edges
 from common.pack_ledger import PackLedger
@@ -18,7 +19,9 @@ class Pipeline:
         self.config=json.loads(Path(runtime or self.root/'configs/runtime.json').read_text())
         self.view=json.loads(Path(view or self.root/'configs/view.json').read_text())
         colors=json.loads(Path(colors or self.root/'configs/colors.json').read_text())
-        self.settings=SimpleNamespace(colors={k:SimpleNamespace(**v) for k,v in colors['colors'].items()})
+        self.settings=SimpleNamespace(colors={k:SimpleNamespace(**v) for k,v in colors['colors'].items()},
+                                      side_sampling=SideSampling(**colors.get('side_sampling',{})),
+                                      interior_sampling=InteriorSampling(**colors.get('interior_sampling',{})))
         self.ledger=PackLedger(self.config['expected_recipe']);self.counter=None
         self.observer=RoiObserver(self.config['tracker']);self.roi=None
     def new_box(self,now):

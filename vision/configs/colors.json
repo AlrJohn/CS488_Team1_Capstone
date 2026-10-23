@@ -19,5 +19,18 @@
       "value_min": 38
     }
   },
-  "rotate_180": true
+  "rotate_180": true,
+  "interior_sampling": {
+    "min_pixels": 25,
+    "min_coverage": 0.1,
+    "min_dominance": 0.6
+  },
+  "side_sampling": {
+    "enabled": true,
+    "band_fraction": 0.2,
+    "min_pixels": 40,
+    "min_coverage": 0.1,
+    "min_dominance": 0.8,
+    "min_row_fraction": 0.35
+  }
 }

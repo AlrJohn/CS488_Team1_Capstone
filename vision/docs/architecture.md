@@ -21,12 +21,17 @@ flowchart TD
 | Windows camera, O/D geometry controls, trial lifecycle and rendering | `windows/run.py` |
 | Windows model prediction and contour display | `windows/detector.py` |
 | Pi capture, Hailo backend selection, rendering and timing | `pi/run.py` |
+| Camera configuration and delivery measurement without a model | `pi/yardspi/camera.py` |
 | HailoRT streams / optional ONNX verification backend | `pi/yardspi/backends.py` |
 | Raw-head reconstruction, box NMS and instance masks | `pi/yardspi/decoding.py` |
 | Pi stage orchestration | `pi/yardspi/pipeline.py` |
+| Pi live color setup, separate from the carton ledger | `pi/yardspi/calibration.py`; fitting in `common/color_calibration.py` |
+| Optional Pi breadboard LEDs, existing pack status to GPIO output | `pi/stack_lights.py`; wiring/test in `pi/GPIO-WIRING.md` and `pi/check_lights.py` |
 | HSV votes, duplicate masks, tracking, confirmation, ledger and defect rules | `common/`, documented in its [file map](../common/README.md) |
 
 The Pi's central call is `row, masks = pipeline.process(frame, now)`. The frame is an oriented BGR image. The returned row includes observations, confirmed identities/colors, counts, reviews, events and timing. Returned display masks are cropped to the count ROI. Color classification happens earlier on the context masks.
+
+With `--calibrate`, the Pi opens the same camera/backend for a separate setup screen before creating a recording or advancing any counts. The screen measures camera-only delivery, collects labeled mask pixels for each color, fits distinct HSV ranges, then evaluates fresh observations through the shared color sampler. Unknowns and missing masks count against verification. A saved profile contains the effective ordinary/side settings and setup metrics, but no images or pixel arrays. Save & Test loads the new profile into a fresh Pipeline and returns to the counter's setup state; P is still required to start counting. Cancel releases resources without starting a run. See the [calibration walkthrough](../pi/CALIBRATION.md).
 
 ## Images, model input and masks
 
@@ -40,7 +45,11 @@ Both programs have masks and boxes. Windows draws the can contour with `findCont
 
 ## Colors, identity and counting
 
-HSV classification samples the mask interior to reduce rim/finger/background contamination. A color needs 25 pixels, 10% sampled coverage and 60% of the colored votes. Otherwise it stays unknown. Silver tops, white printing and poor visibility may leave insufficient evidence. Green artwork on a blue label can also matter when only a fragment is visible.
+HSV classification first samples the mask interior to reduce rim/finger/background contamination. Color conversion and erosion are restricted to each mask's bounding region; votes use only selected pixels. The ordinary check reads its evidence limits from `interior_sampling` in the color JSON: `min_pixels`, `min_coverage` and `min_dominance`. The shipped values are 25 matching pixels, 10% sampled coverage and 60% of the colored votes. Older profiles without this section use those compatibility defaults. Both the Windows settings loader and Pi pipeline load the section before calling the shared sampler. Regression tests compare the default check's labels and pixel diagnostics with the earlier full-image calculation when the fallback is disabled; separate tests verify that each JSON override changes the decision.
+
+A white center label can leave colored strips outside the normal four-percent horizontal trim. If the original check returns unknown from insufficient pixels or coverage, a second check examines the outer 20% on the left and right of the can's bounding rectangle. Both bands stay inside the eroded mask and retain the top/bottom exclusions. At least one band needs 40 matching pixels, 10% coverage of that band's sampled mask and 80% dominance among its colored votes. Its winning color must appear as at least two matching pixels per row across 35% of the cropped can height. Either side can supply the evidence when the other is white. Coverage is checked per side; pooled colored votes must still meet 80% dominance. Two independently qualifying sides with different colors remain unknown. A mixed-color result from the original interior check is not overridden.
+
+These fallback defaults are editable under `side_sampling` in the color JSON. Setting `enabled` to false leaves only the configured ordinary check. Older color files without this section use the new defaults. Diagnostics record `sampling_method`, the original evidence and side evidence when attempted. Silver tops, poor visibility and colors outside the calibrated HSV ranges can still leave a can unknown. Side sampling does not change the model, tracking or the two-of-five confirmation requirement. Its left/right bands assume an approximately upright can; sideways cans and production label artwork need camera trials.
 
 The duplicate filter collapses nearly identical same-color masks within one image: at least 95% containment and a 0.60 minimum area ratio. It does not deduplicate a can across different images.
 
@@ -59,6 +68,9 @@ The ledger stores cumulative counts, unique event IDs, reviews and a box number.
 | Windows rotation | Color JSON or `--rotate-180` / `--no-rotate-180` |
 | ROI and defect position | View JSON; Windows O/D saves an ignored local copy |
 | HSV ranges | Color JSON, selectable with `--color-config` |
+| Ordinary color evidence limits | Color JSON `interior_sampling`, used by both Windows and Pi |
+| White-label side fallback and evidence limits | Color JSON `side_sampling`, used by both Windows and Pi |
+| Pi calibration capture/fitting/verification controls | `configs/calibration.json`, selectable with `--calibration-config` |
 | Pi confidence / NMS thresholds | Runtime JSON `inference.conf` / `inference.iou` |
 | Windows confidence / NMS thresholds | `windows/run.py` inference configuration |
 | Two-of-five observations | `common/instance_memory.py`, `InstanceMemory.update()` |
@@ -71,6 +83,8 @@ Geometry/HSV/tracking/display edits do not require HEF compilation. New trained 
 
 ## Evidence and timing
 
-Windows records images through a bounded background writer and encodes timed MP4s after the trial. The Pi writes optional JPEGs/PNGs in its synchronous loop. Both preserve actual observation times in JSON; repeated video display images are not new observations.
+Windows records images through a bounded background writer and encodes timed MP4s after the trial. The Pi writes optional JPEGs/PNGs in its synchronous loop. Its GUI draws at most 10 FPS by default, independently of analysis. Optional JPEG saving still draws/saves every analyzed frame; `--preview-fps 0` draws on every iteration. Both preserve actual observation times in JSON; repeated video display images are not new observations.
 
 Hailo inference is one part of total latency. The Pi CPU still decodes masks, calculates HSV votes, associates identities and draws/saves. Camera-reported FPS is separate from actual capture delivery and processed FPS. Host timing excludes sensor exposure and existing driver queue age. See [validation](validation.md) for the measured modes rather than treating a TOPS rating as application FPS.
+
+`--probe-camera` measures camera delivery without model loading, GUI, GPIO or image saving. Normal-run read intervals are limited by the processing loop, so they are not an independent camera benchmark. Metadata records the checkout entry point and loaded settings. `--config-dir` selects a station's three JSON files without copying or overwriting them.
