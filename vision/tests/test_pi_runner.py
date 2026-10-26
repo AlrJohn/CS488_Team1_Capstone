@@ -115,6 +115,26 @@ class PiRunnerTests(unittest.TestCase):
         self.assertEqual(len(images), 8)
         self.assertEqual(summary['final']['counts']['red'], 1)
 
+    def test_relay_polarity_reaches_lights_and_session_metadata(self):
+        from stack_lights import StackLights
+        simulated = StackLights(active_low=True)  # Never claim hardware in this test.
+        with patch.object(self.runner, 'StackLights', return_value=simulated) as lights:
+            summary, metadata, _, _ = self.run_trial('--headless', '--gpio', '--gpio-active-low')
+        lights.assert_called_once_with(enabled=True, chip=None, active_low=True)
+        self.assertTrue(metadata['stack_lights']['active_low'])
+        self.assertFalse(metadata['stack_lights']['active_high'])
+        self.assertEqual(summary['final']['counts']['red'], 1)
+
+    def test_relay_polarity_requires_gpio_before_opening_any_hardware(self):
+        with patch.object(self.runner, 'open_camera') as camera, \
+                patch.object(self.runner, 'OnnxBackend') as model, \
+                patch.object(self.runner, 'StackLights') as lights, redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                self.runner.main(['--backend', 'onnx', '--source', '0', '--gpio-active-low'])
+            camera.assert_not_called()
+            model.assert_not_called()
+            lights.assert_not_called()
+
     def live_calibration_trial(self, saved_profile):
         """Simulate setup returning a profile while retaining the camera/model."""
         frame = cv2.cvtColor(np.full((240, 320, 3), (116, 100, 180), np.uint8), cv2.COLOR_HSV2BGR)

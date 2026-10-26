@@ -82,7 +82,8 @@ def main(argv=None):
     ap.add_argument('--seconds',type=float)
     ap.add_argument('--save-preview',action='store_true',help='Include JPEG saving in measured host loop time')
     ap.add_argument('--save-source',action='store_true',help='Save oriented lossless PNGs; include their cost in measured loop time')
-    ap.add_argument('--gpio',action='store_true',help='Enable breadboard LEDs: BCM17 red, BCM27 yellow, BCM22 green')
+    ap.add_argument('--gpio',action='store_true',help='Enable status outputs: BCM17 red, BCM27 yellow, BCM22 green')
+    ap.add_argument('--gpio-active-low',action='store_true',help='LOW activates a verified 3.3 V compatible relay input; requires --gpio')
     ap.add_argument('--gpio-chip',type=int,help='Override RP1 /dev/gpiochip number; detected by controller label otherwise')
     args=ap.parse_args(argv)
     if args.calibrate and (args.probe_camera or args.headless or args.auto_start or args.session
@@ -97,6 +98,7 @@ def main(argv=None):
     if not np.isfinite(args.warmup_seconds) or args.warmup_seconds<0:ap.error('--warmup-seconds must be nonnegative and finite')
     if args.gpio_chip is not None and args.gpio_chip<0:ap.error('--gpio-chip must be nonnegative')
     if args.gpio_chip is not None and not args.gpio:ap.error('--gpio-chip requires --gpio')
+    if args.gpio_active_low and not args.gpio:ap.error('--gpio-active-low requires --gpio')
     if args.probe_camera:
         if args.session or not args.source.isdecimal():ap.error('--probe-camera requires a numeric --source')
         if args.gpio or args.save_source or args.save_preview:ap.error('The camera probe does not use GPIO or image saving')
@@ -121,7 +123,7 @@ def main(argv=None):
         try:args.calibration_policy=CalibrationPolicy.load(args.calibration_config)
         except (OSError,ValueError,TypeError) as exc:ap.error('Invalid calibration configuration: '+str(exc))
     # Lights close before model/camera resources, including on startup failure.
-    with ExitStack() as resources, StackLights(enabled=args.gpio,chip=args.gpio_chip) as lights:
+    with ExitStack() as resources, StackLights(enabled=args.gpio,chip=args.gpio_chip,active_low=args.gpio_active_low) as lights:
         lights.update()  # Yellow throughout setup/model loading.
         run(args,ap,lights,resources)
 

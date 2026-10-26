@@ -1,7 +1,8 @@
-"""Optional, active-high breadboard status LEDs on the Pi 5 RP1 controller.
+"""Optional status outputs for breadboard LEDs or an external relay interface.
 
 BCM17 / physical 11 = red; BCM27 / physical 13 = yellow;
-BCM22 / physical 15 = green. Each LED needs its own series resistor.
+BCM22 / physical 15 = green. Bare LEDs use active-high outputs and resistors;
+verified low-trigger relay inputs use active-low outputs and a safe 3.3 V interface.
 Importing this module never opens GPIO. Hardware is opened only with --gpio.
 """
 from pathlib import Path
@@ -53,8 +54,8 @@ def inspect_chip(chip=None):
 
 
 class GpiodOutput:
-    """Exclusive three-line request; one set_values call updates all outputs."""
-    def __init__(self, chip=None):
+    """Request all outputs initially off, with polarity handled by libgpiod."""
+    def __init__(self, chip=None, *, active_low=False):
         self.info = inspect_chip(chip)
         import gpiod
         from gpiod.line import Direction, Value
@@ -64,6 +65,7 @@ class GpiodOutput:
         self._value = Value
         self._request = gpiod.request_lines(self.info['path'], consumer='yards-stack-lights', config={
             tuple(PINS.values()): gpiod.LineSettings(direction=Direction.OUTPUT,
+                                                   active_low=active_low,
                                                    output_value=Value.INACTIVE)})
 
     def write(self, color):
@@ -76,12 +78,15 @@ class GpiodOutput:
 
 class StackLights:
     """One active color, no repeated writes, and all off before releasing GPIO."""
-    def __init__(self, *, enabled=False, chip=None, output_factory=None):
+    def __init__(self, *, enabled=False, chip=None, active_low=False, output_factory=None):
         self.enabled = enabled
         self.chip = chip
+        self.active_low = active_low
         self.state = 'off'
         self._output = None
-        self._factory = output_factory or GpiodOutput
+        # Test/alternate outputs accept logical color names; only the GPIO
+        # adapter translates those names into the selected electrical polarity.
+        self._factory = output_factory or (lambda chip: GpiodOutput(chip, active_low=self.active_low))
 
     def __enter__(self):
         if self.enabled:
@@ -102,7 +107,8 @@ class StackLights:
         self.show(status_color(pack))
 
     def metadata(self):
-        return dict(enabled=self.enabled, bcm_pins=dict(PINS), active_high=True,
+        return dict(enabled=self.enabled, bcm_pins=dict(PINS), active_high=not self.active_low,
+                    active_low=self.active_low,
                     controller=getattr(self._output, 'info', None))
 
     def close(self):

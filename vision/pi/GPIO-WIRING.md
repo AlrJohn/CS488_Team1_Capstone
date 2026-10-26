@@ -1,5 +1,7 @@
 # Breadboard stack-light prototype
 
+For the actual 24 V tower and relay board, follow [the relay connection plan](STACK-LIGHT-WIRING.md). The resistor-and-LED wiring on this page is only for bare indicator LEDs. Relay polarity is selected with `--gpio-active-low` after checking its input interface.
+
 We use three separate LEDs to display the same decision as the Pi preview. GPIO output happens after counting; it does not change the model, color analysis, tracking or recipe.
 
 | Light | Program decision |

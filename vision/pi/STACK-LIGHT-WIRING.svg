@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1200" viewBox="0 0 1400 1200">
+  <style>
+    text {font-family:Arial, sans-serif; fill:#151515; font-size:19px}
+    .title {font-size:32px; font-weight:bold}
+    .heading {font-size:23px; font-weight:bold}
+    .small {font-size:17px}
+    .wire {fill:none; stroke:#222; stroke-width:3}
+    .box {fill:white; stroke:#333; stroke-width:2}
+    .red {stroke:#b92128}
+    .amber {stroke:#a66a00}
+    .green {stroke:#14783f}
+    .gray {stroke:#6b7280}
+    .logic {stroke:#17689b}
+  </style>
+  <rect width="1400" height="1200" fill="white"/>
+  <text x="40" y="48" class="title">Yards stack light: Pi 5 + four-channel relay + 24 V supply</text>
+  <text x="40" y="81">Connection plan for our code: K1 red / GPIO17; K2 yellow / GPIO27; K3 green / GPIO22.</text>
+  <text x="40" y="110" class="small">Wire with power disconnected. Complete the relay-only and lamp checks in STACK-LIGHT-WIRING.md before use.</text>
+
+  <text x="40" y="153" class="heading">A. Lamp circuit — relay screw terminals only</text>
+  <rect x="40" y="175" width="250" height="310" rx="8" class="box"/>
+  <text x="58" y="209" class="heading">Keyence MS2-H100</text>
+  <text x="58" y="240">24 V DC output</text>
+  <text x="58" y="285">DC +</text>
+  <circle cx="290" cy="280" r="5" fill="#b92128"/>
+  <text x="58" y="453">DC −</text>
+  <circle cx="290" cy="450" r="5" fill="#6b7280"/>
+  <text x="58" y="333" class="small">Mains L / N / earth:</text>
+  <text x="58" y="358" class="small">lab technician fits/checks</text>
+  <text x="58" y="383" class="small">cord, earth and protection.</text>
+  <text x="58" y="411" class="small">DC − is not protective earth.</text>
+
+  <path d="M290 280 H335 M415 280 H470 V400" class="wire red"/>
+  <rect x="335" y="267" width="80" height="26" class="box"/>
+  <text x="341" y="253" class="small">DC fuse*</text>
+  <path d="M470 280 V240 H550 M470 320 H550 M470 400 H550" class="wire red"/>
+  <circle cx="470" cy="320" r="5" fill="#b92128"/>
+  <text x="442" y="211" class="small">+24 V bus</text>
+
+  <rect x="550" y="180" width="320" height="250" rx="8" class="box"/>
+  <text x="571" y="213" class="heading">Relay contacts</text>
+  <g>
+    <circle cx="550" cy="240" r="5" fill="#222"/><circle cx="870" cy="240" r="5" fill="#222"/>
+    <text x="570" y="247">K1 COM</text><text x="782" y="247">NO</text>
+    <path d="M670 240 H691 L746 222 M759 240 H775" class="wire"/>
+    <circle cx="759" cy="240" r="4" fill="white" stroke="#222" stroke-width="2"/>
+    <circle cx="550" cy="320" r="5" fill="#222"/><circle cx="870" cy="320" r="5" fill="#222"/>
+    <text x="570" y="327">K2 COM</text><text x="782" y="327">NO</text>
+    <path d="M670 320 H691 L746 302 M759 320 H775" class="wire"/>
+    <circle cx="759" cy="320" r="4" fill="white" stroke="#222" stroke-width="2"/>
+    <circle cx="550" cy="400" r="5" fill="#222"/><circle cx="870" cy="400" r="5" fill="#222"/>
+    <text x="570" y="407">K3 COM</text><text x="782" y="407">NO</text>
+    <path d="M670 400 H691 L746 382 M759 400 H775" class="wire"/>
+    <circle cx="759" cy="400" r="4" fill="white" stroke="#222" stroke-width="2"/>
+  </g>
+  <path d="M870 240 H1100" class="wire red"/>
+  <path d="M870 320 H1100" class="wire amber"/>
+  <path d="M870 400 H1100" class="wire green"/>
+  <text x="920" y="229">Red wire</text>
+  <text x="897" y="309" class="small">Orange/yellow wire</text>
+  <text x="915" y="389">Green wire</text>
+
+  <rect x="1100" y="175" width="260" height="310" rx="8" class="box"/>
+  <text x="1118" y="209" class="heading">Xunhe XH50 lamp</text>
+  <text x="1125" y="250">Red section</text>
+  <text x="1125" y="330">Yellow/amber section</text>
+  <text x="1125" y="410">Green section</text>
+  <text x="1125" y="460">Gray common</text>
+  <path d="M290 450 H1080 V450 H1100" class="wire gray"/>
+  <text x="569" y="477" class="small">Separate 24 V return — no connection to Pi/relay-control GND.</text>
+  <text x="40" y="519" class="small">* Fuse rating must suit the lamp current and the smallest wire. Gray-to-DC− follows the supplied team's common-negative arrangement;</text>
+  <text x="40" y="545" class="small">the lamp sheet does not mark DC polarity. Verify this arrangement on the actual lamp before final assembly. Insulate purple (buzzer).</text>
+  <text x="40" y="572" class="small">COM = common switch contact. NO = normally open. Leave NC and K4 contacts unused. Symbols above are not physical screw positions.</text>
+
+  <text x="40" y="630" class="heading">B. Control circuit — separate input VCC (3.3 V) and coil JD-VCC (5 V)</text>
+  <rect x="40" y="655" width="300" height="350" rx="8" class="box"/>
+  <text x="60" y="685" class="heading">Raspberry Pi 5 header</text>
+  <rect x="930" y="655" width="430" height="350" rx="8" class="box"/>
+  <text x="951" y="685" class="heading">Relay control headers</text>
+  <text x="60" y="721">Physical 1 — 3.3 V</text>
+  <text x="60" y="771">Physical 2 — 5 V</text>
+  <text x="60" y="821">Physical 6 — GND</text>
+  <text x="60" y="871">Physical 11 — GPIO17</text>
+  <text x="60" y="921">Physical 13 — GPIO27</text>
+  <text x="60" y="971">Physical 15 — GPIO22</text>
+  <path d="M340 715 H930" class="wire logic"/>
+  <path d="M340 765 H930" class="wire"/>
+  <path d="M340 815 H930" class="wire gray"/>
+  <path d="M340 865 H930" class="wire red"/>
+  <path d="M340 915 H930" class="wire amber"/>
+  <path d="M340 965 H930" class="wire green"/>
+  <text x="952" y="721">VCC — six-pin input header</text>
+  <text x="952" y="771">JD-VCC — separate power header</text>
+  <text x="952" y="821">GND — control return</text>
+  <text x="952" y="871">IN1 → K1 → red light</text>
+  <text x="952" y="921">IN2 → K2 → yellow light</text>
+  <text x="952" y="971">IN3 → K3 → green light</text>
+  <text x="401" y="701" class="small">Input power only — not relay coil power</text>
+  <text x="401" y="751" class="small">Coil power only — never 24 V</text>
+  <text x="401" y="851" class="small">LOW turns relay on; HIGH turns it off</text>
+
+  <rect x="40" y="1025" width="1320" height="140" rx="8" class="box"/>
+  <text x="58" y="1054" class="heading">Remove the VCC–JD-VCC jumper BEFORE applying power.</text>
+  <text x="58" y="1084">Add 10 kΩ from EACH IN1 / IN2 / IN3 to VCC (3.3 V). Tie unused IN4 directly to that VCC.</text>
+  <text x="58" y="1114">Check firm on/off switching and ≤3.3 V input levels BEFORE connecting GPIO17/27/22. Some boards need a buffer.</text>
+  <text x="58" y="1144">After checks, run with --gpio --gpio-active-low. This option changes polarity; it does not convert voltage.</text>
+  <text x="40" y="1190" class="small">Prepared from supplied hardware photos, lamp sheet and reference model. Follow the staged checks in STACK-LIGHT-WIRING.md.</text>
+</svg>

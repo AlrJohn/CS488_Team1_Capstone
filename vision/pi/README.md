@@ -48,6 +48,8 @@ The setup screen collects labeled red/green/blue examples, fits HSV ranges and t
 
 The Pi can drive separate red, yellow and green indicator LEDs through BCM17, BCM27 and BCM22. Yellow means setup/counting/waiting; green follows the exact-recipe ready decision; red means review or over target. Each LED requires its own series resistor. Follow the [exact wiring and test instructions](GPIO-WIRING.md) before enabling pins.
 
+For the 24 V Xunhe tower and four-channel relay, use the [stack-light connection plan](STACK-LIGHT-WIRING.md) and [drawing](STACK-LIGHT-WIRING.svg). That plan uses a checked 3.3 V input / 5 V coil interface and `--gpio --gpio-active-low`; the original bare LEDs remain active-high. The polarity option does not convert voltage or establish relay input compatibility.
+
 Install `requirements-gpio.txt` in the same environment, run `check_lights.py` for a read-only availability check, then `check_lights.py --cycle` after wiring. Add `--gpio` to the camera command. `stack_lights.py` handles output and cleanup; model and counting rules are unchanged.
 
 ## Configure another mounting

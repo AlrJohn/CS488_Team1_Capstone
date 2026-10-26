@@ -1,6 +1,9 @@
 """Status decisions and output lifetime, exercised without physical GPIO."""
 from pathlib import Path
 from enum import Enum
+from contextlib import redirect_stdout
+import importlib.util
+import io
 from types import SimpleNamespace
 import sys
 import unittest
@@ -117,7 +120,7 @@ class StackLightTests(unittest.TestCase):
         info = dict(path='/dev/gpiochip0', lines={c:dict(bcm=p, used=False) for c,p in PINS.items()})
         with patch.dict(sys.modules, {'gpiod':api, 'gpiod.line':line_api}), patch('stack_lights.inspect_chip', return_value=info):
             output = GpiodOutput()
-            api.LineSettings.assert_called_once_with(direction='output', output_value=Value.INACTIVE)
+            api.LineSettings.assert_called_once_with(direction='output', active_low=False, output_value=Value.INACTIVE)
             self.assertEqual(set(api.request_lines.call_args.kwargs['config']), {tuple(PINS.values())})
             for color in ('red', 'yellow', 'green', 'off'):
                 output.write(color)
@@ -127,6 +130,50 @@ class StackLightTests(unittest.TestCase):
                                  [] if color == 'off' else [PINS[color]])
             output.close()
             request.release.assert_called_once()
+
+    def test_active_low_driver_requests_off_before_first_write_and_cleans_up_on_error(self):
+        """Logical INACTIVE must mean physical HIGH for low-trigger relays."""
+        class Value(Enum):
+            INACTIVE = 0
+            ACTIVE = 1
+        request = Mock()
+        api = SimpleNamespace(request_lines=Mock(return_value=request), LineSettings=Mock())
+        line_api = SimpleNamespace(Value=Value, Direction=SimpleNamespace(OUTPUT='output'))
+        info = dict(path='/dev/gpiochip0', lines={c:dict(bcm=p, used=False) for c,p in PINS.items()})
+        with patch.dict(sys.modules, {'gpiod':api, 'gpiod.line':line_api}), patch('stack_lights.inspect_chip', return_value=info):
+            with self.assertRaisesRegex(RuntimeError, 'camera stopped'):
+                with StackLights(enabled=True, active_low=True) as lights:
+                    api.LineSettings.assert_called_once_with(direction='output', active_low=True,
+                                                             output_value=Value.INACTIVE)
+                    self.assertTrue(lights.metadata()['active_low'])
+                    self.assertFalse(lights.metadata()['active_high'])
+                    lights.show('red')
+                    self.assertEqual(request.set_values.call_args.args[0],
+                                     {17:Value.ACTIVE, 27:Value.INACTIVE, 22:Value.INACTIVE})
+                    raise RuntimeError('camera stopped')
+        self.assertTrue(all(value == Value.INACTIVE for value in request.set_values.call_args.args[0].values()))
+        request.release.assert_called_once()
+        self.assertEqual(lights.state, 'off')
+
+    def test_read_only_check_does_not_open_outputs_even_when_active_low_is_selected(self):
+        spec = importlib.util.spec_from_file_location('pi_light_check_test', VISION/'pi/check_lights.py')
+        checker = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checker)
+        with patch.object(checker, 'inspect_chip', return_value={}), patch.object(checker, 'StackLights') as lights, \
+                redirect_stdout(io.StringIO()):
+            checker.main(['--gpio-active-low'])
+            lights.assert_not_called()
+
+    def test_light_cycle_passes_active_low_to_the_output_driver(self):
+        spec = importlib.util.spec_from_file_location('pi_light_cycle_test', VISION/'pi/check_lights.py')
+        checker = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checker)
+        with patch.object(checker, 'inspect_chip', return_value={}), patch.object(checker, 'StackLights') as lights, \
+                patch.object(checker.time, 'sleep'), redirect_stdout(io.StringIO()):
+            checker.main(['--cycle', '--gpio-active-low'])
+            lights.assert_called_once_with(enabled=True, chip=None, active_low=True)
+            self.assertEqual([call.args[0] for call in lights.return_value.__enter__.return_value.show.call_args_list],
+                             ['red', 'yellow', 'green'])
 
     def test_driver_does_not_claim_a_pin_used_by_another_program(self):
         api = SimpleNamespace(request_lines=Mock())
