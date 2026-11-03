@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Production Run</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">
+QWidget#centralwidget {
+    background-color: #0B2540;
+}
+
+QLabel {
+    color: white;
+    background: transparent;
+}
+
+QFrame {
+    background-color: #163759;
+    border-radius: 12px;
+}
+
+QPushButton {
+    border-radius: 12px;
+}
+    </string>
+   </property>
+   <widget class="QLabel" name="TitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>10</y>
+      <width>450</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+font-size: 28px;
+font-weight: bold;
+color: white;
+     </string>
+    </property>
+    <property name="text">
+     <string>CAN INSPECTION SYSTEM</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="SubtitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>50</y>
+      <width>131</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+font-size: 13px;
+color: #B8C9D9;
+     </string>
+    </property>
+    <property name="text">
+     <string>Active Production Run</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="ProductionPanel">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>100</y>
+      <width>600</width>
+      <height>280</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="varietyTitle">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>350</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:20px;</string>
+     </property>
+     <property name="text">
+      <string>Current Variety Configuration:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TargetQuantityLabel">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>50</y>
+       <width>181</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:20px;</string>
+     </property>
+     <property name="text">
+      <string>Target Quantity: 12</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="countLabel1">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>120</y>
+       <width>81</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+font-size:20px;
+color:#7CFC00;
+      </string>
+     </property>
+     <property name="text">
+      <string>Green: 0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="RunTimerLabel">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>170</y>
+       <width>191</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+font-size:20px;
+color:#FFD54F;
+font-weight:bold;
+  </string>
+     </property>
+     <property name="text">
+      <string>Run Time: 00:00:00</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="StatusLabel">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>230</y>
+       <width>250</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+background-color:#159447;
+color:white;
+font-size:18px;
+font-weight:bold;
+padding-left:10px;
+border-radius:8px;
+      </string>
+     </property>
+     <property name="text">
+      <string>STATUS: RUNNING</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="countLabel2">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>120</y>
+       <width>81</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+font-size:20px;
+color:#7CFC00;
+      </string>
+     </property>
+     <property name="text">
+      <string>Red: 0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="countLabel3">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>120</y>
+       <width>81</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+font-size:20px;
+color:#7CFC00;
+      </string>
+     </property>
+     <property name="text">
+      <string>Blue: 0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PackCountLabel">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>220</y>
+       <width>191</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+font-size:20px;
+color:#FFD54F;
+font-weight:bold;
+  </string>
+     </property>
+     <property name="text">
+      <string>Packs Completed: 0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="currentCount">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>90</y>
+       <width>350</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:20px;</string>
+     </property>
+     <property name="text">
+      <string>Current Count:</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="StopButton">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>470</y>
+      <width>201</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QPushButton {
+    background-color: #D32F2F;
+    color: white;
+    border: 3px solid #FF7070;
+    border-radius: 15px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #EF5350;
+}
+     </string>
+    </property>
+    <property name="text">
+     <string>STOP</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="WrongCanPopupButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1</width>
+      <height>1</height>
+     </rect>
+    </property>
+    <property name="visible">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Wrong Can Popup Trigger</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PauseButton">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>470</y>
+      <width>201</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+background-color: #F57C00;
+color: white;
+border: 3px solid #FFB74D;
+border-radius: 15px;
+font-size: 28px;
+font-weight: bold;
+}
+ 
+QPushButton:hover {
+background-color: #FB8C00;
+}
+&lt;/string&gt;
+&lt;/property&gt;</string>
+    </property>
+    <property name="text">
+     <string>PAUSE</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>18</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
