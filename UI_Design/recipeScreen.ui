@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Configure Batch</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">
+QWidget#centralwidget {
+    background-color: #0B2540;
+}
+QLabel {
+    color: white;
+    background: transparent;
+}
+QFrame {
+    background-color: #163759;
+    border-radius: 12px;
+}
+    </string>
+   </property>
+   <widget class="QLabel" name="titleLabel">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>10</y>
+      <width>500</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+font-size:28px;
+font-weight:bold;
+color:white;
+     </string>
+    </property>
+    <property name="text">
+     <string>CAN INSPECTION SYSTEM</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="subtitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>50</y>
+      <width>151</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+font-size:18px;
+color:#B8C9D9;
+     </string>
+    </property>
+    <property name="text">
+     <string>Recipe Selection</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="RecipePanel">
+<widget class="QTableWidget" name="recipeTable">
+ <property name="geometry">
+  <rect>
+   <x>20</x>
+   <y>60</y>
+   <width>600</width>
+   <height>180</height>
+  </rect>
+ </property>
+ <column>
+  <property name="text">
+   <string>Recipe Name</string>
+  </property>
+ </column>
+ <column>
+  <property name="text">
+   <string>Flavor Makeup</string>
+  </property>
+ </column>
+ <column>
+  <property name="text">
+   <string>Total</string>
+  </property>
+ </column>
+</widget>
+<widget class="QLabel" name="selectedRecipeLabel">
+ <property name="geometry">
+  <rect>
+   <x>20</x>
+   <y>260</y>
+   <width>300</width>
+   <height>30</height>
+  </rect>
+ </property>
+ <property name="text">
+  <string>Selected Recipe: None</string>
+ </property>
+</widget>
+
+<widget class="QLabel" name="recipeBreakdownLabel">
+ <property name="geometry">
+  <rect>
+   <x>20</x>
+   <y>290</y>
+   <width>500</width>
+   <height>30</height>
+  </rect>
+ </property>
+ <property name="text">
+  <string>Red: 0  Green: 0  Blue: 0</string>
+ </property>
+</widget>
+
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>80</y>
+      <width>650</width>
+      <height>350</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="headerType">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>120</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+    font-size:14px;
+    font-weight:bold;
+    color:white;
+     </string>
+     </property>
+     <property name="text">
+      <string>Recipe Name</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="headerImage">
+     <property name="geometry">
+      <rect>
+       <x>2200</x>
+       <y>20</y>
+       <width>80</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+     font-size:14px;
+    font-weight:bold;
+    color:white;
+     </string>
+     </property>
+     <property name="text">
+      <string>Image</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="headerQty">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>20</y>
+       <width>101</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+     font-size:14px;
+    font-weight:bold;
+    color:white;
+     </string>
+     </property>
+     <property name="text">
+      <string>Total Quantity</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="headerType_2">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>20</y>
+       <width>101</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+    font-size:14px;
+    font-weight:bold;
+    color:white;
+     </string>
+     </property>
+     <property name="text">
+      <string>Flavor Makeup</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="cancelButton">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>500</y>
+      <width>180</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+   QPushButton{
+    background-color:#7C8EA5;
+    color:white;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+   }
+    </string>
+    </property>
+    <property name="text">
+     <string>Cancel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="runButton">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>500</y>
+      <width>180</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+   QPushButton{
+    background-color:#16A34A;
+    color:white;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+   }
+    </string>
+    </property>
+    <property name="text">
+     <string>Start Production Run</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>18</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
