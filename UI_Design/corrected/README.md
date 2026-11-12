@@ -82,6 +82,7 @@ Qt Designer pages -> main.py -> worker.py
 | `widget.py` | History table, details and CSV export. Matched counts/differences compare quantities, rather than measuring physically defective cans. |
 | `station_settings.json` | Camera source, dimensions, format, requested FPS and preview limit. |
 | `Yards*Can.webp` | Can pictures on the recipe screen. |
+| `yards_logo.png` | Logo on Configure Batch. Designer image paths resolve relative to this UI folder, regardless of the launch directory. |
 | `tests/test_integration.py` | Hardware-free tests of the adapter, worker and controls. |
 
 For detection changes, edit the shared Pi/common modules or JSON settings instead of adding another detector here. `Pipeline` has one optional session recipe argument; existing `run.py` calls retain their behavior.

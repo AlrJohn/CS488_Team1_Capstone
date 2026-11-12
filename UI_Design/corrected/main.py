@@ -2,7 +2,7 @@ import sys
 import json
 import argparse
 from pathlib import Path
-from PySide6.QtCore import QFile, QTimer, Qt, QObject, Slot
+from PySide6.QtCore import QDir, QFile, QTimer, Qt, QObject, Slot
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtGui import QColor, QPainter, QPixmap, QImage, QShortcut, QKeySequence
 from PySide6.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QCheckBox,
@@ -108,6 +108,8 @@ class HMI(QObject):
         self.counts = {"Red": 0, "Green": 0, "Blue": 0}
         self.completed_packs = 0
         self.loader = QUiLoader()
+        # Resolve Designer images beside the .ui files, regardless of launch folder.
+        self.loader.setWorkingDirectory(QDir(str(BASE)))
         self.pages = {}
         self.views = {}
         self.designer_windows = {}
