@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QChec
 from widget import InspectionHistory
 from worker import CameraWorker
 from history_store import save_box
+from branding import logo_label
 from recipe_store import load_recipes, save_recipes, validate_recipe
 from vision_runtime import VISION_ROOT, configuration_paths, display_colors, inspection_status
 
@@ -40,15 +41,18 @@ class FittedPage(QGraphicsView):
 
 
 def arrange_home(content):
-    """Center the original buttons on the 800 x 600 Designer canvas."""
+    """Center the logo, heading and buttons on the 800 x 600 canvas."""
+    logo = logo_label(content, 210, 71)
+    logo.move(295, 16)
+    logo.show()
     title = content.findChild(QLabel, 'label')
     subtitle = content.findChild(QLabel, 'label_2')
     if title:
-        title.setGeometry(80, 65, 640, 58)
+        title.setGeometry(80, 98, 640, 45)
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet('color:white; font-size:32px; font-weight:bold; background:transparent;')
     if subtitle:
-        subtitle.setGeometry(80, 126, 640, 28)
+        subtitle.setGeometry(80, 145, 640, 28)
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         subtitle.setStyleSheet('color:#bdd1e0; font-size:15px; background:transparent;')
     for i, (button_name, caption_name) in enumerate((
@@ -68,6 +72,25 @@ def arrange_home(content):
             caption.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
             caption.setStyleSheet('color:white; background:transparent; font-size:14px;')
             caption.raise_()
+
+
+def arrange_header(content, page):
+    """Reserve separate header space for the logo, title and Back to Home."""
+    logo = logo_label(content)
+    logo.move(10, 10)
+    logo.show()
+    title_name, subtitle_name = (('TitleLabel', 'SubtitleLabel') if page == 'run'
+                                 else ('titleLabel', 'subtitleLabel'))
+    title = content.findChild(QLabel, title_name)
+    subtitle = content.findChild(QLabel, subtitle_name)
+    if title:
+        title.setGeometry(175, 10, 435, 34)
+        title.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        title.setStyleSheet('color:white;font-size:24px;font-weight:bold;background:transparent;')
+    if subtitle:
+        subtitle.setGeometry(175, 46, 435, 25)
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        subtitle.setStyleSheet('color:#B8C9D9;font-size:16px;background:transparent;')
 
 
 class StationWindow(QMainWindow):
@@ -138,6 +161,8 @@ class HMI(QObject):
             self.pages[key] = content
             if key == 'home':
                 arrange_home(content)
+            else:
+                arrange_header(content, key)
             view = FittedPage(content)
             self.views[key] = view
             self.stack.addWidget(view)

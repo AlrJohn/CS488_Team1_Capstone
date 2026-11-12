@@ -74,6 +74,7 @@ Qt Designer pages -> main.py -> worker.py
 | File | Responsibility |
 | --- | --- |
 | `main.py` | Navigation, buttons, count labels and saving a finished box. Widget changes stay on Qt's main thread. |
+| `branding.py` | Shared Yards logo loader. Preserves image proportions and loads the image independently of the launch folder. |
 | `worker.py` | Camera/analysis loop and queued Start, Pause, Undo, Review and Finish commands. Owns the camera/model on a separate thread. |
 | `vision_runtime.py` | Adapter to the existing Pi modules: config/model validation, rotation, overlay, GPIO calls and session logs. |
 | The four `.ui` files | Designer layouts and styling. Some preview/control positions are arranged in `main.py`. |
@@ -82,7 +83,7 @@ Qt Designer pages -> main.py -> worker.py
 | `widget.py` | History table, details and CSV export. Matched counts/differences compare quantities, rather than measuring physically defective cans. |
 | `station_settings.json` | Camera source, dimensions, format, requested FPS and preview limit. |
 | `Yards*Can.webp` | Can pictures on the recipe screen. |
-| `yards_logo.png` | Logo on Configure Batch. Designer image paths resolve relative to this UI folder, regardless of the launch directory. |
+| `yards_logo.png` | Shared logo on Home, Configure Batch, Recipe Selection, Production Run and Inspection History. Header positions are arranged in `main.py` and the history layout in `widget.py`. |
 | `tests/test_integration.py` | Hardware-free tests of the adapter, worker and controls. |
 
 For detection changes, edit the shared Pi/common modules or JSON settings instead of adding another detector here. `Pipeline` has one optional session recipe argument; existing `run.py` calls retain their behavior.

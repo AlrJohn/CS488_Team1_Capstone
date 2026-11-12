@@ -2,6 +2,7 @@
 import sys
 import csv
 from history_store import FIELDNAMES
+from branding import logo_label
 from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton,
@@ -74,6 +75,9 @@ class InspectionHistory(QWidget):
         main.setSpacing(18)
 
         header_layout = QHBoxLayout()
+        header_layout.setSpacing(24)
+        # This page uses a 1200px canvas, scaled with the rest of its contents.
+        header_layout.addWidget(logo_label(self, 225, 76))
 
         header = QLabel("CAN INSPECTION SYSTEM")
         header.setStyleSheet(
