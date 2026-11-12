@@ -1,0 +1,8 @@
+{
+  "camera_source": 0,
+  "frame_width": 1280,
+  "frame_height": 720,
+  "camera_fps": 30,
+  "camera_format": "MJPG",
+  "preview_fps": 10
+}

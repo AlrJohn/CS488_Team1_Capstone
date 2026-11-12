@@ -14,7 +14,8 @@ from common.observer import RoiObserver
 
 
 class Pipeline:
-    def __init__(self,root,backend,*,view=None,runtime=None,colors=None):
+    def __init__(self,root,backend,*,view=None,runtime=None,colors=None,recipe=None):
+        """Load station settings; an HMI recipe overrides only this session's target."""
         self.root=Path(root);self.backend=backend
         self.config=json.loads(Path(runtime or self.root/'configs/runtime.json').read_text())
         self.view=json.loads(Path(view or self.root/'configs/view.json').read_text())
@@ -22,7 +23,7 @@ class Pipeline:
         self.settings=SimpleNamespace(colors={k:SimpleNamespace(**v) for k,v in colors['colors'].items()},
                                       side_sampling=SideSampling(**colors.get('side_sampling',{})),
                                       interior_sampling=InteriorSampling(**colors.get('interior_sampling',{})))
-        self.ledger=PackLedger(self.config['expected_recipe']);self.counter=None
+        self.ledger=PackLedger(self.config['expected_recipe'] if recipe is None else recipe);self.counter=None
         self.observer=RoiObserver(self.config['tracker']);self.roi=None
     def new_box(self,now):
         closed=self.ledger.new_box(now)

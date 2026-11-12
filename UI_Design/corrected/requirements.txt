@@ -1,0 +1,3 @@
+# Add this to the existing working Pi Python environment.
+# Essentials includes QtCore, QtGui, QtWidgets and QtUiTools used by these pages.
+PySide6-Essentials>=6.8,<7

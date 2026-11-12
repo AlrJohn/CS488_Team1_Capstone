@@ -64,6 +64,10 @@ vision/**/*.hef
 .ruff_cache/
 .mypy_cache/
 
+# Local HMI recipes, inspection history and station overrides.
+UI_Design/corrected/local/
+UI_Design/corrected/inspection_history.csv*
+
 # Browser automation and access credentials are never project source.
 .playwright-mcp/
 .onedrive-import/

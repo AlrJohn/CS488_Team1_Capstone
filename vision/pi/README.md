@@ -26,6 +26,8 @@ Replace the wheel path with your downloaded file. If using uv, `uv python instal
 
 ## Start the actual Python application
 
+For the integrated touchscreen, see [UI_Design/corrected](../../UI_Design/corrected/README.md). It uses the same pipeline and stack-light module. With the working Pi environment activated, install its Qt dependency and run `python UI_Design/corrected/main.py --backend hailo --source 0 --gpio --gpio-active-low` from the repository root. Close the terminal counter first.
+
 From a terminal on the Pi desktop:
 
 ```bash
