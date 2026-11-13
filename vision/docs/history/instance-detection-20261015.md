@@ -4,7 +4,7 @@
 
 October 15, 2026
 
-We will treat the current HSV-and-contour counter as an unsuccessful baseline for normal grouped picks. The supplied Yards recording already shows merged cans, missed label regions, and false candidates from hands, clothing, and packaging. Better lighting and a fixed camera remain useful, but they do not give a connected-color-region detector a reliable way to separate touching cans. The [recorded-clip results](../../legacy/color_baseline/docs/recorded-clip-test.md) justify investigating a different detector now, while the wooden mockup is being built.
+We will treat the current HSV-and-contour counter as an unsuccessful baseline for normal grouped picks. The supplied Yards recording already shows merged cans, missed label regions, and false candidates from hands, clothing, and packaging. Better lighting and a fixed camera remain useful, but they do not give a connected-color-region detector a reliable way to separate touching cans. The [recorded-clip results](color_baseline/recorded-clip-test.md) justify investigating a different detector now, while the wooden mockup is being built.
 
 No learned detector has been tested on our recording yet. This note records the research and proposed experiment, not a successful V2 implementation. We have not started custom model training.
 

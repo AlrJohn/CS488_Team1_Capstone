@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1050" viewBox="0 0 1400 1050">
+  <defs>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#172633}
+      .title{font-size:31px;font-weight:700}.sub{font-size:18px;fill:#53616b}
+      .h{font-size:23px;font-weight:700}.label{font-size:19px}.small{font-size:16px;fill:#46545e}
+      .line{stroke:#172633;stroke-width:2;fill:none}.lead{stroke:#596875;stroke-width:1.6;fill:none}
+      .bar{fill:#dfe7ed;stroke:#596875;stroke-width:2}.brace{fill:#d9e8fa;stroke:#31658b;stroke-width:2}
+      .base{fill:#f3cf93;stroke:#815d2c;stroke-width:2}.table{fill:#ded6c9;stroke:#786f61;stroke-width:2}
+      .clamp{stroke:#293944;stroke-width:17;stroke-linecap:round;stroke-linejoin:round;fill:none}
+      .bolt{fill:#fff;stroke:#31658b;stroke-width:2}
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#596875"/></marker>
+  </defs>
+  <rect width="1400" height="1050" fill="white"/>
+  <text x="45" y="57" class="title">Holding the extrusion upright with two C-clamps</text>
+  <text x="45" y="90" class="sub">Proposed assembly for your bar. Profile size, table thickness and bracket sizes still need measurement.</text>
+  <rect x="35" y="120" width="695" height="665" rx="12" fill="#f8fafb" stroke="#d7dfe4"/>
+  <rect x="750" y="120" width="615" height="665" rx="12" fill="#f8fafb" stroke="#d7dfe4"/>
+  <text x="60" y="160" class="h">Front: one clamp on each side</text>
+  <text x="60" y="190" class="small">The base rests flat on top of the table.</text>
+  <!-- Front view: the clamp frames project toward the viewer. -->
+  <rect x="344" y="235" width="80" height="315" class="bar"/>
+  <path d="M365 237 V547 M398 237 V547" stroke="#7c8d9a" stroke-width="5"/>
+  <text x="468" y="272" class="label">Your extrusion</text>
+  <path d="M459 279 H438 L420 293" class="lead"/>
+  <path d="M343 439 L251 536 H343 Z M425 439 L517 536 H425 Z" class="brace"/>
+  <rect x="249" y="533" width="95" height="13" class="brace"/>
+  <rect x="424" y="533" width="95" height="13" class="brace"/>
+  <circle cx="351" cy="456" r="6" class="bolt"/><circle cx="351" cy="495" r="6" class="bolt"/>
+  <circle cx="417" cy="456" r="6" class="bolt"/><circle cx="417" cy="495" r="6" class="bolt"/>
+  <circle cx="270" cy="540" r="5" class="bolt"/><circle cx="322" cy="540" r="5" class="bolt"/>
+  <circle cx="446" cy="540" r="5" class="bolt"/><circle cx="497" cy="540" r="5" class="bolt"/>
+  <text x="70" y="371" class="label">Reinforced angle brackets</text>
+  <text x="70" y="396" class="small">Bolted to slots and base</text>
+  <path d="M234 406 L288 478" class="lead" marker-end="url(#arrow)"/>
+  <rect x="168" y="549" width="432" height="23" class="base"/>
+  <rect x="168" y="573" width="432" height="5" fill="#506d61"/>
+  <rect x="80" y="579" width="610" height="72" class="table"/>
+  <text x="329" y="623" class="label">TABLE</text>
+  <!-- Upper and lower clamp contact points seen from front. -->
+  <rect x="192" y="535" width="48" height="14" rx="3" fill="#293944"/>
+  <rect x="528" y="535" width="48" height="14" rx="3" fill="#293944"/>
+  <rect x="193" y="652" width="46" height="13" rx="3" fill="#293944"/>
+  <rect x="529" y="652" width="46" height="13" rx="3" fill="#293944"/>
+  <path d="M216 665 V718 M552 665 V718 M192 711 H240 M528 711 H576" stroke="#293944" stroke-width="7" stroke-linecap="round"/>
+  <text x="177" y="492" class="label">Clamp 1</text><text x="513" y="492" class="label">Clamp 2</text>
+  <path d="M216 501 V526 M552 501 V526" class="lead" marker-end="url(#arrow)"/>
+  <text x="276" y="749" class="small">Clamp bodies wrap around the table edge.</text>
+  <!-- Side view: one actual C-shaped frame around the edge. -->
+  <text x="775" y="160" class="h">Side: how each clamp grips</text>
+  <text x="775" y="190" class="small">Both clamps grip the same table edge.</text>
+  <rect x="1111" y="235" width="42" height="314" class="bar"/>
+  <rect x="1070" y="549" width="245" height="23" class="base"/>
+  <rect x="1070" y="573" width="245" height="5" fill="#506d61"/>
+  <rect x="1070" y="579" width="245" height="72" class="table"/>
+  <text x="1190" y="622" class="label">TABLE</text>
+  <path d="M1101 539 H996 Q984 539 984 554 V684 Q984 699 1001 699 H1093" class="clamp"/>
+  <rect x="1081" y="538" width="39" height="11" rx="3" fill="#293944"/>
+  <rect x="1078" y="652" width="44" height="13" rx="4" fill="#293944"/>
+  <path d="M1100 665 V734 M1075 727 H1125" stroke="#293944" stroke-width="7" stroke-linecap="round"/>
+  <path d="M872 317 H1037 L1090 542" class="lead" marker-end="url(#arrow)"/>
+  <text x="785" y="276" class="label">Fixed upper jaw</text>
+  <text x="785" y="301" class="small">Presses on the base plate</text>
+  <text x="1170" y="469" class="label">Base plate</text>
+  <path d="M1213 479 L1240 548" class="lead" marker-end="url(#arrow)"/>
+  <text x="779" y="423" class="label">C-clamp frame</text>
+  <path d="M925 431 L983 578" class="lead" marker-end="url(#arrow)"/>
+  <text x="784" y="746" class="small">Screw pad presses against the table underside.</text>
+  <text x="45" y="827" class="h">Select clamps by these two measurements</text>
+  <text x="45" y="860" class="label">Opening: must exceed tabletop + base plate + protective pads, with room to position the clamp.</text>
+  <text x="45" y="891" class="label">Throat depth: must reach from the table edge to the gripping point, with a clear underside.</text>
+  <text x="45" y="943" class="small">Example clamp: BESSEY CM40, 4-inch opening and approximately 3-inch throat. Fit must be checked.</text>
+  <text x="45" y="971" class="small">The reinforced bar-to-base joint is essential. The clamps secure the base; they do not bolt directly into the bar.</text>
+  <text x="45" y="1010" class="small">Concept sketch, not to scale. Final base size, fasteners and stability must be checked with the assembled equipment.</text>
+</svg>

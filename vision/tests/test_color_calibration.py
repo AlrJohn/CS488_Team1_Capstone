@@ -1,4 +1,8 @@
-"""Test supervised HSV fitting, held-out decisions and local profile saving."""
+"""Test supervised HSV fitting, held-out decisions and local profile saving.
+
+CS488 Capstone, Team 1.
+"""
+
 from copy import deepcopy
 from dataclasses import asdict, replace
 import json
@@ -12,34 +16,54 @@ import numpy as np
 
 VISION = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(VISION))
-from common.color_calibration import (CalibrationPolicy, Verification, collect_pixels,
-                                      fit_profile, save_profile, select_seed)
+from common.color_calibration import (
+    CalibrationPolicy,
+    Verification,
+    collect_pixels,
+    fit_profile,
+    save_profile,
+    select_seed,
+)
 from common.settings import COLORS, Settings
 
 
 class ColorCalibrationTests(unittest.TestCase):
+    """Group synthetic checks and fixtures for this module's behavior."""
+
     def setUp(self):
-        self.policy = replace(CalibrationPolicy.load(VISION/'configs/calibration.json'),
-                              collection_frames=5, verification_frames=5)
-        self.base = json.loads((VISION/'configs/colors.json').read_text())
-        self.seeds = {name: dict(hue=hue, saturation=100., value=150.)
-                      for name, hue in zip(COLORS, [179, 70, 117])}
-        self.samples = {name: [np.tile([seed['hue'], 100, 150], (100, 1)).astype(np.uint8)
-                              for _ in range(self.policy.collection_frames)]
-                        for name, seed in self.seeds.items()}
+        """Prepare isolated test state."""
+        self.policy = replace(
+            CalibrationPolicy.load(VISION / "configs/calibration.json"),
+            collection_frames=5,
+            verification_frames=5,
+        )
+        self.base = json.loads((VISION / "configs/colors.json").read_text())
+        self.seeds = {
+            name: dict(hue=hue, saturation=100.0, value=150.0)
+            for name, hue in zip(COLORS, [179, 70, 117])
+        }
+        self.samples = {
+            name: [
+                np.tile([seed["hue"], 100, 150], (100, 1)).astype(np.uint8)
+                for _ in range(self.policy.collection_frames)
+            ]
+            for name, seed in self.seeds.items()
+        }
 
     def test_seed_rejects_white_and_pixels_outside_the_can(self):
+        """Check that seed rejects white and pixels outside the can."""
         frame = np.full((40, 80, 3), 220, np.uint8)
         frame[10:30, 20:30] = (0, 0, 240)
         mask = np.zeros((40, 80), np.uint8)
         mask[10:30, 20:60] = 1
         seed = select_seed(frame, mask, (25, 20), self.policy)
-        self.assertLessEqual(seed['hue'], 2)
+        self.assertLessEqual(seed["hue"], 2)
         for point in [(45, 20), (5, 5), (-1, 20)]:
             with self.subTest(point=point), self.assertRaises(ValueError):
                 select_seed(frame, mask, point, self.policy)
 
     def test_collection_excludes_printing_and_background_and_is_bounded(self):
+        """Check that collection excludes printing and background and is bounded."""
         hsv = np.full((100, 100, 3), (116, 220, 220), np.uint8)
         mask = np.zeros((100, 100), np.uint8)
         mask[10:90, 20:80] = 1
@@ -53,47 +77,59 @@ class ColorCalibrationTests(unittest.TestCase):
         self.assertTrue(np.all((pixels[:, 0] >= 175) | (pixels[:, 0] <= 3)))
 
     def test_fit_handles_red_wrap_preserves_other_controls_and_does_not_mutate_base(self):
+        """Check that fit handles red wrap preserves other controls and does not mutate base."""
         before = deepcopy(self.base)
-        for frame in self.samples['red']:
+        for frame in self.samples["red"]:
             frame[::2, 0] = 0
         profile, report = fit_profile(self.base, self.samples, self.seeds, self.policy)
         Settings.from_dict(profile)
         self.assertEqual(self.base, before)
-        self.assertEqual(profile['interior_sampling'], self.base['interior_sampling'])
-        self.assertEqual(profile['side_sampling'], self.base['side_sampling'])
-        self.assertLess(profile['colors']['blue']['saturation_min'], self.base['colors']['blue']['saturation_min'])
-        self.assertTrue(profile['colors']['red']['hue'] >= 175 or profile['colors']['red']['hue'] <= 3)
-        self.assertTrue(all(value['selected_pixel_recall'] >= .9 for value in report.values()))
+        self.assertEqual(profile["interior_sampling"], self.base["interior_sampling"])
+        self.assertEqual(profile["side_sampling"], self.base["side_sampling"])
+        self.assertLess(
+            profile["colors"]["blue"]["saturation_min"],
+            self.base["colors"]["blue"]["saturation_min"],
+        )
+        self.assertTrue(
+            profile["colors"]["red"]["hue"] >= 175 or profile["colors"]["red"]["hue"] <= 3
+        )
+        self.assertTrue(all(value["selected_pixel_recall"] >= 0.9 for value in report.values()))
 
     def test_fit_requires_all_colors_and_rejects_similar_or_mislabeled_seeds(self):
-        with self.assertRaisesRegex(ValueError, 'green'):
-            fit_profile(self.base, {**self.samples, 'green': []}, self.seeds, self.policy)
+        """Check that fit requires all colors and rejects similar or mislabeled seeds."""
+        with self.assertRaisesRegex(ValueError, "green"):
+            fit_profile(self.base, {**self.samples, "green": []}, self.seeds, self.policy)
         seeds = deepcopy(self.seeds)
-        seeds['blue']['hue'] = 70
+        seeds["blue"]["hue"] = 70
         samples = deepcopy(self.samples)
-        for values in samples['blue']:
+        for values in samples["blue"]:
             values[:, 0] = 70
         with self.assertRaises(ValueError):
             fit_profile(self.base, samples, seeds, self.policy)
 
     def test_old_profiles_get_explicit_effective_color_limits_when_fitted(self):
-        self.base.pop('interior_sampling')
-        self.base.pop('side_sampling')
+        """Check that old profiles get explicit effective color limits when fitted."""
+        self.base.pop("interior_sampling")
+        self.base.pop("side_sampling")
         profile, _ = fit_profile(self.base, self.samples, self.seeds, self.policy)
-        self.assertEqual(profile['interior_sampling']['min_pixels'], 25)
-        self.assertEqual(profile['side_sampling']['min_pixels'], 40)
+        self.assertEqual(profile["interior_sampling"]["min_pixels"], 25)
+        self.assertEqual(profile["side_sampling"]["min_pixels"], 40)
 
     def test_verification_counts_unknowns_and_wrong_colors_instead_of_skipping_them(self):
-        item = Verification('red', self.policy)
-        for prediction in ['red', 'red', 'unknown', 'blue', 'red']:
+        """Check that verification counts unknowns and wrong colors instead of skipping them."""
+        item = Verification("red", self.policy)
+        for prediction in ["red", "red", "unknown", "blue", "red"]:
             item.add(prediction)
         result = item.summary()
-        self.assertEqual((result['total'], result['correct'], result['wrong'], result['unknown']), (5, 3, 1, 1))
-        self.assertFalse(result['passed'])
-        item.add('red')
-        self.assertEqual(item.summary()['total'], 5)
+        self.assertEqual(
+            (result["total"], result["correct"], result["wrong"], result["unknown"]), (5, 3, 1, 1)
+        )
+        self.assertFalse(result["passed"])
+        item.add("red")
+        self.assertEqual(item.summary()["total"], 5)
 
     def test_saving_requires_all_verified_colors_and_never_overwrites_a_profile(self):
+        """Check that saving requires all verified colors and never overwrites a profile."""
         profile, report = fit_profile(self.base, self.samples, self.seeds, self.policy)
         verification = {name: Verification(name, self.policy) for name in COLORS}
         with tempfile.TemporaryDirectory() as folder:
@@ -109,16 +145,24 @@ class ColorCalibrationTests(unittest.TestCase):
             self.assertNotEqual(first, second)
             self.assertEqual(first.read_bytes(), original)
             Settings.load(first)
-            self.assertTrue(json.loads(first.read_text())['calibration']['verification']['blue']['passed'])
+            self.assertTrue(
+                json.loads(first.read_text())["calibration"]["verification"]["blue"]["passed"]
+            )
 
     def test_policy_is_json_controlled_and_rejects_invalid_limits(self):
+        """Check that policy is json controlled and rejects invalid limits."""
         self.assertEqual(CalibrationPolicy(**asdict(self.policy)), self.policy)
-        for changes in [dict(collection_frames=0), dict(probe_seconds=float('nan')),
-                        dict(seed_hue_window=90), dict(max_hue_tolerance=45),
-                        dict(minimum_verification_accuracy=1.1), dict(collection_timeout_seconds=.1)]:
+        for changes in [
+            dict(collection_frames=0),
+            dict(probe_seconds=float("nan")),
+            dict(seed_hue_window=90),
+            dict(max_hue_tolerance=45),
+            dict(minimum_verification_accuracy=1.1),
+            dict(collection_timeout_seconds=0.1),
+        ]:
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 replace(self.policy, **changes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

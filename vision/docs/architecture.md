@@ -27,6 +27,8 @@ flowchart TD
 | Pi stage orchestration | `pi/yardspi/pipeline.py` |
 | Pi live color setup, separate from the carton ledger | `pi/yardspi/calibration.py`; fitting in `common/color_calibration.py` |
 | Optional Pi breadboard LEDs, existing pack status to GPIO output | `pi/stack_lights.py`; wiring/test in `pi/GPIO-WIRING.md` and `pi/check_lights.py` |
+| Touchscreen navigation, recipe controls and final history saving | `../../UI_Design/corrected/main.py`, `widget.py`, `recipe_store.py`, `history_store.py` |
+| Touchscreen camera thread and adapter to this same pipeline | `../../UI_Design/corrected/worker.py`, `vision_runtime.py` |
 | HSV votes, duplicate masks, tracking, confirmation, ledger and defect rules | `common/`, documented in its [file map](../common/README.md) |
 
 The Pi's central call is `row, masks = pipeline.process(frame, now)`. The frame is an oriented BGR image. The returned row includes observations, confirmed identities/colors, counts, reviews, events and timing. Returned display masks are cropped to the count ROI. Color classification happens earlier on the context masks.

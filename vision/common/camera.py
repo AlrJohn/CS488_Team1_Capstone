@@ -1,19 +1,28 @@
-"""Camera opening and recording orientation helpers from the Windows prototype."""
+"""Camera opening and recording orientation helpers from the Windows prototype.
+
+CS488 Capstone, Team 1.
+"""
+
 import json
 from pathlib import Path
 import sys
 import cv2
 import numpy as np
 
+
 def has_image_signal(frame):
     """Reject empty/constant backend frames; this does not assess lighting quality."""
     return frame is not None and frame.size > 0 and int(np.ptp(frame)) > 3
 
+
 def orientation_path(path):
+    """Return the sidecar path that records a video's saved orientation."""
     path = Path(path)
     return path.with_suffix(path.suffix + ".orientation.json")
 
+
 def recorded_rotation(path):
+    """Read a recording's rotation flag; reject malformed orientation metadata."""
     metadata = orientation_path(path)
     if not metadata.exists():
         return False  # Older recordings contain the original camera view.
@@ -22,12 +31,22 @@ def recorded_rotation(path):
         raise ValueError(f"Invalid recording orientation in {metadata}")
     return data["rotate_180"]
 
+
 def orient_frame(frame, target_rotation, source_rotation=False):
     # A recorded file may already contain the correction. Apply only the
     # difference so replay uses the same coordinates as the saved calibration.
+    """Rotate only when source and requested orientations differ."""
     return cv2.rotate(frame, cv2.ROTATE_180) if target_rotation != source_rotation else frame
 
+
 def open_source(source, backend, width, height):
+    """Try the selected capture backends and return a usable camera or video.
+
+    Returns:
+        The open capture and a flag indicating a live camera.
+    Raises:
+        RuntimeError: No backend delivers a usable source image.
+    """
     camera = source.isdecimal()
     value = int(source) if camera else source
     apis = {"dshow": cv2.CAP_DSHOW, "msmf": cv2.CAP_MSMF, "any": cv2.CAP_ANY}
@@ -64,5 +83,9 @@ def open_source(source, backend, width, height):
                 continue
         return capture, camera
     if blank_camera:
-        raise RuntimeError(f"Source {source!r} opened but delivered no usable image. Check the lens, lighting, and camera backend; try --backend dshow from the VS Code terminal.")
-    raise RuntimeError(f"Cannot open source {source!r}. Close other camera apps, check Windows camera permissions, or try --source 1 / --backend msmf.")
+        raise RuntimeError(
+            f"Source {source!r} opened but delivered no usable image. Check the lens, lighting, and camera backend; try --backend dshow from the VS Code terminal."
+        )
+    raise RuntimeError(
+        f"Cannot open source {source!r}. Close other camera apps, check Windows camera permissions, or try --source 1 / --backend msmf."
+    )

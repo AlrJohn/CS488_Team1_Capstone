@@ -17,6 +17,10 @@ tmp/
 ~$*
 .DS_Store
 Thumbs.db
+*.autosave
+.coverage
+.coverage.*
+htmlcov/
 
 # Local camera calibration and test recordings
 vision/configs/local.json

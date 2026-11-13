@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1210" viewBox="0 0 1280 1210">
+<defs>
+<linearGradient id="pole" x1="0" x2="1"><stop stop-color="#17232f"/><stop offset=".45" stop-color="#667481"/><stop offset="1" stop-color="#263441"/></linearGradient>
+<marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#47617b"/></marker>
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#172c40}.title{font-size:30px;font-weight:700}.sub{font-size:16px;fill:#51677b}.label{font-size:17px;font-weight:650}.small{font-size:14px;fill:#465c70}.tiny{font-size:12px;fill:#465c70}.num{font-size:16px;font-weight:700;fill:white}.wood{fill:#c4a174;stroke:#795e3d;stroke-width:2}.call{fill:#2f627f}.metal{stroke:#5c7081;stroke-width:7;fill:none;stroke-linecap:round}</style>
+</defs>
+<rect width="1280" height="1210" fill="#f5f8fb"/>
+<text x="40" y="48" class="title">VIVO pole demo station</text>
+<text x="40" y="78" class="sub">39-inch STAND-V011 • adjustable camera • custom mounting boards • schematic, not a drilling template</text>
+<rect x="811" y="108" width="429" height="748" rx="16" fill="white" stroke="#d6e1eb"/>
+<!-- round upright -->
+<rect x="349" y="123" width="31" height="620" rx="9" fill="url(#pole)" stroke="#122332" stroke-width="2"/>
+<path d="M350 330H379 M350 530H379" stroke="#91a0ad" stroke-width="2"/>
+<ellipse cx="365" cy="125" rx="15" ry="5" fill="#172b3a"/>
+<!-- lamp backing and shelf -->
+<rect x="325" y="184" width="55" height="147" rx="3" class="wood"/>
+<path d="M321 206H388 M321 299H388" class="metal"/>
+<circle cx="333" cy="206" r="5" fill="#c3d2df"/><circle cx="373" cy="206" r="5" fill="#c3d2df"/>
+<circle cx="333" cy="299" r="5" fill="#c3d2df"/><circle cx="373" cy="299" r="5" fill="#c3d2df"/>
+<rect x="231" y="256" width="96" height="11" class="wood"/>
+<path d="M320 267V296 M320 272H253" stroke="#283f50" stroke-width="9" fill="none"/>
+<rect x="245" y="237" width="70" height="19" rx="6" fill="#e6ebef" stroke="#8397a8"/>
+<rect x="270" y="216" width="20" height="25" fill="#d5dfe6"/>
+<rect x="250" y="108" width="59" height="111" rx="9" fill="#dae4eb" stroke="#7891a4"/>
+<rect x="255" y="113" width="49" height="31" rx="6" fill="#c84b4b"/>
+<rect x="255" y="148" width="49" height="31" rx="5" fill="#dcb74b"/>
+<rect x="255" y="183" width="49" height="31" rx="5" fill="#4c9d68"/>
+<text x="87" y="153" class="small">Existing stack light</text><path d="M205 150H247" stroke="#6b7e8d" fill="none"/>
+<!-- camera -->
+<rect x="343" y="353" width="43" height="25" rx="4" fill="#1b3042"/>
+<path d="M383 365L436 325" stroke="#48647a" stroke-width="12" stroke-linecap="round"/>
+<circle cx="383" cy="365" r="10" fill="#182e41"/><circle cx="436" cy="325" r="10" fill="#182e41"/>
+<rect x="427" y="279" width="64" height="43" rx="6" fill="#243c50" stroke="#0b1f2e" stroke-width="2"/>
+<rect x="485" y="286" width="26" height="28" rx="5" fill="#1a2e3e"/>
+<ellipse cx="511" cy="300" rx="8" ry="14" fill="#92c6db" stroke="#1a3548" stroke-width="4"/>
+<text x="431" y="261" class="small">ELP camera</text>
+<path d="M431 316C408 365 407 458 402 520" stroke="#375368" stroke-width="4" fill="none"/>
+<path d="M526 311L586 343 M526 291L589 270" stroke="#bdd1e1" stroke-width="2" stroke-dasharray="5 5"/>
+<!-- included screen arm -->
+<path d="M349 461H316L285 443" stroke="#253f54" stroke-width="13" fill="none" stroke-linejoin="round"/>
+<circle cx="315" cy="461" r="9" fill="#638096"/>
+<rect x="67" y="395" width="223" height="157" rx="5" class="wood"/>
+<rect x="76" y="403" width="205" height="142" rx="8" fill="#182e41"/>
+<rect x="87" y="415" width="183" height="101" rx="3" fill="#eff5fa"/>
+<text x="100" y="439" style="font-size:15px;font-weight:650">Packing counter</text>
+<rect x="99" y="452" width="45" height="46" rx="4" fill="#f1d7d5"/><rect x="155" y="452" width="45" height="46" rx="4" fill="#d7eadc"/><rect x="211" y="452" width="45" height="46" rx="4" fill="#d6e5f2"/>
+<text x="114" y="481" class="label">0</text><text x="170" y="481" class="label">0</text><text x="226" y="481" class="label">0</text>
+<text x="102" y="533" style="font-size:11px;fill:white">Screen illustration</text>
+<text x="66" y="576" class="small">Plywood adapter + screen standoffs</text>
+<!-- enclosure offset laterally to clear the VIVO base -->
+<rect x="310" y="590" width="430" height="173" rx="3" class="wood"/>
+<path d="M329 619H399 M329 710H399" class="metal"/><circle cx="340" cy="619" r="5" fill="#c3d2df"/><circle cx="389" cy="619" r="5" fill="#c3d2df"/><circle cx="340" cy="710" r="5" fill="#c3d2df"/><circle cx="389" cy="710" r="5" fill="#c3d2df"/>
+<rect x="425" y="595" width="290" height="168" rx="12" fill="#344c60" stroke="#172b3c" stroke-width="3"/>
+<rect x="436" y="605" width="268" height="148" rx="8" fill="#415c71" stroke="#95a9ba"/>
+
+
+<text x="451" y="693" style="font-size:17px;font-weight:650;fill:white">Owned ABS enclosure</text>
+<text x="451" y="719" style="font-size:15px;fill:#e3ecf4">Pi 5 + Hailo-8 + relay</text>
+<text x="451" y="740" style="font-size:12px;fill:#e3ecf4">U-bolts + locally provided clearance</text>
+
+<!-- Keyence kept separate -->
+<rect x="50" y="635" width="159" height="127" rx="10" fill="white" stroke="#7f94a5" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="64" y="667" class="label">Keyence</text>
+<text x="64" y="693" class="small">Protected housing</text>
+<text x="64" y="716" class="small">confirmation</text>
+<text x="64" y="737" class="small">pending</text>
+<!-- table, original clamp -->
+<rect x="22" y="765" width="742" height="31" rx="2" fill="#dce5ed" stroke="#849aab" stroke-width="2"/>
+<path d="M344 747H392V757H344Z" fill="#213b50"/>
+<path d="M392 756H415V837H355" fill="none" stroke="#263f54" stroke-width="13" stroke-linejoin="round"/>
+<path d="M364 833V802" stroke="#879cab" stroke-width="8"/><rect x="345" y="798" width="38" height="7" rx="2" fill="#557087"/>
+<path d="M345 845H385" stroke="#557087" stroke-width="6"/>
+<text x="53" y="833" class="label">Box weight rests on the table</text>
+<text x="53" y="856" class="small">Offset box beside base; pole keeps it positioned.</text>
+<text x="453" y="818" class="small">Included VIVO desk clamp</text>
+<text x="453" y="841" class="small">10–85 mm tabletop per manual</text>
+<!-- callout numbers -->
+<g><circle cx="404" cy="132" r="16" class="call"/><text x="399" y="138" class="num">1</text>
+<circle cx="542" cy="292" r="16" class="call"/><text x="537" y="298" class="num">2</text>
+<circle cx="47" cy="412" r="16" class="call"/><text x="42" y="418" class="num">3</text>
+<circle cx="212" cy="242" r="16" class="call"/><text x="207" y="248" class="num">4</text>
+<circle cx="759" cy="713" r="16" class="call"/><text x="754" y="719" class="num">5</text>
+<circle cx="32" cy="649" r="16" class="call"/><text x="27" y="655" class="num">6</text></g>
+<!-- legend -->
+<text x="837" y="145" class="label">Parts and connections</text>
+<text x="837" y="185" class="label">1  Stand — P1</text>
+<text x="837" y="210" class="small">Complete STAND-V011, nominal 35 mm pole.</text>
+<text x="837" y="232" class="small">Includes table clamp, arm and VESA plate.</text>
+<text x="837" y="276" class="label">2  Camera — P2</text>
+<text x="837" y="301" class="small">Clamp slides vertically; ball head sets angle.</text>
+<text x="837" y="323" class="small">Keep the arm short and cable slack.</text>
+<text x="837" y="367" class="label">3  Touchscreen — P5 + local adapter</text>
+<text x="837" y="392" class="small">Custom board joins screen tabs to VESA.</text>
+<text x="837" y="414" class="small">Use the included VIVO arm; no extra arm.</text>
+<text x="837" y="458" class="label">4  Stack light — local fabrication</text>
+<text x="837" y="483" class="small">Use a locally made bracket or platform.</text>
+<text x="837" y="505" class="small">P3 has two spare U-bolts for this mount.</text>
+<text x="837" y="549" class="label">5  Box — P3 + local backing / spacers</text>
+<text x="837" y="574" class="small">Two U-bolts; provide local clearance spacers.</text>
+<text x="837" y="596" class="small">Use existing tabs, clear the lid and ports.</text>
+<text x="837" y="640" class="label">6  Keyence — housing still to confirm</text>
+<text x="837" y="665" class="small">Confirm the existing protected installation.</text>
+<text x="837" y="687" class="small">Keep its weight supported on the table.</text>
+<path d="M836 720H1210" stroke="#d5e1eb"/>
+<text x="837" y="754" class="label">Lighting and cooling</text>
+<text x="837" y="779" class="small">Use available lighting and the Pi cooler.</text>
+<text x="837" y="801" class="small">Check glare and temperature after assembly.</text>
+<text x="837" y="830" class="tiny">Component IDs match demo-station-parts.md.</text>
+<!-- enclosure clearance inset -->
+<rect x="40" y="889" width="1200" height="279" rx="16" fill="white" stroke="#d6e1eb"/>
+<text x="64" y="927" class="label">Enclosure attachment — side-section sketch</text>
+<text x="64" y="951" class="small">Trim U-bolt ends and provide local spacers; the earlier layout used a 20 mm gap as an example.</text>
+<!-- side section, view along U-bolt plane -->
+<circle cx="173" cy="1048" r="34" fill="url(#pole)" stroke="#20384c" stroke-width="2"/>
+<path d="M173 1008A40 40 0 0 0 173 1088" stroke="#879eae" stroke-width="5" fill="none"/>
+<path d="M296 1004H170C113 1004 113 1092 170 1092H296" fill="none" stroke="#607e93" stroke-width="7" stroke-linecap="round"/>
+<rect x="240" y="989" width="18" height="125" class="wood"/>
+<rect x="259" y="997" width="5" height="104" fill="#7893a8"/>
+<rect x="266" y="997" width="16" height="14" fill="#324f67"/><rect x="266" y="1085" width="16" height="14" fill="#324f67"/>
+<rect x="345" y="988" width="123" height="128" rx="8" fill="#415d73" stroke="#203a4f" stroke-width="2"/>
+<rect x="259" y="1035" width="86" height="15" fill="#d3dce4" stroke="#859cac"/>
+<path d="M231 1043H361" stroke="#244e6b" stroke-width="4"/><circle cx="230" cy="1043" r="6" fill="#244e6b"/><rect x="356" y="1036" width="10" height="14" fill="#244e6b"/>
+<path d="M264 1128H343" stroke="#47617b" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="277" y="1151" class="tiny">Example gap</text>
+<text x="119" y="1149" class="tiny">35 mm pole + thin pad</text>
+<text x="354" y="1149" class="tiny">Box tab / ABS back</text>
+<text x="510" y="994" class="label">Connection order</text>
+<text x="510" y="1023" class="small">Pole + thin rubber → plywood → U-bolt plate / washers / nuts.</text>
+<text x="510" y="1050" class="small">Local fasteners hold the box tabs clear of the U-bolt hardware.</text>
+<text x="510" y="1077" class="small">The trimmed U-bolt ends must stay clear of the box.</text>
+<text x="510" y="1104" class="small">Mark holes from actual parts; this inset is not to scale.</text>
+<text x="510" y="1134" class="tiny">Dry-fit, trim away from electronics, deburr, then reassemble.</text>
+</svg>
+

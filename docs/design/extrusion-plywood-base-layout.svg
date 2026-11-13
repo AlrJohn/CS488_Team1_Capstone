@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1080" viewBox="0 0 1400 1080">
+ <defs>
+  <style>
+   text{font-family:Arial,Helvetica,sans-serif;fill:#1b2c3a}
+   .title{font-size:30px;font-weight:700}.h{font-size:22px;font-weight:700}.label{font-size:19px}.small{font-size:16px;fill:#53636d}
+   .dimension{stroke:#53636d;stroke-width:1.5;fill:none}.leader{stroke:#53636d;stroke-width:1.5;fill:none}
+   .bracket{fill:#d6e8f8;stroke:#376d95;stroke-width:2}.hole{fill:white;stroke:#376d95;stroke-width:2}
+  </style>
+  <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8" fill="#53636d"/></marker>
+ </defs>
+ <rect width="1400" height="1080" fill="white"/>
+ <text x="40" y="49" class="title">Plywood base with three brackets and two clamps</text>
+ <text x="40" y="79" class="small">Suggested prototype layout. Confirm the actual bar, brackets and clamp clearance before cutting or drilling.</text>
+ <!-- Top view. Board is drawn at 50 pixels per inch; component footprints are illustrative. -->
+ <text x="141" y="116" class="h">TOP VIEW</text>
+ <path d="M140 151 V133 M940 151 V133 M145 139 H935" class="dimension" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+ <rect x="467" y="123" width="145" height="29" fill="white"/>
+ <text x="490" y="144" class="label">16 inches</text>
+ <rect x="140" y="170" width="800" height="600" rx="3" fill="#f7e6c8" stroke="#986f37" stroke-width="2"/>
+ <path d="M124 170 H95 M124 770 H95 M102 176 V764" class="dimension" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+ <rect x="84" y="405" width="33" height="130" fill="white"/>
+ <text x="107" y="519" class="label" transform="rotate(-90 107 519)">12 inches</text>
+ <text x="348" y="220" class="label">Base extends into the table</text>
+ <path d="M540 285 V239" class="dimension" marker-end="url(#arrow)"/>
+ <!-- Rear/inward bracket footprint. -->
+ <rect x="505" y="355" width="70" height="190" class="bracket"/>
+ <path d="M540 367 V535" stroke="#376d95" stroke-width="5"/>
+ <circle cx="518" cy="374" r="6" class="hole"/><circle cx="562" cy="374" r="6" class="hole"/>
+ <circle cx="518" cy="525" r="6" class="hole"/><circle cx="562" cy="525" r="6" class="hole"/>
+ <text x="601" y="395" class="label">Third reinforced bracket</text>
+ <text x="601" y="420" class="small">Extends away from the clamps</text>
+ <path d="M594 428 L573 449" class="leader" marker-end="url(#arrow)"/>
+ <!-- Left and right bracket footprints. -->
+ <rect x="340" y="555" width="150" height="70" class="bracket"/>
+ <rect x="590" y="555" width="150" height="70" class="bracket"/>
+ <path d="M350 590 H480 M600 590 H730" stroke="#376d95" stroke-width="5"/>
+ <circle cx="355" cy="569" r="6" class="hole"/><circle cx="473" cy="569" r="6" class="hole"/>
+ <circle cx="355" cy="612" r="6" class="hole"/><circle cx="473" cy="612" r="6" class="hole"/>
+ <circle cx="605" cy="569" r="6" class="hole"/><circle cx="723" cy="569" r="6" class="hole"/>
+ <circle cx="605" cy="612" r="6" class="hole"/><circle cx="723" cy="612" r="6" class="hole"/>
+ <!-- Actual extrusion cross-section is deliberately schematic. -->
+ <rect x="490" y="545" width="100" height="100" fill="#dae2e8" stroke="#596e7d" stroke-width="2"/>
+ <path d="M510 549 V641 M570 549 V641" stroke="#8c9daa" stroke-width="5"/>
+ <text x="500" y="584" class="small">Upright</text><text x="507" y="607" class="small">bar</text>
+ <text x="310" y="526" class="small">Left bracket</text><text x="654" y="526" class="small">Right bracket</text>
+ <!-- Clamp top jaws with frame extending beyond the edge. -->
+ <path d="M240 810 V690 M840 810 V690" stroke="#243944" stroke-width="15" stroke-linecap="round"/>
+ <rect x="214" y="665" width="52" height="27" rx="4" fill="#243944"/>
+ <rect x="814" y="665" width="52" height="27" rx="4" fill="#243944"/>
+ <text x="205" y="642" class="label">Clamp 1</text><text x="800" y="642" class="label">Clamp 2</text>
+ <path d="M123 770 H959" stroke="#986f37" stroke-width="4"/>
+ <text x="351" y="806" class="label">TABLE EDGE / CLAMP SIDE</text>
+ <!-- Offset dimension for mast. -->
+ <path d="M753 595 H781 M781 595 V770 M753 770 H781" class="dimension"/>
+ <path d="M773 601 V764" class="dimension" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+ <text x="597" y="713" class="small">Bar center: about 3-4 in</text>
+ <text x="597" y="738" class="small">from the clamped edge</text>
+ <!-- Notes on right. -->
+ <rect x="990" y="170" width="370" height="640" rx="10" fill="#f6f8fa" stroke="#d7e0e6"/>
+ <text x="1015" y="209" class="h">Starting dimensions</text>
+ <text x="1015" y="247" class="label">16 in across the edge</text>
+ <text x="1015" y="278" class="label">12 in into the table</text>
+ <text x="1015" y="309" class="label">3/4 in plywood thickness</text>
+ <text x="1015" y="363" class="h">Placement</text>
+ <text x="1015" y="400" class="label">Both clamps on the same edge</text>
+ <text x="1015" y="431" class="label">About 12 in between clamps</text>
+ <text x="1015" y="462" class="label">Jaws about 2 in in from edge</text>
+ <text x="1015" y="510" class="small">Allow space for the real clamp jaws</text>
+ <text x="1015" y="533" class="small">and every bracket mounting hole.</text>
+ <text x="1015" y="585" class="h">Keep the underside flat</text>
+ <text x="1015" y="624" class="label">Use flush hardware underneath.</text>
+ <text x="1015" y="655" class="label">Keep the entire base on the table.</text>
+ <text x="1015" y="699" class="small">A protruding bolt or uneven padding</text>
+ <text x="1015" y="722" class="small">can act as a pivot and lift an edge.</text>
+ <text x="1015" y="765" class="small">Bracket footprints and holes shown</text>
+ <text x="1015" y="788" class="small">are illustrative, not drilling templates.</text>
+ <!-- Side profile: flat bearing. -->
+ <text x="42" y="873" class="h">The base should sit flat before either clamp is tightened</text>
+ <rect x="142" y="910" width="800" height="24" fill="#f7e6c8" stroke="#986f37" stroke-width="2"/>
+ <rect x="140" y="936" width="804" height="55" fill="#ded8cc" stroke="#8d8375" stroke-width="2"/>
+ <text x="430" y="972" class="label">TABLETOP SUPPORTS THE WHOLE BASE</text>
+ <text x="991" y="937" class="label">No hardware sticking down.</text>
+ <text x="991" y="969" class="label">No unsupported overhang.</text>
+ <text x="42" y="1032" class="small">These dimensions are a prototype starting point. Check stiffness and movement with the actual equipment and arm positions.</text>
+</svg>

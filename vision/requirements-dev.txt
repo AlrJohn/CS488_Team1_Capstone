@@ -1,0 +1,4 @@
+# Optional software checks; install after the appropriate platform requirements.
+ruff==0.17.5
+pytest==9.2.0
+coverage==7.17.3

@@ -11,7 +11,7 @@ python vision/tools/verify_models.py
 python -m unittest discover -s vision/tests -v
 ```
 
-These tests cover mask-limited color sampling, touching versus duplicate masks, observed-frame confirmation, ID reconnection, one admission per identity, ordinary disappearance, left defects and over-target totals. The [legacy prototype](../legacy/color_baseline/README.md) has a separate 47-test suite; its crossing rules are not the current pack policy.
+These tests cover mask-limited color sampling, touching versus duplicate masks, observed-frame confirmation, ID reconnection, one admission per identity, ordinary disappearance, left defects and over-target totals. The retired color-only prototype's tests remain in Git history; they are not part of the current application suite.
 
 Color tests compare the original check's labels, sampled-pixel counts, votes, coverage, dominance and failure reasons with the full-image calculation while the side fallback is disabled. Cases include hue wrap, image edges, hand-shaped holes, empty/small masks and 0/255 masks. Side-fallback cases cover white centers with narrow red/green/blue strips, one visible side, conflicting sides, small colored patches, background exclusion, glare and rim exclusion, plus the disable control. A Pi pipeline check verifies that recovered side color still needs two observations before counting. Camera tests use a simulated device whose reported FPS differs from delivery. Runner tests verify station settings, cleanup and continued analysis/counting while GUI draws are skipped. These checks do not establish hardware frame rates.
 
@@ -20,6 +20,28 @@ The optional Pi indicator tests use fake outputs to check status mapping, atomic
 Ordinary color-limit tests load edited JSON and show that each `interior_sampling` value changes acceptance independently. They also check invalid limits and older profiles without the section. The Pi pipeline has an additional check that a JSON pixel limit affects the actual count decision, with the side fallback disabled to isolate the ordinary check.
 
 Calibration tests cover clicked-mask boundaries, white printing/background rejection, bounded pixel storage, red hue wrap, range separation, unchanged counting thresholds, verification unknowns/wrong colors, guarded saves and unique profile names. A simulated camera/model drives the real screen workflow through collection, fitting, fresh verification and saving. Runner checks verify that the same open camera/backend continue with the saved profile, counting still waits for P, and cancellation creates no recording. Rendered screens are inspected separately. These are software checks without ARM/Hailo hardware or a physical touch display.
+
+## Complete local software suite
+
+Install the platform dependencies, `vision/requirements-dev.txt` and the touchscreen's `UI_Design/corrected/requirements.txt`. From the repository root:
+
+```bash
+python -m ruff format --check .
+python -m ruff check .
+python -m pytest -q
+python -m coverage run -m pytest -q
+python -m coverage report
+```
+
+For headless Qt checks on a Pi or Linux workstation, use `QT_QPA_PLATFORM=offscreen python -m pytest -q`. On Windows PowerShell, set `$env:QT_QPA_PLATFORM='offscreen'` first. These are software checks; they do not open the camera, Hailo device or GPIO.
+
+On November 13, all **104 test cases** passed, along with **46 pytest subtests**. The prior baseline passed 87 cases. The additional checks cover coordinate transforms and invalid ROIs, ONNX/Hailo output-layout agreement, missing/duplicate raw heads, mask clipping and NMS, repeated/undone ledger events, invalid quantities/times, camera orientation/blank frames, source recording and encoding failures. Existing tests continue to check calibration, counting, GPIO cleanup and the integrated touchscreen.
+
+This cleanup was checked with Python 3.12.10, NumPy 2.5.2, OpenCV 5.0.0 and PySide6 Essentials 6.12.0 on Windows. The application dependency files retain their separate workstation/Pi pins. This test environment does not replace a measured Pi/Hailo run.
+
+The coverage run observed **68.0% of executable statements and 53.6% of branches** across the maintained application, including hardware/build paths. Third-party tracker source, tests and private runs are excluded. The [function inventory](function-coverage.csv) identifies all 228 explicit functions/methods in that scope and records executed statements and missing branches. It records execution, not a guarantee that every function has a dedicated unit test. The Qt integration test runs the worker in a native QThread, which this coverage run does not trace; its row therefore understates execution.
+
+Full function coverage remains open. Priorities include the workstation runner/model adapter, Hailo/ONNX resource setup, training/export/compiler entry points and remaining history/navigation/error branches. Test the model adapters against controlled outputs and the HMI actions against expected ledger results, then perform the separate hardware tests below. The selected model hashes also pass `verify_models.py`.
 
 ## Controlled camera sequence
 

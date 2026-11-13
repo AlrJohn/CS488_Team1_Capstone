@@ -38,4 +38,4 @@ Our three-can presentation demonstration remains a demonstration of the current 
 
 The working [camera approach](../../vision/docs/approach.md) and [test plan](../../vision/docs/testing.md) describe the current implementation and checks.
 
-Our [first recorded-clip experiment](../../vision/legacy/color_baseline/docs/recorded-clip-test.md) provides an initial check before the mockup. Separate calibration recovers red, green, and blue label regions in the supplied Yards footage, but merged cans, missed label strips, unrelated colored objects, and camera movement prevent reliable grouped-pick counting. Those failures now guide the detector research and the fixed-camera mockup together.
+Our [first recorded-clip experiment](../../vision/docs/history/color_baseline/recorded-clip-test.md) provides an initial check before the mockup. Separate calibration recovers red, green, and blue label regions in the supplied Yards footage, but merged cans, missed label strips, unrelated colored objects, and camera movement prevent reliable grouped-pick counting. Those failures now guide the detector research and the fixed-camera mockup together.

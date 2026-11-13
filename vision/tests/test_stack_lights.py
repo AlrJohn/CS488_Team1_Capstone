@@ -1,4 +1,8 @@
-"""Status decisions and output lifetime, exercised without physical GPIO."""
+"""Status decisions and output lifetime, exercised without physical GPIO.
+
+CS488 Capstone, Team 1.
+"""
+
 from pathlib import Path
 from enum import Enum
 from contextlib import redirect_stdout
@@ -10,99 +14,121 @@ import unittest
 from unittest.mock import Mock, patch
 
 VISION = Path(__file__).resolve().parents[1]
-sys.path[:0] = [str(VISION), str(VISION/'pi')]
+sys.path[:0] = [str(VISION), str(VISION / "pi")]
 from common.pack_ledger import PackLedger
 from stack_lights import GpiodOutput, PINS, StackLights, status_color
 
 
 class FakeOutput:
+    """Group synthetic checks and fixtures for this module's behavior."""
+
     def __init__(self, chip=None):
+        """Initialize isolated fake state without opening physical hardware."""
         self.writes = []
         self.closed = False
 
     def write(self, color):
+        """Record a fake output write without changing GPIO."""
         self.writes.append(color)
 
     def close(self):
+        """Mark this fake resource closed for cleanup assertions."""
         self.closed = True
 
 
 class StackLightTests(unittest.TestCase):
+    """Group synthetic checks and fixtures for this module's behavior."""
+
     def test_disabled_runtime_does_not_open_gpio(self):
+        """Check that disabled runtime does not open gpio."""
+
         def forbidden(chip):
-            self.fail('GPIO opened when disabled')
+            """Fail if a disabled output attempts to claim GPIO."""
+            self.fail("GPIO opened when disabled")
+
         with StackLights(output_factory=forbidden) as lights:
             lights.update(PackLedger().snapshot())
-            self.assertEqual(lights.state, 'off')
+            self.assertEqual(lights.state, "off")
 
     def test_setup_partial_and_pending_pack_are_yellow(self):
-        self.assertEqual(status_color(), 'yellow')
+        """Check that setup partial and pending pack are yellow."""
+        self.assertEqual(status_color(), "yellow")
         ledger = PackLedger()
-        ledger.apply('pick', {'red': 4, 'green': 4, 'blue': 3}, 1, 0.)
-        self.assertEqual(status_color(ledger.snapshot()), 'yellow')
-        ledger.apply('last', {'blue': 1}, 1, 1.)
-        self.assertEqual(status_color(ledger.snapshot(pending=True)), 'yellow')
+        ledger.apply("pick", {"red": 4, "green": 4, "blue": 3}, 1, 0.0)
+        self.assertEqual(status_color(ledger.snapshot()), "yellow")
+        ledger.apply("last", {"blue": 1}, 1, 1.0)
+        self.assertEqual(status_color(ledger.snapshot(pending=True)), "yellow")
 
     def test_exact_recipe_becomes_green_then_defect_and_reset_yellow(self):
+        """Check that exact recipe becomes green then defect and reset yellow."""
         ledger = PackLedger()
-        ledger.apply('all', {'red': 4, 'green': 4, 'blue': 4}, 1, 0.)
-        self.assertEqual(status_color(ledger.snapshot()), 'green')
-        ledger.apply('defect', {'blue': 1}, -1, 1.)
-        self.assertEqual(status_color(ledger.snapshot()), 'yellow')
-        ledger.undo(2.)
-        self.assertEqual(status_color(ledger.snapshot()), 'green')
-        ledger.new_box(3.)
-        self.assertEqual(status_color(ledger.snapshot()), 'yellow')
+        ledger.apply("all", {"red": 4, "green": 4, "blue": 4}, 1, 0.0)
+        self.assertEqual(status_color(ledger.snapshot()), "green")
+        ledger.apply("defect", {"blue": 1}, -1, 1.0)
+        self.assertEqual(status_color(ledger.snapshot()), "yellow")
+        ledger.undo(2.0)
+        self.assertEqual(status_color(ledger.snapshot()), "green")
+        ledger.new_box(3.0)
+        self.assertEqual(status_color(ledger.snapshot()), "yellow")
 
     def test_review_and_over_target_are_red(self):
+        """Check that review and over target are red."""
         ledger = PackLedger()
-        ledger.apply('all', {'red': 4, 'green': 4, 'blue': 4}, 1, 0.)
-        ledger.review('Verify identity', 1.)
-        self.assertEqual(status_color(ledger.snapshot()), 'red')
-        ledger.acknowledge_review(2.)
-        self.assertEqual(status_color(ledger.snapshot()), 'green')
-        ledger.apply('extra', {'red': 1}, 1, 3.)
-        self.assertEqual(status_color(ledger.snapshot()), 'red')
+        ledger.apply("all", {"red": 4, "green": 4, "blue": 4}, 1, 0.0)
+        ledger.review("Verify identity", 1.0)
+        self.assertEqual(status_color(ledger.snapshot()), "red")
+        ledger.acknowledge_review(2.0)
+        self.assertEqual(status_color(ledger.snapshot()), "green")
+        ledger.apply("extra", {"red": 1}, 1, 3.0)
+        self.assertEqual(status_color(ledger.snapshot()), "red")
 
     def test_total_twelve_with_wrong_mix_is_not_green(self):
+        """Check that total twelve with wrong mix is not green."""
         ledger = PackLedger()
-        ledger.apply('wrong', {'red': 5, 'green': 4, 'blue': 3}, 1, 0.)
-        self.assertEqual(ledger.snapshot()['total'], 12)
-        self.assertEqual(status_color(ledger.snapshot()), 'red')
+        ledger.apply("wrong", {"red": 5, "green": 4, "blue": 3}, 1, 0.0)
+        self.assertEqual(ledger.snapshot()["total"], 12)
+        self.assertEqual(status_color(ledger.snapshot()), "red")
 
     def test_unknown_or_inconsistent_status_cannot_show_green(self):
+        """Check that unknown or inconsistent status cannot show green."""
         pack = PackLedger().snapshot()
-        pack.update(ready=True, status='RECIPE REACHED')
-        self.assertEqual(status_color(pack), 'yellow')
-        pack.update(counts=dict(red=4, green=4, blue=4), status='UNRECOGNIZED')
-        self.assertEqual(status_color(pack), 'yellow')
+        pack.update(ready=True, status="RECIPE REACHED")
+        self.assertEqual(status_color(pack), "yellow")
+        pack.update(counts=dict(red=4, green=4, blue=4), status="UNRECOGNIZED")
+        self.assertEqual(status_color(pack), "yellow")
 
     def test_repeated_frame_does_not_rewrite_gpio_and_exit_turns_off(self):
+        """Check that repeated frame does not rewrite gpio and exit turns off."""
         output = FakeOutput()
         with StackLights(enabled=True, output_factory=lambda chip: output) as lights:
             lights.update()
             lights.update()
-            lights.show('green')
+            lights.show("green")
             lights.update()  # New-box action must immediately revoke green.
-            self.assertEqual(output.writes, ['yellow', 'green', 'yellow'])
-        self.assertEqual(output.writes[-1], 'off')
+            self.assertEqual(output.writes, ["yellow", "green", "yellow"])
+        self.assertEqual(output.writes[-1], "off")
         self.assertTrue(output.closed)
-        self.assertEqual(lights.state, 'off')
+        self.assertEqual(lights.state, "off")
 
     def test_startup_or_processing_exception_also_turns_off(self):
-        for error in (RuntimeError('camera failure'), KeyboardInterrupt()):
+        """Check that startup or processing exception also turns off."""
+        for error in (RuntimeError("camera failure"), KeyboardInterrupt()):
             output = FakeOutput()
             with self.assertRaises(type(error)):
                 with StackLights(enabled=True, output_factory=lambda chip: output) as lights:
-                    lights.show('green')
+                    lights.show("green")
                     raise error
-            self.assertEqual(output.writes, ['green', 'off'])
+            self.assertEqual(output.writes, ["green", "off"])
             self.assertTrue(output.closed)
 
     def test_write_failure_still_releases_request(self):
+        """Check that write failure still releases request."""
         output = FakeOutput()
+
         def fail(color):
-            raise OSError('disconnected controller')
+            """Simulate the configured operation failure for error-handling checks."""
+            raise OSError("disconnected controller")
+
         output.write = fail
         lights = StackLights(enabled=True, output_factory=lambda chip: output)
         lights.__enter__()
@@ -111,78 +137,135 @@ class StackLightTests(unittest.TestCase):
         self.assertTrue(output.closed)
 
     def test_driver_requests_initially_low_and_writes_all_three_together(self):
+        """Check that driver requests initially low and writes all three together."""
+
         class Value(Enum):
+            """Group synthetic checks and fixtures for this module's behavior."""
+
             INACTIVE = 0
             ACTIVE = 1
+
         request = Mock()
         api = SimpleNamespace(request_lines=Mock(return_value=request), LineSettings=Mock())
-        line_api = SimpleNamespace(Value=Value, Direction=SimpleNamespace(OUTPUT='output'))
-        info = dict(path='/dev/gpiochip0', lines={c:dict(bcm=p, used=False) for c,p in PINS.items()})
-        with patch.dict(sys.modules, {'gpiod':api, 'gpiod.line':line_api}), patch('stack_lights.inspect_chip', return_value=info):
+        line_api = SimpleNamespace(Value=Value, Direction=SimpleNamespace(OUTPUT="output"))
+        info = dict(
+            path="/dev/gpiochip0", lines={c: dict(bcm=p, used=False) for c, p in PINS.items()}
+        )
+        with (
+            patch.dict(sys.modules, {"gpiod": api, "gpiod.line": line_api}),
+            patch("stack_lights.inspect_chip", return_value=info),
+        ):
             output = GpiodOutput()
-            api.LineSettings.assert_called_once_with(direction='output', active_low=False, output_value=Value.INACTIVE)
-            self.assertEqual(set(api.request_lines.call_args.kwargs['config']), {tuple(PINS.values())})
-            for color in ('red', 'yellow', 'green', 'off'):
+            api.LineSettings.assert_called_once_with(
+                direction="output", active_low=False, output_value=Value.INACTIVE
+            )
+            self.assertEqual(
+                set(api.request_lines.call_args.kwargs["config"]), {tuple(PINS.values())}
+            )
+            for color in ("red", "yellow", "green", "off"):
                 output.write(color)
                 values = request.set_values.call_args.args[0]
                 self.assertEqual(set(values), set(PINS.values()))
-                self.assertEqual([p for p,v in values.items() if v == Value.ACTIVE],
-                                 [] if color == 'off' else [PINS[color]])
+                self.assertEqual(
+                    [p for p, v in values.items() if v == Value.ACTIVE],
+                    [] if color == "off" else [PINS[color]],
+                )
             output.close()
             request.release.assert_called_once()
 
     def test_active_low_driver_requests_off_before_first_write_and_cleans_up_on_error(self):
         """Logical INACTIVE must mean physical HIGH for low-trigger relays."""
+
         class Value(Enum):
+            """Group synthetic checks and fixtures for this module's behavior."""
+
             INACTIVE = 0
             ACTIVE = 1
+
         request = Mock()
         api = SimpleNamespace(request_lines=Mock(return_value=request), LineSettings=Mock())
-        line_api = SimpleNamespace(Value=Value, Direction=SimpleNamespace(OUTPUT='output'))
-        info = dict(path='/dev/gpiochip0', lines={c:dict(bcm=p, used=False) for c,p in PINS.items()})
-        with patch.dict(sys.modules, {'gpiod':api, 'gpiod.line':line_api}), patch('stack_lights.inspect_chip', return_value=info):
-            with self.assertRaisesRegex(RuntimeError, 'camera stopped'):
+        line_api = SimpleNamespace(Value=Value, Direction=SimpleNamespace(OUTPUT="output"))
+        info = dict(
+            path="/dev/gpiochip0", lines={c: dict(bcm=p, used=False) for c, p in PINS.items()}
+        )
+        with (
+            patch.dict(sys.modules, {"gpiod": api, "gpiod.line": line_api}),
+            patch("stack_lights.inspect_chip", return_value=info),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "camera stopped"):
                 with StackLights(enabled=True, active_low=True) as lights:
-                    api.LineSettings.assert_called_once_with(direction='output', active_low=True,
-                                                             output_value=Value.INACTIVE)
-                    self.assertTrue(lights.metadata()['active_low'])
-                    self.assertFalse(lights.metadata()['active_high'])
-                    lights.show('red')
-                    self.assertEqual(request.set_values.call_args.args[0],
-                                     {17:Value.ACTIVE, 27:Value.INACTIVE, 22:Value.INACTIVE})
-                    raise RuntimeError('camera stopped')
-        self.assertTrue(all(value == Value.INACTIVE for value in request.set_values.call_args.args[0].values()))
+                    api.LineSettings.assert_called_once_with(
+                        direction="output", active_low=True, output_value=Value.INACTIVE
+                    )
+                    self.assertTrue(lights.metadata()["active_low"])
+                    self.assertFalse(lights.metadata()["active_high"])
+                    lights.show("red")
+                    self.assertEqual(
+                        request.set_values.call_args.args[0],
+                        {17: Value.ACTIVE, 27: Value.INACTIVE, 22: Value.INACTIVE},
+                    )
+                    raise RuntimeError("camera stopped")
+        self.assertTrue(
+            all(value == Value.INACTIVE for value in request.set_values.call_args.args[0].values())
+        )
         request.release.assert_called_once()
-        self.assertEqual(lights.state, 'off')
+        self.assertEqual(lights.state, "off")
 
     def test_read_only_check_does_not_open_outputs_even_when_active_low_is_selected(self):
-        spec = importlib.util.spec_from_file_location('pi_light_check_test', VISION/'pi/check_lights.py')
+        """Check that read only check does not open outputs even when active low is selected."""
+        spec = importlib.util.spec_from_file_location(
+            "pi_light_check_test", VISION / "pi/check_lights.py"
+        )
         checker = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(checker)
-        with patch.object(checker, 'inspect_chip', return_value={}), patch.object(checker, 'StackLights') as lights, \
-                redirect_stdout(io.StringIO()):
-            checker.main(['--gpio-active-low'])
+        with (
+            patch.object(checker, "inspect_chip", return_value={}),
+            patch.object(checker, "StackLights") as lights,
+            redirect_stdout(io.StringIO()),
+        ):
+            checker.main(["--gpio-active-low"])
             lights.assert_not_called()
 
     def test_light_cycle_passes_active_low_to_the_output_driver(self):
-        spec = importlib.util.spec_from_file_location('pi_light_cycle_test', VISION/'pi/check_lights.py')
+        """Check that light cycle passes active low to the output driver."""
+        spec = importlib.util.spec_from_file_location(
+            "pi_light_cycle_test", VISION / "pi/check_lights.py"
+        )
         checker = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(checker)
-        with patch.object(checker, 'inspect_chip', return_value={}), patch.object(checker, 'StackLights') as lights, \
-                patch.object(checker.time, 'sleep'), redirect_stdout(io.StringIO()):
-            checker.main(['--cycle', '--gpio-active-low'])
+        with (
+            patch.object(checker, "inspect_chip", return_value={}),
+            patch.object(checker, "StackLights") as lights,
+            patch.object(checker.time, "sleep"),
+            redirect_stdout(io.StringIO()),
+        ):
+            checker.main(["--cycle", "--gpio-active-low"])
             lights.assert_called_once_with(enabled=True, chip=None, active_low=True)
-            self.assertEqual([call.args[0] for call in lights.return_value.__enter__.return_value.show.call_args_list],
-                             ['red', 'yellow', 'green'])
+            self.assertEqual(
+                [
+                    call.args[0]
+                    for call in lights.return_value.__enter__.return_value.show.call_args_list
+                ],
+                ["red", "yellow", "green"],
+            )
 
     def test_driver_does_not_claim_a_pin_used_by_another_program(self):
+        """Check that driver does not claim a pin used by another program."""
         api = SimpleNamespace(request_lines=Mock())
-        info = dict(path='/dev/gpiochip0', lines={'red':dict(bcm=17, used=True, consumer='another app')})
-        with patch.dict(sys.modules, {'gpiod':api, 'gpiod.line':SimpleNamespace(Direction=None,Value=None)}), patch('stack_lights.inspect_chip', return_value=info):
-            with self.assertRaisesRegex(RuntimeError, 'already in use'):
+        info = dict(
+            path="/dev/gpiochip0", lines={"red": dict(bcm=17, used=True, consumer="another app")}
+        )
+        with (
+            patch.dict(
+                sys.modules,
+                {"gpiod": api, "gpiod.line": SimpleNamespace(Direction=None, Value=None)},
+            ),
+            patch("stack_lights.inspect_chip", return_value=info),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "already in use"):
                 GpiodOutput()
             api.request_lines.assert_not_called()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

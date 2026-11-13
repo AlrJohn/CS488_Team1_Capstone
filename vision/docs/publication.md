@@ -1,6 +1,6 @@
 # Source and private material
 
-We publish the current Windows and Raspberry Pi runtimes, the shared implementation, the two selected model artifacts, model identity metadata, example configuration, tests and reusable model-build entry points. We retain the earlier color-only source/manual and dated research notes to show how the approach changed.
+We publish the current Windows and Raspberry Pi runtimes, the shared implementation, the two selected model artifacts, model identity metadata, example configuration, tests and reusable model-build entry points. We retain dated research findings to show how the approach changed. Retired executables and earlier UI copies remain in Git history.
 
 We do not publish the complete experimental workspace. Its directories mix private recordings, draft annotations, intermediate checkpoints, environment packages, compiler outputs and scripts tied to individual trials. The [development history](development-history.md) records their role and the reasons for the changes.
 
@@ -20,7 +20,7 @@ Each platform has its own dependency file and installation guide. Paths are reso
 
 The published geometry and HSV ranges are examples from the controlled view, not a universal calibration. A new camera requires checking the view and light. The Pi additionally needs the correct Hailo-8 OS driver/runtime and Python binding; the repository does not bundle installers or the proprietary compiler.
 
-The compatibility `vision/run.py` and `vision/yards_vision` import forward to the earlier color-only implementation so old commands/local experiments still resolve. New work starts at `windows/run.py` or `pi/run.py`.
+Start at `windows/run.py`, `pi/run.py` or the integrated `UI_Design/corrected/main.py`. The retired `vision/run.py` color-only shortcut and its compatibility package have been removed to avoid launching the wrong detector.
 
 ## Before pushing
 

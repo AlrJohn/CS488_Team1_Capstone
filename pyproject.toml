@@ -1,0 +1,25 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+include = ["vision/**/*.py", "UI_Design/corrected/**/*.py"]
+extend-exclude = ["vision/runs", "vision/common/vendor", ".venv", "tmp"]
+force-exclude = true
+
+[tool.ruff.lint]
+select = ["E101", "E701", "E702", "E703", "E9", "F821", "N801", "N802", "N803", "D101", "D102", "D103", "D105", "D106", "D107"]
+
+[tool.ruff.lint.pep8-naming]
+# These names are callbacks defined by Python's unittest, Qt and OpenCV.
+ignore-names = ["setUp", "tearDown", "resizeEvent", "closeEvent", "isOpened"]
+
+[tool.pytest.ini_options]
+testpaths = ["vision/tests", "UI_Design/corrected/tests"]
+norecursedirs = ["vision/runs", "vision/common/vendor", "tmp"]
+
+[tool.coverage.run]
+branch = true
+source = ["vision/common", "vision/pi", "vision/windows", "vision/tools", "UI_Design/corrected"]
+omit = ["*/vendor/*", "*/tests/*", "*/runs/*"]
+
+[tool.coverage.report]
+show_missing = true

@@ -10,7 +10,7 @@ Our current rule assumes that a confirmed can in the active count area goes into
 | --- | --- | --- |
 | Current Windows counter | PyTorch/CUDA or CPU inference, interactive ROI/defect setup, timed trial recording | [Windows setup](windows/README.md), `windows/run.py` |
 | Current Raspberry Pi counter | Compiled Hailo-8 model on Pi 5 + AI HAT+ 26 TOPS | [Pi setup](pi/README.md), `pi/run.py` |
-| Earlier color-only prototype | Historical HSV connected-region detector and visible pick/return boundary | [Earlier prototype](legacy/color_baseline/README.md) |
+| Integrated Pi touchscreen | Recipes, production controls, live preview, history and stack light | [Touchscreen setup](../UI_Design/corrected/README.md) |
 
 The Windows and Pi programs share the same color, duplicate-mask, physical-instance and counting modules in [common](common/README.md). Their inference adapters and preview/capture code are separate. The shipped checkpoint and compiled model are in [models](models/README.md). You do not need our private recordings or old experiment folders to start either program.
 
@@ -25,7 +25,7 @@ The Windows and Pi programs share the same color, duplicate-mask, physical-insta
 | `models/` | The camera-v1 `.pt`, Hailo-8 `.hef`, identity metadata and checksums |
 | `tools/` | Model verification and parameterized fine-tuning/export/calibration/compilation entry points |
 | `tests/` | Synthetic checks for the current shared counting behavior |
-| `legacy/color_baseline/` | Earlier runnable source, tests and historical manuals |
+| `docs/history/` | Dated research and the earlier color-only experiment findings; retired executables remain in Git history |
 | `docs/` | Development history, architecture, testing, measured performance and publication notes |
 | `licenses/` | Retained third-party license and tracker provenance |
 
@@ -44,7 +44,7 @@ python vision/tools/verify_models.py
 python -m unittest discover -s vision/tests -v
 ```
 
-The synthetic tests check software behavior. They do not measure accuracy on moving cans. The [earlier prototype](legacy/color_baseline/README.md) has its own independent tests and artificial demo.
+The synthetic tests check software behavior. They do not measure accuracy on moving cans. The [test guide](docs/testing.md) includes the touchscreen suite, formatting checks and current coverage report.
 
 For PC-to-GitHub-to-Pi updates, follow the [Pi migration and update procedure](pi/UPDATING.md). Campus changes made only on the Pi must be preserved and compared before the first pull. All current source runs from this checkout; private experiment folders are not runtime dependencies.
 
@@ -54,4 +54,4 @@ We keep raw videos, trial images, per-frame logs, datasets, calibration tensors,
 
 Our example geometry comes from a controlled setup and must be checked against your camera. Before counting, keep waiting stock outside the count area and confirm that complete labels remain visible through the lift. The latest Pi trial counted twelve cans correctly as six pairs. Four-can pickups, defect removal, sustained operation and the production environment still need their own checks.
 
-See [what is published and what stays local](docs/publication.md) and the retained [third-party notices](THIRD_PARTY_NOTICES.md).
+See [what is published and what stays local](docs/publication.md), the [coding standard](docs/coding-conventions.md), [deployment checklist](docs/deployment.md), [Module 3 development checklist](docs/module-3.md) and retained [third-party notices](THIRD_PARTY_NOTICES.md).

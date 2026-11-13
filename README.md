@@ -16,38 +16,38 @@ We initially explored automating can dispensing and carton loading with gates, s
 
 We use a trained can-instance segmentation model, OpenCV color analysis and a cumulative count for one carton. We assume that confirmed cans in the active camera area go into the carton, and subtract a counted can only when we observe it crossing the separate left defect line. Carton placement itself is not verified.
 
-Our camera prototype runs on a Windows laptop and on a Raspberry Pi 5 with a Hailo-8 AI HAT+ 26 TOPS. We use a global-shutter USB camera and a controlled pickup view. The Windows program runs the model through PyTorch; the Pi runs a compiled Hailo model and performs the remaining image analysis in Python/OpenCV. Lane-specific product checks and the station hardware connections remain future work.
+Our camera prototype runs on a Windows laptop and on a Raspberry Pi 5 with a Hailo-8 AI HAT+ 26 TOPS. We use a global-shutter USB camera and a controlled pickup view. The Windows program runs the model through PyTorch; the Pi runs a compiled Hailo model and performs the remaining image analysis in Python/OpenCV.
 
-We plan to show a green stack light when the inspection passes, and a red light with an alarm when the operator needs to correct an incorrect mix. A touchscreen HMI will display the inspection status and provide operator controls. The prototype currently displays its counts and status on the computer screen.
+The Pi application connects the inspection to our touchscreen and red, yellow and green stack light. Green follows the complete recipe and ready decision, yellow means setup or counting, and red calls for a count check. The buzzer stays disconnected. Our current prototype is assembled and ready for the next testing phase.
 
 ```mermaid
 flowchart TD
     A[Can pickup area] --> B[Global-shutter camera and controlled lighting]
     B --> C[Can masks, color, tracking and carton count]
     R[Configurable recipe] --> C
-    C --> D[Current preview and review status]
-    C -. planned .-> E[Touchscreen and stack light / alarm]
+    C --> D[Touchscreen, preview and inspection history]
+    C --> E[Red, yellow and green stack light]
 ```
 
 Our [technical and functional requirements](docs/requirements/New%20Technical%20Requirements%20%26%20Functional%20Requirements.docx) explain the expected behavior, and our [software and defect requirements](docs/design/Software%20and%20Defect%20Requirements.docx) describe how we plan to process the images and identify an incorrect pack.
 
 ## Camera software
 
-The [software overview](vision/README.md) separates the current [Windows counter](vision/windows/README.md), [Raspberry Pi runtime](vision/pi/README.md) and [earlier color-only prototype](vision/legacy/color_baseline/README.md). A fresh checkout includes the two selected model files, example configuration and setup instructions. Our private recordings and experiment folders stay local.
+The [software overview](vision/README.md) separates the [Windows counter](vision/windows/README.md), [Raspberry Pi terminal counter](vision/pi/README.md) and [integrated touchscreen application](UI_Design/corrected/README.md). A fresh checkout includes the two selected model files, example configuration and setup instructions. Our private recordings and experiment folders stay local.
 
 The [development history](vision/docs/development-history.md) records the progression from HSV regions to can masks, fine-tuning, temporal counting and Hailo deployment. The [architecture guide](vision/docs/architecture.md) identifies the code for each stage. Our [test plan](vision/docs/testing.md) and [validation notes](vision/docs/validation.md) distinguish controlled results from the production checks still needed.
 
 ## Where we are now
 
-We have completed initial research and site visits, trained and adapted a small can model, and run the current counter on the laptop and Pi. One controlled Pi trial counted a complete twelve-pack correctly as six pairs. An earlier trial exposed an extra admission and color/identity uncertainty, so one successful pack does not establish production reliability.
+We have completed the initial research, trained and adapted a small can model, and connected the Pi counter to the touchscreen and stack light. Development testing has included complete packs, lighting changes, calibration, duplicate detections and defect removal. We are moving into verification and testing with this implementation as our baseline.
 
 Our next steps are to:
 
 - Repeat complete packs with singles, pairs and four-can groups at the observed production pickup speed.
 - Check camera placement, lighting and defect removal across operators and label poses.
 - Measure throughput without diagnostic image saving and investigate identity/color failures that recur.
-- Connect inspection results to the stack light and operator interface.
-- Complete the bill of materials and evaluate the installed station at Yards.
+- Check the integrated touchscreen, history and physical lights during complete packing sequences.
+- Complete assigned test cases and evaluate the installed station at Yards.
 
 Our [timing notes](vision/docs/validation.md) identify the hardware and recording mode for each measurement. The design documents and [October presentation](presentations/Module%202%20Progress%20Report%20Team%201.pptx) remain part of the project record.
 
@@ -64,11 +64,14 @@ Our [timing notes](vision/docs/validation.md) identify the hardware and recordin
 | [docs/templates](docs/templates/README.md) | The blank template we use for scrum logs |
 | [presentations](presentations/README.md) | Our progress presentations and presentation feedback |
 | [vision](vision/README.md) | Current Windows/Pi counters, shared implementation, selected models, setup, tests and development history |
+| [UI_Design/corrected](UI_Design/corrected/README.md) | Touchscreen application, Designer pages, can images and integration tests |
 | [media](media/README.md) | Photos and audio from our research and visits to Yards |
 | [media/videos](media/videos/README.md) | Links to the videos from our October 7 visit |
 | [archive/old-design](archive/old-design/README.md) | Our earlier mechanical and controls designs |
 
 We keep the larger videos in our shared OneDrive folder, with links in the [video index](media/videos/README.md). Access requires the team's existing Penn State/OneDrive permissions. Our [meeting notes and transcripts](docs/meetings/yards/README.md) provide a written reference for those discussions.
+
+For development, start with the [file map](vision/docs/architecture.md), [coding conventions](vision/docs/coding-conventions.md), [software list](vision/docs/software.md) and [deployment checklist](vision/docs/deployment.md). Our [Module 3 checklist](vision/docs/module-3.md) connects these files to the presentation requirements.
 
 ## Team
 

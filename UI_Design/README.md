@@ -14,7 +14,7 @@ Run this from the Pi desktop. Close the terminal counter and light-test program 
 | Location | Purpose |
 | --- | --- |
 | `corrected/` | Editable, integrated application. Start here when changing the running UI. |
-| `CORRECTEDFinalizedCanDetectionUISystem_Yards_Vision_Integrated.zip` | Earlier UI handoff, kept as a reference. The running source is now in `corrected/`. |
-| Top-level `.ui`, `widget.py`, `pyproject.toml`, `requirements.txt`, `recipes/` | Original design and prototype files. The integrated application does not load these copies. |
+
+The earlier top-level prototype, autosave and ZIP handoff have been removed from the working tree. Their source remains in Git history. `corrected/` is the only maintained UI implementation; we retain that path so the current Pi launch command keeps working. Designer widget names and resource filenames also stay stable.
 
 The [integration instructions](corrected/README.md) explain the controls, settings, file responsibilities and Pi checks.
